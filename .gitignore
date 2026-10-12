@@ -1,0 +1,53 @@
+# Build and package outputs
+build/
+out/
+cmake-build-*/
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.dylib
+*.exe
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+# Local data and generated results
+data/raw/
+data/processed/
+data/metadata/
+results/
+*.pcap
+*.pcapng
+*.log
+
+# Secrets and machine-local configuration
+*.key
+*.pem
+*.p12
+*.pfx
+.env
+.env.*
+configs/local/
+
+# IDE and operating-system files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# LaTeX intermediates
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.lot
+*.out
+*.toc
