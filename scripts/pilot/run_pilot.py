@@ -6,6 +6,7 @@ import csv
 import datetime as dt
 import json
 import os
+import platform
 import random
 import re
 import select
@@ -39,6 +40,93 @@ CASES = None
 
 def checked(cmd: list[str], **kwargs) -> subprocess.CompletedProcess:
     return subprocess.run(cmd, check=True, text=True, **kwargs)
+
+
+def read_text(path: Path) -> str | None:
+    try:
+        return path.read_text().strip()
+    except (OSError, UnicodeError):
+        return None
+
+
+def environment_snapshot() -> dict:
+    """Capture run-level thermal, frequency, power, load and desktop context."""
+    cpu_policies = {}
+    for path in sorted(Path("/sys/devices/system/cpu/cpufreq").glob("policy*")):
+        cpu_policies[path.name] = {
+            key: read_text(path / key) for key in (
+                "related_cpus", "scaling_governor", "energy_performance_preference",
+                "scaling_min_freq", "scaling_max_freq", "scaling_cur_freq",
+            )
+        }
+    cpu_frequencies = {}
+    for path in sorted(Path("/sys/devices/system/cpu").glob("cpu[0-9]*/cpufreq/scaling_cur_freq")):
+        cpu_frequencies[path.parents[1].name] = read_text(path)
+    thermal = {}
+    for path in sorted(Path("/sys/class/thermal").glob("thermal_zone*")):
+        temp = read_text(path / "temp")
+        if temp is None:
+            continue
+        try:
+            temp_c = int(temp) / 1000
+        except ValueError:
+            temp_c = None
+        thermal[path.name] = {"type": read_text(path / "type"), "temp_c": temp_c}
+    power_supplies = {}
+    for path in sorted(Path("/sys/class/power_supply").glob("*")):
+        kind = read_text(path / "type")
+        if kind is None:
+            continue
+        power_supplies[path.name] = {
+            key: read_text(path / key) for key in ("type", "online", "status", "capacity")
+            if (path / key).exists()
+        }
+    try:
+        lscpu = subprocess.run(
+            ["lscpu", "-e=CPU,CORE,SOCKET,NODE,ONLINE,MAXMHZ,MINMHZ"],
+            check=True, text=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        ).stdout.strip().splitlines()
+    except (OSError, subprocess.CalledProcessError):
+        lscpu = []
+    try:
+        power_profile = subprocess.run(
+            ["powerprofilesctl", "get"], check=True, text=True,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        ).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        power_profile = None
+    try:
+        ps = subprocess.run(
+            ["ps", "-eo", "comm=,%cpu=", "--sort=-%cpu"], check=True, text=True,
+            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+        ).stdout.splitlines()
+        top_processes = []
+        for line in ps:
+            fields = line.strip().rsplit(None, 1)
+            if len(fields) == 2:
+                if fields[0] not in {"ps", "python3", "bash"}:
+                    top_processes.append({"comm": fields[0], "lifetime_cpu_percent": fields[1]})
+            if len(top_processes) == 12:
+                break
+    except (OSError, subprocess.CalledProcessError):
+        top_processes = []
+    try:
+        load_average = list(os.getloadavg())
+    except OSError:
+        load_average = None
+    return {
+        "captured_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
+        "host_platform": platform.platform(),
+        "cpu_topology_lscpu": lscpu,
+        "cpu_policies": cpu_policies,
+        "cpu_current_frequency_khz_by_cpu": cpu_frequencies,
+        "thermal_zones": thermal,
+        "power_supplies": power_supplies,
+        "power_profile": power_profile,
+        "platform_profile": read_text(Path("/sys/firmware/acpi/platform_profile")),
+        "load_average_1_5_15_min": load_average,
+        "top_process_names_and_lifetime_cpu_percent": top_processes,
+    }
 
 
 def compile_harness() -> Path:
@@ -196,6 +284,7 @@ def main() -> None:
                       stdout=subprocess.PIPE).stdout.strip()
     source_commit = checked(["git", "-C", str(OPENSSL_DIR.parent / "source"), "rev-parse", "HEAD"],
                             stdout=subprocess.PIPE).stdout.strip()
+    environment_before = environment_snapshot()
     rows = []
     measured_index = 0
     for index, (case, warmup) in enumerate(sequence, start=1):
@@ -213,6 +302,7 @@ def main() -> None:
         if not warmup:
             measured_index += 1
             print(f"measured {measured_index}/120: {case['case_id']}", flush=True)
+    environment_after = environment_snapshot()
     # Write once with exclusive creation, then never overwrite a completed run.
     fd = os.open(csv_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o444)
     with os.fdopen(fd, "w", newline="") as f:
@@ -229,6 +319,10 @@ def main() -> None:
         "client_cpu": cfg["client_cpu"], "server_cpu": cfg["server_cpu"],
         "csv_path": str(csv_path.relative_to(ROOT)), "csv_sha256": __import__("hashlib").sha256(csv_path.read_bytes()).hexdigest(),
         "rows_total": len(rows), "measured_rows": measured_index,
+        "environment": {
+            "before_collection": environment_before,
+            "after_collection": environment_after,
+        },
     }
     fd = os.open(metadata_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o444)
     with os.fdopen(fd, "w") as f:
