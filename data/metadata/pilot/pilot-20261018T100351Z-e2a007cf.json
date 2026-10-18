@@ -1,0 +1,18 @@
+{
+  "run_id": "pilot-20261018T100351Z-e2a007cf",
+  "created_utc": "2026-10-18T10:03:55.644838+00:00",
+  "git_commit_hash": "442b65ffd0adfcdd0da2a2eec5bc0993fe53800a",
+  "openssl_version": "OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)",
+  "openssl_source_commit": "45e844fa2a14ec92d146bd8f5778ac130b6625fb",
+  "config_path": "configs/pilot/pilot.json",
+  "harness_source": "scripts/pilot/tls_pilot.c",
+  "random_seed": 2026101801,
+  "warmups": 10,
+  "measured_per_case": 30,
+  "client_cpu": 0,
+  "server_cpu": 2,
+  "csv_path": "data/raw/pilot/pilot-20261018T100351Z-e2a007cf.csv",
+  "csv_sha256": "d9e2363a8bc26b735094c490bb2d026198edbfbd91a25ddb87f8346632c30cc0",
+  "rows_total": 160,
+  "measured_rows": 120
+}
