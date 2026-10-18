@@ -25,14 +25,18 @@ The source result table is [FEASIBILITY_RESULTS.md](phase-1/FEASIBILITY_RESULTS.
 
 S4 is an OpenSSL implementation-supported pure-PQ configuration. It must not be described as a hybrid mechanism defined by RFC 10024, which defines hybrid TLS groups.
 
-## Phase 2 — Pilot
+## Phase 2 — Original diagnostic pilot
 
 **Pilot status: 30 measured runs per case completed for S0/S2/S3/S4; awaiting review. Phase 3 has not started.**
 
-The preparation and measurement plan are described in [PILOT_PROTOCOL.md](phase-2/PILOT_PROTOCOL.md) and [README.md](phase-2/README.md). The C client/server harness obtains handshake bytes and packet counts from the client's Linux per-socket `TCP_INFO` counters. Those values were validated against a loopback pcap for all four candidate configurations. Server/client receive counters are not reconciled because the server counter includes the TCP SYN sequence-space byte. Client/server CPU affinity is set to non-sibling P-cores CPU 0 and CPU 2. The pilot runner provides `--prepare-only` and `--smoke-test` modes; the smoke test creates no pilot data.
+The preparation and measurement plan are described in [PILOT_PROTOCOL.md](phase-2/PILOT_PROTOCOL.md) and [README.md](phase-2/README.md). This original run used client/server affinity on non-sibling P-cores CPU 0 and CPU 2, with the then-current power policy unchanged. The C client/server harness obtains handshake bytes and packet counts from the client's Linux per-socket `TCP_INFO` counters. Those values were validated against a loopback pcap for all four candidate configurations. Server/client receive counters are not reconciled because the server counter includes the TCP SYN sequence-space byte. The pilot runner provides `--prepare-only` and `--smoke-test` modes; the smoke test creates no pilot data.
 
 The initial S0 smoke handshake found a one-byte client/server receive-counter difference (266 client bytes sent versus 267 server bytes received). Pcap showed 266 TCP payload bytes; Linux counts the SYN sequence-space byte in the server receive counter. The client-side method then passed pcap validation for S0/S2/S3/S4. The pilot was collected at commit `442b65ffd0adfcdd0da2a2eec5bc0993fe53800a`; its 160 rows, metadata, checksum, and preliminary variance checks are recorded in [PILOT_REPORT.md](phase-2/PILOT_REPORT.md). Do not begin Phase 3 until this pilot is reviewed and explicitly accepted.
 
 ## Phase 2B — Stabilization pilot
 
-**30 measured runs per case completed; awaiting review. Phase 3 has not started.** The approved `performance` power policy, environment snapshots, Phase 2B CSV, metadata, checksum, and variance/outlier summary are recorded in [PHASE-2B-REPORT.md](phase-2/PHASE-2B-REPORT.md). The prior Phase 2 CSV and report remain unchanged. Do not begin Phase 3.
+**30 measured runs per case completed and accepted as a diagnostic stabilization pilot. Phase 3 has not started.** Phase 2B used client/server CPUs 2/4 (non-sibling P-cores, leaving CPU 0 available) and the user-approved `performance` profile, governor, and EPP policy. Its environment snapshots, CSV, metadata, and checksum are documented in [PHASE-2B-REPORT.md](phase-2/PHASE-2B-REPORT.md). The Phase 2 and Phase 2B raw CSVs, metadata, and reports are preserved unchanged. No comparative performance result is reported here.
+
+## Final multi-batch measurement — proposal only
+
+A controlled final measurement design is proposed in [FINAL-MULTIBATCH-PROPOSAL.md](phase-2/FINAL-MULTIBATCH-PROPOSAL.md). It has not been reviewed/approved or executed. No new measurement data has been collected; no uncontrolled Phase 3 collection is authorized.

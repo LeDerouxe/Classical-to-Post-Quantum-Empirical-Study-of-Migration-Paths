@@ -2,6 +2,8 @@
 
 ## Scope and gate
 
+**Historical protocol for the original Phase 2 pilot only.** Its CPU 0/2 affinity and unchanged default power policy do not describe Phase 2B. Phase 2B used client/server CPUs 2/4 and the explicitly approved performance profile, governor, and EPP policy; see [PHASE-2B-STABILIZATION.md](PHASE-2B-STABILIZATION.md). The final multi-batch proposal is separate and awaits review.
+
 This is a native Ubuntu loopback pilot for S0, S2, S3, and S4. It collects 10 warm-up handshakes and 30 measured handshakes per case. The 120 measured handshakes are shuffled together using the recorded seed. This pilot assesses harness behavior and measurement variance; it is not a performance conclusion.
 
 The Phase 2 pilot was explicitly authorized after Phase 0/1 acceptance. Do not start Phase 3 without review of the completed pilot and explicit approval.

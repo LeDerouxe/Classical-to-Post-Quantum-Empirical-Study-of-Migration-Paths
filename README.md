@@ -45,6 +45,6 @@ data/       Local experimental data; raw results are ignored by Git
 
 ## Next milestone
 
-Phase 0 and Phase 1 feasibility work has been collected on the primary Ubuntu platform. Repository integration and the pinned OpenSSL reproducibility check are recorded in the environment manifest. Phase 2 pilot setup and its controlled C TLS harness are documented in `docs/phase-2/`; do not begin Phase 3 before the pilot is reviewed.
+Phase 0 and Phase 1 feasibility work has been collected on the primary Ubuntu platform. Repository integration and the pinned OpenSSL reproducibility check are recorded in the environment manifest. The original Phase 2 diagnostic pilot (client/server CPUs 0/2, default power policy) and the separately approved Phase 2B stabilization pilot (CPUs 2/4, performance profile/governor/EPP) are documented in `docs/phase-2/`. A final multi-batch measurement design is proposed in `docs/phase-2/FINAL-MULTIBATCH-PROPOSAL.md`; it has not been approved or run. No Phase 3 collection is authorized.
 
 See [the phase status](docs/PHASE_STATUS.md), [the experimental protocol](docs/EXPERIMENTAL_PROTOCOL.md), and [the decision log](docs/DECISIONS.md).
