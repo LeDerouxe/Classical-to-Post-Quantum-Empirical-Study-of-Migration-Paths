@@ -194,7 +194,7 @@ def main() -> None:
     commit = checked(["git", "rev-parse", "HEAD"], cwd=ROOT, stdout=subprocess.PIPE).stdout.strip()
     version = checked([str(OPENSSL_BIN), "version"], cwd=ROOT, env=env,
                       stdout=subprocess.PIPE).stdout.strip()
-    source_commit = checked(["git", "-C", str(OPENSSL_DIR / "source"), "rev-parse", "HEAD"],
+    source_commit = checked(["git", "-C", str(OPENSSL_DIR.parent / "source"), "rev-parse", "HEAD"],
                             stdout=subprocess.PIPE).stdout.strip()
     rows = []
     measured_index = 0
