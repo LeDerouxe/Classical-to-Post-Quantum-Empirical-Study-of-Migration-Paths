@@ -39,6 +39,18 @@ Names use the spellings returned by pinned OpenSSL 3.5.9.
 
 The harness refuses to emit a successful observation if `TCP_INFO` is unavailable, if the client/server TCP payload counters disagree, or if the negotiated TLS version, cipher, group, or signature type does not match the requested case. If the kernel counters fail this validation, stop before completing the pilot and review instrumentation; do not substitute estimates.
 
+### Pre-pilot instrumentation gate (2026-10-18)
+
+The C harness compiled, but the first S0 smoke handshake did **not** pass the counter reconciliation gate. At the client-side post-`SSL_connect()` sample, the client reported 266 bytes sent and 702 received; the server-side post-`SSL_accept()` sample reported 267 bytes received and 702 sent. The one-byte directional mismatch means `TCP_INFO` payload counters have not yet been validated as a mutually reconcilable `handshake_bytes` measure for this harness. The smoke test produced no pilot CSV. **Do not run pilot data collection until the researcher reviews and selects an instrumentation method.**
+
+Viable next steps for review:
+
+1. Capture loopback packets per trial with the already installed `tcpdump`, filter on the unique TCP port, and derive TCP payload bytes and segment counts from the pcap. Check whether packet capture is permitted for the current user, validate exclusion of post-handshake close traffic, and assess observer overhead before pilot collection.
+2. Use an in-process packet capture library such as libpcap if the researcher approves adding its development package; it still requires capture capability and an overhead check.
+3. Define and document a single-endpoint kernel-counter measurement (for example, client TCP_INFO only) if the researcher accepts that endpoint-specific definition and its exact counter semantics without client/server reconciliation.
+
+Do not mix values from these methods or silently choose one. Revisit `handshake_bytes` and `packet_count` definitions, update this protocol, then repeat only instrumentation smoke validation before collecting pilot observations.
+
 ## Execution and immutable outputs
 
 1. Build `scripts/pilot/tls_pilot.c` with `scripts/pilot/run_pilot.py` against the pinned OpenSSL headers and shared libraries.

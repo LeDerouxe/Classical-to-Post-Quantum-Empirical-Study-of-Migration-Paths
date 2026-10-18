@@ -121,7 +121,7 @@ def one_observation(binary: Path, case: dict, env: dict, client_cpu: int,
                 raise RuntimeError(f"Unexpected group: requested={case['group']} client={c[3]} server={s[3]}")
             if c[4].lower() != expected_sig or s[4].lower() != expected_sig:
                 raise RuntimeError(f"Unexpected signature scheme: requested={case['signature']} client={c[4]} server={s[4]}")
-            if c[10] != s[8] or c[11] != s[9]:
+            if c[10] != s[9] or c[11] != s[8]:
                 raise RuntimeError(f"Kernel TCP_INFO payload byte counters disagree: client=({c[10]},{c[11]}) server=({s[8]},{s[9]})")
         # Count TCP segments once at the client socket; TCP_INFO counters include
         # the TCP connection setup and all segments observed through SSL_connect.
@@ -170,12 +170,13 @@ def main() -> None:
     env["LD_LIBRARY_PATH"] = str(OPENSSL_DIR / "lib")
     env["OPENSSL_CONF"] = str(ROOT / "configs/openssl/feasibility-openssl.cnf")
     if mode == "--smoke-test":
-        smoke, error = one_observation(binary, cfg["cases"][0], env,
-                                       cfg["client_cpu"], cfg["server_cpu"])
-        if error or smoke.get("handshake_success_failure") != "success":
-            raise SystemExit(f"Harness smoke test failed: {error or smoke}")
-        print("Harness smoke test passed; no pilot CSV or benchmark record was created.")
-        print(json.dumps(smoke, indent=2))
+        for case in cfg["cases"]:
+            smoke, error = one_observation(binary, case, env,
+                                           cfg["client_cpu"], cfg["server_cpu"])
+            if error or smoke.get("handshake_success_failure") != "success":
+                raise SystemExit(f"Harness smoke test failed for {case['case_id']}: {error or smoke}")
+            print(f"{case['case_id']}: success; bytes={smoke['handshake_bytes']}; packets={smoke['packet_count']}; group={smoke['observed_group']}; signature={smoke['observed_signature_type']}")
+        print("Harness smoke tests passed for all cases; no pilot CSV or benchmark record was created.")
         return
     run_id = dt.datetime.now(dt.timezone.utc).strftime("pilot-%Y%m%dT%H%M%SZ-") + uuid.uuid4().hex[:8]
     seed = int(cfg["random_seed"])

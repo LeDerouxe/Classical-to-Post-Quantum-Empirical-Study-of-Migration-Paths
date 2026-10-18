@@ -27,8 +27,8 @@ S4 is an OpenSSL implementation-supported pure-PQ configuration. It must not be 
 
 ## Phase 2 — Pilot
 
-**Preparation status: protocol, README, C harness, configuration, and metadata template prepared. Pilot data collection has not started.**
+**Preparation status: protocol, README, C harness, configuration, and metadata template committed. Pilot data collection is stopped at the instrumentation review gate.**
 
 The preparation and measurement plan are described in [PILOT_PROTOCOL.md](phase-2/PILOT_PROTOCOL.md) and [README.md](phase-2/README.md). The C client/server harness obtains handshake bytes and packet counts from Linux per-socket `TCP_INFO` counters and validates client/server byte counts before accepting successful observations. Client/server CPU affinity is set to non-sibling P-cores CPU 0 and CPU 2. The pilot runner provides `--prepare-only` and `--smoke-test` modes; the smoke test creates no pilot data.
 
-The pilot has been explicitly authorized. Do not begin Phase 3 until the 30-run-per-case pilot is complete and reviewed.
+The pilot has been explicitly authorized. The pre-pilot S0 harness smoke handshake found a one-byte client-to-server `TCP_INFO` payload-counter mismatch (266 client bytes sent versus 267 server bytes received); server-to-client counters matched at 702 bytes. No pilot CSV was created. The viable instrumentation choices and required review are documented in `phase-2/PILOT_PROTOCOL.md`. Do not collect pilot data until the researcher selects and approves an instrumentation definition. Do not begin Phase 3 until the 30-run-per-case pilot is complete and reviewed.
