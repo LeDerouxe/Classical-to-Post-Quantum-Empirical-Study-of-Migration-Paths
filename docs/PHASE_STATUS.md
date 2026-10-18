@@ -35,4 +35,4 @@ The initial S0 smoke handshake found a one-byte client/server receive-counter di
 
 ## Phase 2B — Stabilization pilot
 
-**Stabilization policy applied and verified; Phase 2B data collection is next.** AC is online. The approved `performance` power profile, governor, and EPP are active across CPU policies. Client/server pinning uses non-sibling P-cores CPU 2 and CPU 4. Before/after environment metadata capture and the preflight snapshot are prepared in [PHASE-2B-STABILIZATION.md](phase-2/PHASE-2B-STABILIZATION.md). The prior CSV and report are unchanged. Do not begin Phase 3.
+**30 measured runs per case completed; awaiting review. Phase 3 has not started.** The approved `performance` power policy, environment snapshots, Phase 2B CSV, metadata, checksum, and variance/outlier summary are recorded in [PHASE-2B-REPORT.md](phase-2/PHASE-2B-REPORT.md). The prior Phase 2 CSV and report remain unchanged. Do not begin Phase 3.
