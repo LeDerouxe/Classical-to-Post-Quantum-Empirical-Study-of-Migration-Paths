@@ -45,6 +45,6 @@ data/       Local experimental data; raw results are ignored by Git
 
 ## Next milestone
 
-Phase 0 and Phase 1 feasibility work has been collected on the primary Ubuntu platform. Before beginning the pilot, the Ubuntu workspace must pull this commit, confirm the pinned build can be reproduced from the committed scripts, and add the missing repository registration details to its local environment manifest.
+Phase 0 and Phase 1 feasibility work has been collected on the primary Ubuntu platform. Repository integration and the pinned OpenSSL reproducibility check are recorded in the environment manifest. Phase 2 pilot setup and its controlled C TLS harness are documented in `docs/phase-2/`; do not begin Phase 3 before the pilot is reviewed.
 
 See [the phase status](docs/PHASE_STATUS.md), [the experimental protocol](docs/EXPERIMENTAL_PROTOCOL.md), and [the decision log](docs/DECISIONS.md).

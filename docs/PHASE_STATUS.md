@@ -2,11 +2,11 @@
 
 ## Phase 0 — Environment preparation and registration
 
-**Technical status: completed, pending repository integration on Ubuntu.**
+**Technical status: completed. Repository integration and pinned-build reproducibility check completed and committed on Ubuntu.**
 
 The primary native Ubuntu 26.04.1 environment, version-pinned OpenSSL 3.5.9 build, and algorithm inventory are recorded under `environment/ubuntu-26.04.1/`.
 
-The initial collection occurred before the Ubuntu workspace was cloned from the research repository. After pulling this commit, the Ubuntu workspace must update the repository-registration section of the manifest with the repository URL, branch, and commit hash that reproduce the work.
+The initial collection occurred before the Ubuntu workspace was cloned from the research repository. The integration check is recorded in the [environment manifest](../environment/ubuntu-26.04.1/environment-manifest.md).
 
 ## Phase 1 — TLS/OpenSSL feasibility validation
 
@@ -25,6 +25,10 @@ The source result table is [FEASIBILITY_RESULTS.md](phase-1/FEASIBILITY_RESULTS.
 
 S4 is an OpenSSL implementation-supported pure-PQ configuration. It must not be described as a hybrid mechanism defined by RFC 10024, which defines hybrid TLS groups.
 
-## Next permitted action
+## Phase 2 — Pilot
 
-No pilot or benchmark has been run. The next action is repository integration and a reproducibility check on Ubuntu; Phase 2 begins only after that check is committed and reviewed.
+**Preparation status: protocol, README, C harness, configuration, and metadata template prepared. Pilot data collection has not started.**
+
+The preparation and measurement plan are described in [PILOT_PROTOCOL.md](phase-2/PILOT_PROTOCOL.md) and [README.md](phase-2/README.md). The C client/server harness obtains handshake bytes and packet counts from Linux per-socket `TCP_INFO` counters and validates client/server byte counts before accepting successful observations. Client/server CPU affinity is set to non-sibling P-cores CPU 0 and CPU 2. The pilot runner provides `--prepare-only` and `--smoke-test` modes; the smoke test creates no pilot data.
+
+The pilot has been explicitly authorized. Do not begin Phase 3 until the 30-run-per-case pilot is complete and reviewed.

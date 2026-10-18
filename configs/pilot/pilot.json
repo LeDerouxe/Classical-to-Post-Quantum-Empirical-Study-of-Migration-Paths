@@ -1,0 +1,20 @@
+{
+  "protocol_version": 1,
+  "tls_min_version": "TLSv1.3",
+  "tls_max_version": "TLSv1.3",
+  "cipher_suite": "TLS_AES_128_GCM_SHA256",
+  "disable_tickets": true,
+  "disable_session_cache": true,
+  "interface": "127.0.0.1",
+  "client_cpu": 0,
+  "server_cpu": 2,
+  "warmups_per_case": 10,
+  "measured_runs_per_case": 30,
+  "random_seed": 2026101801,
+  "cases": [
+    {"case_id":"S0", "group":"x25519", "signature":"ecdsa_secp256r1_sha256", "credential":"ecdsa", "hostname":"ecdsa.localhost"},
+    {"case_id":"S2", "group":"X25519MLKEM768", "signature":"ecdsa_secp256r1_sha256", "credential":"ecdsa", "hostname":"ecdsa.localhost"},
+    {"case_id":"S3", "group":"X25519MLKEM768", "signature":"mldsa65", "credential":"mldsa", "hostname":"mldsa.localhost"},
+    {"case_id":"S4", "group":"MLKEM768", "signature":"mldsa65", "credential":"mldsa", "hostname":"mldsa.localhost"}
+  ]
+}

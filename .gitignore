@@ -25,6 +25,7 @@ results/
 logs/
 third_party/
 credentials/
+build/pilot/
 environment/**/local/
 *.pcap
 *.pcapng

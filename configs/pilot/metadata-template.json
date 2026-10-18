@@ -1,0 +1,24 @@
+{
+  "run_id": "<unique-id>",
+  "created_utc": "<ISO-8601-UTC>",
+  "git_commit_hash": "<commit-used-for-pilot>",
+  "openssl_version": "<pinned-binary-version> (Library: <pinned-library-version>)",
+  "openssl_source_commit": "<full-source-commit>",
+  "config_path": "configs/pilot/pilot.json",
+  "harness_source": "scripts/pilot/tls_pilot.c",
+  "random_seed": 2026101801,
+  "warmups_per_case": 10,
+  "measured_per_case": 30,
+  "client_cpu": 0,
+  "server_cpu": 2,
+  "csv_path": "data/raw/pilot/<run-id>.csv",
+  "csv_sha256": "<sha256>",
+  "rows_total": 160,
+  "measured_rows": 120,
+  "instrumentation": {
+    "handshake_bytes": "Linux TCP_INFO tcpi_bytes_sent + tcpi_bytes_received; client/server directional counters reconciled",
+    "packet_count": "Linux TCP_INFO tcpi_segs_out + tcpi_segs_in at client after SSL_connect",
+    "latency_clock": "CLOCK_MONOTONIC_RAW",
+    "latency_boundary": "client SSL_connect only"
+  }
+}
