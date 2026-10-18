@@ -11,6 +11,14 @@
   "measured_per_case": 30,
   "client_cpu": 2,
   "server_cpu": 4,
+  "power_policy": {
+    "user_approval": true,
+    "name": "performance",
+    "commands": [
+      "powerprofilesctl set performance",
+      "sudo cpupower frequency-set -g performance"
+    ]
+  },
   "csv_path": "data/raw/pilot/<run-id>.csv",
   "csv_sha256": "<sha256>",
   "rows_total": 160,

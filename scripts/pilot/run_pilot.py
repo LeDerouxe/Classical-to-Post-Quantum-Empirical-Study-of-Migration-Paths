@@ -317,6 +317,7 @@ def main() -> None:
         "harness_source": "scripts/pilot/tls_pilot.c", "random_seed": seed,
         "warmups": cfg["warmups_per_case"], "measured_per_case": cfg["measured_runs_per_case"],
         "client_cpu": cfg["client_cpu"], "server_cpu": cfg["server_cpu"],
+        "power_policy": cfg.get("power_policy", {}),
         "csv_path": str(csv_path.relative_to(ROOT)), "csv_sha256": __import__("hashlib").sha256(csv_path.read_bytes()).hexdigest(),
         "rows_total": len(rows), "measured_rows": measured_index,
         "environment": {

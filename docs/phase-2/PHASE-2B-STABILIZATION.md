@@ -18,7 +18,14 @@ The initial preflight was captured in `data/metadata/pilot/phase2b-preflight-202
 
 Do not change governor, EPP, performance mode, or any system-wide power setting until the user explicitly approves. AC must be connected before applying a power policy or collecting data. Close other unnecessary high-CPU desktop/background applications before collection; leave the Codex session available for the run.
 
-The proposed single stable policy is the system `performance` profile, with the CPU governor and EPP set to `performance` across CPU policies. After approval, record the exact commands executed and verify the resulting power profile, platform profile, governor, and EPP values. If the commands cannot establish and verify that state, stop before collecting data. Do not alter a fixed frequency, boost setting, or thermal/power limit.
+The approved single stable policy is the system `performance` profile, with the CPU governor and EPP set to `performance` across CPU policies. The exact commands applied after approval were:
+
+```bash
+powerprofilesctl set performance
+sudo cpupower frequency-set -g performance
+```
+
+The resulting state was verified: system and platform profiles `performance`; all 12 CPU policies use governor `performance` and EPP `performance`; minimum/maximum frequency limits remain unchanged. No fixed frequency, boost setting, or thermal/power limit was altered.
 
 ## Measurement setup
 

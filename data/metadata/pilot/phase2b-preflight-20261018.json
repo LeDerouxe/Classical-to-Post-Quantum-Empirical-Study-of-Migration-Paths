@@ -221,5 +221,231 @@
         "lifetime_cpu_percent": "1.0"
       }
     ]
+  },
+  "power_policy_application": {
+    "user_approval": true,
+    "commands_executed": [
+      "powerprofilesctl set performance",
+      "sudo cpupower frequency-set -g performance"
+    ],
+    "result": "verified",
+    "environment_after_power_policy": {
+      "captured_utc": "2026-10-18T19:18:13.973692+00:00",
+      "host_platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+      "cpu_topology_lscpu": [
+        "CPU CORE SOCKET NODE ONLINE    MAXMHZ   MINMHZ",
+        "  0    0      0    0    yes 4400.0000 400.0000",
+        "  1    0      0    0    yes 4400.0000 400.0000",
+        "  2    1      0    0    yes 4400.0000 400.0000",
+        "  3    1      0    0    yes 4400.0000 400.0000",
+        "  4    2      0    0    yes 4400.0000 400.0000",
+        "  5    2      0    0    yes 4400.0000 400.0000",
+        "  6    3      0    0    yes 4400.0000 400.0000",
+        "  7    3      0    0    yes 4400.0000 400.0000",
+        "  8    4      0    0    yes 3300.0000 400.0000",
+        "  9    5      0    0    yes 3300.0000 400.0000",
+        " 10    6      0    0    yes 3300.0000 400.0000",
+        " 11    7      0    0    yes 3300.0000 400.0000"
+      ],
+      "cpu_policies": {
+        "policy0": {
+          "related_cpus": "0",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "4007476"
+        },
+        "policy1": {
+          "related_cpus": "1",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy10": {
+          "related_cpus": "10",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "3300000",
+          "scaling_cur_freq": "3291901"
+        },
+        "policy11": {
+          "related_cpus": "11",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "3300000",
+          "scaling_cur_freq": "3307934"
+        },
+        "policy2": {
+          "related_cpus": "2",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "4358444"
+        },
+        "policy3": {
+          "related_cpus": "3",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy4": {
+          "related_cpus": "4",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy5": {
+          "related_cpus": "5",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy6": {
+          "related_cpus": "6",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "2672430"
+        },
+        "policy7": {
+          "related_cpus": "7",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy8": {
+          "related_cpus": "8",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "3300000",
+          "scaling_cur_freq": "3298579"
+        },
+        "policy9": {
+          "related_cpus": "9",
+          "scaling_governor": "performance",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "3300000",
+          "scaling_cur_freq": "3297983"
+        }
+      },
+      "cpu_current_frequency_khz_by_cpu": {
+        "cpu0": "400000",
+        "cpu1": "400000",
+        "cpu10": "3300201",
+        "cpu11": "3299941",
+        "cpu2": "4384913",
+        "cpu3": "400000",
+        "cpu4": "400000",
+        "cpu5": "400000",
+        "cpu6": "2672430",
+        "cpu7": "400000",
+        "cpu8": "3298579",
+        "cpu9": "3297983"
+      },
+      "thermal_zones": {
+        "thermal_zone0": {
+          "type": "acpitz",
+          "temp_c": 38.0
+        },
+        "thermal_zone1": {
+          "type": "TCPU_PCI",
+          "temp_c": 55.0
+        },
+        "thermal_zone2": {
+          "type": "x86_pkg_temp",
+          "temp_c": 55.0
+        }
+      },
+      "power_supplies": {
+        "ADP1": {
+          "type": "Mains",
+          "online": "1"
+        },
+        "BAT0": {
+          "type": "Battery",
+          "status": "Charging",
+          "capacity": "58"
+        },
+        "ucsi-source-psy-USBC000:001": {
+          "type": "USB",
+          "online": "0",
+          "status": "Not charging"
+        }
+      },
+      "power_profile": "performance",
+      "platform_profile": "performance",
+      "load_average_1_5_15_min": [
+        0.75634765625,
+        0.796875,
+        0.51318359375
+      ],
+      "top_process_names_and_lifetime_cpu_percent": [
+        {
+          "comm": "ChatGPT",
+          "lifetime_cpu_percent": "22.2"
+        },
+        {
+          "comm": "ChatGPT",
+          "lifetime_cpu_percent": "14.4"
+        },
+        {
+          "comm": "gnome-shell",
+          "lifetime_cpu_percent": "9.8"
+        },
+        {
+          "comm": "ChatGPT",
+          "lifetime_cpu_percent": "5.8"
+        },
+        {
+          "comm": "Xwayland",
+          "lifetime_cpu_percent": "2.4"
+        },
+        {
+          "comm": "ChatGPT",
+          "lifetime_cpu_percent": "2.2"
+        },
+        {
+          "comm": "codex",
+          "lifetime_cpu_percent": "1.8"
+        },
+        {
+          "comm": "snapd",
+          "lifetime_cpu_percent": "1.6"
+        },
+        {
+          "comm": "ibus-extension-",
+          "lifetime_cpu_percent": "0.6"
+        },
+        {
+          "comm": "napi/phy0-0",
+          "lifetime_cpu_percent": "0.5"
+        },
+        {
+          "comm": "ChatGPT",
+          "lifetime_cpu_percent": "0.5"
+        },
+        {
+          "comm": "kworker/u49:0-i",
+          "lifetime_cpu_percent": "0.3"
+        }
+      ]
+    }
   }
 }

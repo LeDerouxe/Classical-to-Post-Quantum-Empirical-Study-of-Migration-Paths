@@ -8,6 +8,14 @@
   "interface": "127.0.0.1",
   "client_cpu": 2,
   "server_cpu": 4,
+  "power_policy": {
+    "user_approval": true,
+    "name": "performance",
+    "commands": [
+      "powerprofilesctl set performance",
+      "sudo cpupower frequency-set -g performance"
+    ]
+  },
   "warmups_per_case": 10,
   "measured_runs_per_case": 30,
   "random_seed": 2026101802,
