@@ -1,0 +1,11 @@
+Connecting to 127.0.0.1
+Can't use SSL_get_servername
+CONNECTION ESTABLISHED
+Protocol version: TLSv1.3
+Ciphersuite: TLS_AES_128_GCM_SHA256
+Peer certificate: CN=ecdsa.localhost
+Hash used: SHA256
+Signature type: ecdsa_secp256r1_sha256
+Verification: OK
+Negotiated TLS1.3 group: X25519MLKEM768
+DONE

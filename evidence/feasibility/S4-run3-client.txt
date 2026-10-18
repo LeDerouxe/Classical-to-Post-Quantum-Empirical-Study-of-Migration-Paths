@@ -1,0 +1,11 @@
+Connecting to 127.0.0.1
+Can't use SSL_get_servername
+CONNECTION ESTABLISHED
+Protocol version: TLSv1.3
+Ciphersuite: TLS_AES_128_GCM_SHA256
+Peer certificate: CN=mldsa.localhost
+Hash used: UNDEF
+Signature type: mldsa65
+Verification: OK
+Negotiated TLS1.3 group: MLKEM768
+DONE

@@ -45,6 +45,6 @@ data/       Local experimental data; raw results are ignored by Git
 
 ## Next milestone
 
-Prepare the Ubuntu environment and perform feasibility validation before any performance benchmark.
+Phase 0 and Phase 1 feasibility work has been collected on the primary Ubuntu platform. Before beginning the pilot, the Ubuntu workspace must pull this commit, confirm the pinned build can be reproduced from the committed scripts, and add the missing repository registration details to its local environment manifest.
 
-See [the experimental protocol](docs/EXPERIMENTAL_PROTOCOL.md) and [the decision log](docs/DECISIONS.md).
+See [the phase status](docs/PHASE_STATUS.md), [the experimental protocol](docs/EXPERIMENTAL_PROTOCOL.md), and [the decision log](docs/DECISIONS.md).

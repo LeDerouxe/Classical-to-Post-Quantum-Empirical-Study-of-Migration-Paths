@@ -1,0 +1,8 @@
+# Keep executable research scripts portable between Windows and Linux.
+*.sh text eol=lf
+*.py text eol=lf
+
+# Keep research records readable on all supported platforms.
+*.md text eol=lf
+*.txt text eol=lf
+*.cnf text eol=lf

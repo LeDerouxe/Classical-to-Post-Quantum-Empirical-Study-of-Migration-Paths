@@ -22,6 +22,10 @@ data/raw/
 data/processed/
 data/metadata/
 results/
+logs/
+third_party/
+credentials/
+environment/**/local/
 *.pcap
 *.pcapng
 *.log
