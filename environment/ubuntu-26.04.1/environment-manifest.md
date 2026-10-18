@@ -87,3 +87,22 @@ OpenSSL's build tree, install tree, generated keys/certificates, and run logs ar
 ## Phase 0 status
 
 Environment registration, tool verification, pinned source build, and OpenSSL inventory are complete. Because this workspace is intentionally not a repository, no repository commit hash or commit was created. No benchmark data was generated.
+
+## Repository Integration / Reproducibility Check
+
+Check performed: **2026-10-18 11:15 Asia/Tehran (UTC+03:30)**.
+
+| Item | Result |
+|---|---|
+| Repository URL | `https://github.com/LeDerouxe/Classical-to-Post-Quantum-Empirical-Study-of-Migration-Paths.git` |
+| Branch | `main` (tracking `origin/main`) |
+| Commit checked out before this documentation update | `736c5300e939501759ce232e88ba417e1f548c2b` |
+| Native Linux clone path | `/home/ae/Desktop/EXP/ubuntu-study-repo` (ext4) |
+| Research OpenSSL rebuilt from the repository script | OpenSSL `3.5.9`, source commit `45e844fa2a14ec92d146bd8f5778ac130b6625fb` |
+| Rebuilt binary version | `OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)` |
+| Rebuilt binary install prefix | `/home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install` |
+| Inventory comparison | Algorithm, group, signature, public-key, provider, and candidate-name inventory is identical to the committed inventory after normalizing only build timestamp and clone-specific `OPENSSLDIR`, `ENGINESDIR`, and `MODULESDIR` paths. No functional inventory differences were found. |
+| Build/output handling | `third_party/` is ignored by the repository `.gitignore`; it is not part of this documentation commit. |
+| Phase boundary | No Phase 1 handshakes were rerun, no benchmark or pilot was run, and Phase 2 was not started. |
+
+The captured inventory differs byte-for-byte from the committed copy only in the build timestamp and the three install-prefix paths above. The normalized comparison was identical. The existing committed inventory file was left unchanged so this update can remain documentation-only.
