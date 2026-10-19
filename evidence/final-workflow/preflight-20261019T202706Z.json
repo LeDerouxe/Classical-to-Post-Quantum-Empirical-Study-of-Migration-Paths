@@ -1,0 +1,440 @@
+{
+  "workflow": "final-ubuntu-multibatch",
+  "mode": "--preflight-only",
+  "captured_utc": "2026-10-19T20:27:05.679196+00:00",
+  "repository_base_commit": "07ba04ea546a7fc0698eae966d2f8cdfab1c674a",
+  "workflow_source_sha256": "3ce4dc24c47a281e444e264369c818efc33c3e38903b8f8f9e0639ad63c945f9",
+  "configuration_path": "configs/final/final.json",
+  "configuration_sha256": "2ae9bb7b14a84d080d35139464c3fb3a589ac468a9fb66281d3ba95a2792776b",
+  "harness_source": "scripts/pilot/tls_pilot.c",
+  "harness_sha256": "c510e460bbc61b1edc452ca01257fdf0a18d5870a6c38e92439f22e52cae7ef9",
+  "checks": {
+    "openssl_version": "OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)",
+    "openssl_source_commit": "45e844fa2a14ec92d146bd8f5778ac130b6625fb",
+    "openssl_linked_libraries": [
+      "\tlinux-vdso.so.1 (0x00007190d181a000)",
+      "\tlibssl.so.3 => /home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib/libssl.so.3 (0x00007190d15dd000)",
+      "\tlibcrypto.so.3 => /home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib/libcrypto.so.3 (0x00007190d0e00000)",
+      "\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007190d0a00000)",
+      "\tlibz.so.1 => /usr/lib/x86_64-linux-gnu/libz.so.1 (0x00007190d15af000)",
+      "\t/lib64/ld-linux-x86-64.so.2 (0x00007190d181c000)"
+    ],
+    "credentials": [
+      {
+        "case_id": "S0",
+        "certificate": "credentials/ecdsa.cert.pem",
+        "private_key": "credentials/ecdsa.key.pem",
+        "certificate_sha256": "7f21df9840134a890c5fc22e303016ebd1488f61266f712dd2ba787510a7bdda",
+        "private_key_permissions_ok": true,
+        "ok": true,
+        "errors": []
+      },
+      {
+        "case_id": "S2",
+        "certificate": "credentials/ecdsa.cert.pem",
+        "private_key": "credentials/ecdsa.key.pem",
+        "certificate_sha256": "7f21df9840134a890c5fc22e303016ebd1488f61266f712dd2ba787510a7bdda",
+        "private_key_permissions_ok": true,
+        "ok": true,
+        "errors": []
+      },
+      {
+        "case_id": "S3",
+        "certificate": "credentials/mldsa.cert.pem",
+        "private_key": "credentials/mldsa.key.pem",
+        "certificate_sha256": "2b59eabd04080a6f2245f582dc3b3bc8d51d430f6c6f8d916b55662c7b8b8b3e",
+        "private_key_permissions_ok": true,
+        "ok": true,
+        "errors": []
+      },
+      {
+        "case_id": "S4",
+        "certificate": "credentials/mldsa.cert.pem",
+        "private_key": "credentials/mldsa.key.pem",
+        "certificate_sha256": "2b59eabd04080a6f2245f582dc3b3bc8d51d430f6c6f8d916b55662c7b8b8b3e",
+        "private_key_permissions_ok": true,
+        "ok": true,
+        "errors": []
+      }
+    ],
+    "compiled_harness": "build/final/tls_final",
+    "compiled_harness_sha256": "eb0bfda7968c6385e4a22cf53d04d4f14ab482039d9fef651e631eb5f3392d8a",
+    "linked_libraries": [
+      "\tlinux-vdso.so.1 (0x00007835bc444000)",
+      "\tlibssl.so.3 => /home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib/libssl.so.3 (0x00007835bc31d000)",
+      "\tlibcrypto.so.3 => /home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib/libcrypto.so.3 (0x00007835bbc00000)",
+      "\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007835bb800000)",
+      "\tlibz.so.1 => /usr/lib/x86_64-linux-gnu/libz.so.1 (0x00007835bc2ef000)",
+      "\t/lib64/ld-linux-x86-64.so.2 (0x00007835bc446000)"
+    ],
+    "workflow_python_syntax": "passed",
+    "environment_snapshot": {
+      "captured_utc": "2026-10-19T20:27:06.031410+00:00",
+      "host_platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+      "ac_battery": {
+        "ADP1": {
+          "type": "Mains",
+          "online": "1"
+        },
+        "BAT0": {
+          "type": "Battery",
+          "status": "Charging",
+          "capacity": "13"
+        },
+        "ucsi-source-psy-USBC000:001": {
+          "type": "USB",
+          "online": "0",
+          "status": "Not charging"
+        }
+      },
+      "power_profile": "performance",
+      "platform_profile": "performance",
+      "cpu_policies": {
+        "policy0": {
+          "related_cpus": "0",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "3301620"
+        },
+        "policy1": {
+          "related_cpus": "1",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy10": {
+          "related_cpus": "10",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "3300000",
+          "scaling_cur_freq": "1348275"
+        },
+        "policy11": {
+          "related_cpus": "11",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "3300000",
+          "scaling_cur_freq": "1520394"
+        },
+        "policy2": {
+          "related_cpus": "2",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy3": {
+          "related_cpus": "3",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy4": {
+          "related_cpus": "4",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "4265839"
+        },
+        "policy5": {
+          "related_cpus": "5",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy6": {
+          "related_cpus": "6",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "2678146"
+        },
+        "policy7": {
+          "related_cpus": "7",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "4400000",
+          "scaling_cur_freq": "400000"
+        },
+        "policy8": {
+          "related_cpus": "8",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "3300000",
+          "scaling_cur_freq": "3304296"
+        },
+        "policy9": {
+          "related_cpus": "9",
+          "scaling_governor": "powersave",
+          "energy_performance_preference": "performance",
+          "scaling_min_freq": "400000",
+          "scaling_max_freq": "3300000",
+          "scaling_cur_freq": "3085157"
+        }
+      },
+      "cpu_frequencies_khz": {
+        "cpu0": "3301620",
+        "cpu1": "400000",
+        "cpu10": "1348275",
+        "cpu11": "1520394",
+        "cpu2": "400000",
+        "cpu3": "400000",
+        "cpu4": "4228321",
+        "cpu5": "400000",
+        "cpu6": "2678146",
+        "cpu7": "400000",
+        "cpu8": "3304296",
+        "cpu9": "3085157"
+      },
+      "topology": {
+        "lscpu_rows": [
+          {
+            "cpu": 0,
+            "core": 0,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 4400.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 1,
+            "core": 0,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 4400.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 2,
+            "core": 1,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 4400.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 3,
+            "core": 1,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 4400.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 4,
+            "core": 2,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 4400.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 5,
+            "core": 2,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 4400.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 6,
+            "core": 3,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 4400.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 7,
+            "core": 3,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 4400.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 8,
+            "core": 4,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 3300.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 9,
+            "core": 5,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 3300.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 10,
+            "core": 6,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 3300.0,
+            "min_mhz": 400.0
+          },
+          {
+            "cpu": 11,
+            "core": 7,
+            "socket": 0,
+            "node": 0,
+            "online": "yes",
+            "max_mhz": 3300.0,
+            "min_mhz": 400.0
+          }
+        ],
+        "thread_siblings_list": {
+          "0": "0-1",
+          "2": "2-3",
+          "4": "4-5"
+        }
+      },
+      "target_affinity": {
+        "client_cpu": 2,
+        "server_cpu": 4,
+        "cpu0_reserved_for_os": true,
+        "probe_output": {
+          "2": "Cpus_allowed_list:\t2",
+          "4": "Cpus_allowed_list:\t4"
+        }
+      },
+      "load_average_1_5_15m": [
+        0.27490234375,
+        0.38916015625,
+        0.21630859375
+      ],
+      "thermal_zones": {
+        "thermal_zone0": {
+          "type": "acpitz",
+          "temp_c": 41.0
+        },
+        "thermal_zone1": {
+          "type": "TCPU_PCI",
+          "temp_c": 48.0
+        },
+        "thermal_zone2": {
+          "type": "x86_pkg_temp",
+          "temp_c": 48.0
+        }
+      },
+      "top_running_process_summary": [
+        {
+          "comm": "ChatGPT",
+          "cpu_percent": "13.7"
+        },
+        {
+          "comm": "ChatGPT",
+          "cpu_percent": "9.3"
+        },
+        {
+          "comm": "gnome-shell",
+          "cpu_percent": "6.3"
+        },
+        {
+          "comm": "ChatGPT",
+          "cpu_percent": "4.7"
+        },
+        {
+          "comm": "firefox",
+          "cpu_percent": "4.5"
+        },
+        {
+          "comm": "Isolated Web Co",
+          "cpu_percent": "3.2"
+        },
+        {
+          "comm": "ChatGPT",
+          "cpu_percent": "1.8"
+        },
+        {
+          "comm": "codex",
+          "cpu_percent": "1.5"
+        },
+        {
+          "comm": "Xwayland",
+          "cpu_percent": "1.4"
+        },
+        {
+          "comm": "snapd",
+          "cpu_percent": "0.7"
+        },
+        {
+          "comm": "Privileged Cont",
+          "cpu_percent": "0.5"
+        },
+        {
+          "comm": "ChatGPT",
+          "cpu_percent": "0.4"
+        },
+        {
+          "comm": "ibus-extension-",
+          "cpu_percent": "0.4"
+        },
+        {
+          "comm": "systemd",
+          "cpu_percent": "0.4"
+        },
+        {
+          "comm": "kworker/u48:4-e",
+          "cpu_percent": "0.3"
+        },
+        {
+          "comm": "kworker/u49:0-i",
+          "cpu_percent": "0.3"
+        }
+      ]
+    },
+    "raw_final_directory_exists_before_check": false,
+    "final_csv_count_before_check": 0,
+    "raw_final_directory_exists_after_preflight": false,
+    "final_csv_count_after_preflight": 0,
+    "pilot_paths_untouched": true
+  },
+  "ready_to_collect": false,
+  "errors": [
+    "policy0 governor must be performance, observed 'powersave'",
+    "policy1 governor must be performance, observed 'powersave'",
+    "policy10 governor must be performance, observed 'powersave'",
+    "policy11 governor must be performance, observed 'powersave'",
+    "policy2 governor must be performance, observed 'powersave'",
+    "policy3 governor must be performance, observed 'powersave'",
+    "policy4 governor must be performance, observed 'powersave'",
+    "policy5 governor must be performance, observed 'powersave'",
+    "policy6 governor must be performance, observed 'powersave'",
+    "policy7 governor must be performance, observed 'powersave'",
+    "policy8 governor must be performance, observed 'powersave'",
+    "policy9 governor must be performance, observed 'powersave'"
+  ],
+  "final_data_generated": false,
+  "preflight_only": true,
+  "evidence_path": "evidence/final-workflow/preflight-20261019T202706Z.json"
+}

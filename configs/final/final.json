@@ -1,0 +1,27 @@
+{
+  "workflow_version": 1,
+  "tls_min_version": "TLSv1.3",
+  "tls_max_version": "TLSv1.3",
+  "cipher_suite": "TLS_AES_128_GCM_SHA256",
+  "disable_tickets": true,
+  "disable_session_cache": true,
+  "interface": "127.0.0.1",
+  "client_cpu": 2,
+  "server_cpu": 4,
+  "required_power_profile": "performance",
+  "required_governor": "performance",
+  "required_epp": "performance",
+  "required_openssl_version": "OpenSSL 3.5.9",
+  "required_openssl_source_commit": "45e844fa2a14ec92d146bd8f5778ac130b6625fb",
+  "batch_count": 5,
+  "warmups_per_case": 10,
+  "measured_per_case": 30,
+  "master_seed": 2026101901,
+  "idle_seconds_between_batches": 120,
+  "cases": [
+    {"case_id":"S0", "group":"x25519", "signature":"ecdsa_secp256r1_sha256", "credential":"ecdsa", "hostname":"ecdsa.localhost"},
+    {"case_id":"S2", "group":"X25519MLKEM768", "signature":"ecdsa_secp256r1_sha256", "credential":"ecdsa", "hostname":"ecdsa.localhost"},
+    {"case_id":"S3", "group":"X25519MLKEM768", "signature":"mldsa65", "credential":"mldsa", "hostname":"mldsa.localhost"},
+    {"case_id":"S4", "group":"MLKEM768", "signature":"mldsa65", "credential":"mldsa", "hostname":"mldsa.localhost"}
+  ]
+}
