@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-"""Prepare and execute immutable, guarded final Ubuntu measurement batches.
+"""Prepare, smoke-check, and execute immutable final Ubuntu campaigns.
 
---preflight-only compiles the final harness and records checks without creating
-any final raw CSV. --run is intentionally separate and requires the host to
-pass the same guards before every batch.
+Preflight and smoke modes only create evidence, never benchmark artifacts.
+Every --run starts a fresh campaign and never resumes an earlier one.
 """
 from __future__ import annotations
 
@@ -31,6 +30,7 @@ PILOT_RUNNER = ROOT / "scripts/pilot/run_pilot.py"
 BUILD_DIR = ROOT / "build/final"
 RAW_DIR = ROOT / "data/raw/final"
 META_DIR = ROOT / "data/metadata/final"
+CAMPAIGN_DIR_PREFIX = "campaign-"
 MASTER_FIELDS = [
     "batch_id", "run_id", "timestamp", "case_id", "sequence_index", "warmup_flag",
     "git_commit_hash", "openssl_version", "openssl_source_commit", "tls_version",
@@ -155,6 +155,8 @@ def guard_errors(snapshot: dict, cfg: dict) -> list[str]:
         errors.append("AC online state is not verified")
     if snapshot["power_profile"] != cfg["required_power_profile"]:
         errors.append(f"power profile must be {cfg['required_power_profile']}, observed {snapshot['power_profile']!r}")
+    if snapshot["platform_profile"] != cfg["required_power_profile"]:
+        errors.append(f"platform profile must be {cfg['required_power_profile']}, observed {snapshot['platform_profile']!r}")
     if not snapshot["cpu_policies"]:
         errors.append("CPU frequency policies are unavailable")
     for name, policy in snapshot["cpu_policies"].items():
@@ -231,19 +233,119 @@ def git_commit() -> str:
     return run(["git", "rev-parse", "HEAD"], check=True).stdout.strip()
 
 
+def artifact_inventory() -> dict:
+    """Inventory older artifacts for review; their presence is not a preflight failure."""
+    raw = sorted(str(p.relative_to(ROOT)) for p in RAW_DIR.rglob("*.csv")) if RAW_DIR.exists() else []
+    metadata = sorted(str(p.relative_to(ROOT)) for p in META_DIR.rglob("*.json")) if META_DIR.exists() else []
+    campaign_ids = set()
+    for root in (RAW_DIR, META_DIR):
+        if root.exists():
+            campaign_ids.update(p.name for p in root.iterdir()
+                                if p.is_dir() and p.name.startswith(CAMPAIGN_DIR_PREFIX))
+    return {"campaign_ids": sorted(campaign_ids), "raw_csv_paths": raw,
+            "benchmark_metadata_paths": metadata, "raw_csv_count": len(raw),
+            "benchmark_metadata_count": len(metadata)}
+
+
+def guard_summary(snapshot: dict) -> dict:
+    mains = [v for v in snapshot["ac_battery"].values()
+             if v.get("type", "").lower() in {"mains", "ac"}]
+    policies = snapshot["cpu_policies"]
+    governor_values = sorted({v.get("scaling_governor") for v in policies.values()})
+    epp_values = sorted({v.get("energy_performance_preference") for v in policies.values()})
+    return {
+        "ac_online": any(v.get("online") == "1" for v in mains),
+        "power_profile": snapshot["power_profile"],
+        "platform_profile": snapshot["platform_profile"],
+        "cpu_policy_count": len(policies),
+        "governors_by_policy": {k: v.get("scaling_governor") for k, v in policies.items()},
+        "epp_by_policy": {k: v.get("energy_performance_preference") for k, v in policies.items()},
+        "all_governors_performance": bool(policies) and all(v.get("scaling_governor") == "performance" for v in policies.values()),
+        "all_epp_performance": bool(policies) and all(v.get("energy_performance_preference") == "performance" for v in policies.values()),
+    }
+
+
+def run_smoke_test(cfg: dict, env: dict, binary: Path, checks: dict, repo_commit: str) -> dict:
+    helper = load_pilot_module()
+    before = artifact_inventory()
+    results = {"started_utc": utc_now(), "repository_commit": repo_commit,
+               "compiled_harness_sha256": sha256(binary), "guard_summary": guard_summary(checks["environment_snapshot"]),
+               "environment_before": checks["environment_snapshot"], "case_results": [],
+               "handshakes_attempted": 0, "all_cases_passed": False, "errors": [],
+               "final_artifacts_before": before, "final_artifacts_after": None,
+               "benchmark_data_generated": False}
+    for case in cfg["cases"]:
+        current_snapshot = environment_snapshot()
+        guard_failures = guard_errors(current_snapshot, cfg)
+        if guard_failures:
+            results["errors"].extend(guard_failures)
+            break
+        case_result = {"case_id": case["case_id"], "attempted": True, "ok": False}
+        results["handshakes_attempted"] += 1
+        try:
+            observation, _ = helper.one_observation(binary, case, env, cfg["client_cpu"], cfg["server_cpu"])
+            expected = {
+                "handshake_success_failure": "success",
+                "tls_version": "TLSv1.3",
+                "cipher_suite": "TLS_AES_128_GCM_SHA256",
+                "observed_group": case["group"],
+                "observed_signature_type": case["signature"],
+            }
+            checks_result = {}
+            for field, wanted in expected.items():
+                actual = observation.get(field)
+                checks_result[field] = {"expected": wanted, "observed": actual,
+                                        "passed": str(actual).lower() == str(wanted).lower()}
+            for field in ("handshake_bytes", "packet_count"):
+                try:
+                    actual = int(observation.get(field, ""))
+                except (TypeError, ValueError):
+                    actual = 0
+                checks_result[field] = {"observed": actual, "passed": actual > 0}
+            case_result["observed"] = {
+                field: observation.get(field) for field in (
+                    "handshake_success_failure", "tls_version", "cipher_suite",
+                    "observed_group", "observed_signature_type", "handshake_bytes", "packet_count")
+            }
+            case_result["verification"] = checks_result
+            case_result["ok"] = all(v["passed"] for v in checks_result.values())
+            if not case_result["ok"]:
+                results["errors"].append(f"smoke handshake verification failed for {case['case_id']}")
+        except BaseException as exc:
+            case_result["error"] = repr(exc)
+            results["errors"].append(f"smoke handshake failed for {case['case_id']}: {exc!r}")
+        results["case_results"].append(case_result)
+    results["ended_utc"] = utc_now()
+    results["environment_after"] = environment_snapshot()
+    results["final_artifacts_after"] = artifact_inventory()
+    if results["final_artifacts_after"] != before:
+        results["errors"].append("smoke test changed final CSV or benchmark metadata inventory")
+    results["all_cases_passed"] = (
+        results["handshakes_attempted"] == len(cfg["cases"])
+        and len(results["case_results"]) == len(cfg["cases"])
+        and all(row["ok"] for row in results["case_results"])
+        and not results["errors"]
+    )
+    return results
+
+
 def main() -> int:
-    if len(sys.argv) != 2 or sys.argv[1] not in {"--preflight-only", "--run"}:
-        print("Usage: scripts/final/run_final.py --preflight-only|--run", file=sys.stderr)
+    if len(sys.argv) != 2 or sys.argv[1] not in {"--preflight-only", "--smoke-test", "--run"}:
+        print("Usage: scripts/final/run_final.py --preflight-only|--smoke-test|--run", file=sys.stderr)
         return 2
     mode = sys.argv[1]
     if mode == "--run":
         signal.signal(signal.SIGTERM, lambda signum, frame: (_ for _ in ()).throw(KeyboardInterrupt("SIGTERM")))
+    campaign_id = None
+    if mode == "--run":
+        campaign_id = CAMPAIGN_DIR_PREFIX + dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ") + "-" + uuid.uuid4().hex[:12]
     cfg = json.loads(CONFIG.read_text())
     env = os.environ.copy()
     env["LD_LIBRARY_PATH"] = str(OPENSSL_DIR / "lib")
     env["OPENSSL_CONF"] = str(ROOT / "configs/openssl/feasibility-openssl.cnf")
     results: dict = {"workflow": "final-ubuntu-multibatch", "mode": mode,
                      "captured_utc": utc_now(), "repository_base_commit": git_commit(),
+                     "campaign_id": campaign_id,
                      "workflow_source_sha256": sha256(Path(__file__).resolve()),
                      "configuration_path": str(CONFIG.relative_to(ROOT)),
                      "configuration_sha256": sha256(CONFIG),
@@ -278,23 +380,27 @@ def main() -> int:
         snapshot = environment_snapshot()
         results["checks"]["environment_snapshot"] = snapshot
         errors.extend(guard_errors(snapshot, cfg))
-        results["checks"]["raw_final_directory_exists_before_check"] = RAW_DIR.exists()
-        results["checks"]["final_csv_count_before_check"] = len(list(RAW_DIR.glob("*.csv"))) if RAW_DIR.exists() else 0
-        results["checks"]["raw_final_directory_exists_after_preflight"] = RAW_DIR.exists()
-        results["checks"]["final_csv_count_after_preflight"] = len(list(RAW_DIR.glob("*.csv"))) if RAW_DIR.exists() else 0
-        if results["checks"]["final_csv_count_before_check"]:
-            errors.append("final raw data already exists; preflight does not overwrite or resume")
+        results["checks"]["existing_final_artifacts"] = artifact_inventory()
         results["checks"]["pilot_paths_untouched"] = True
     except (OSError, RuntimeError, subprocess.CalledProcessError) as exc:
         errors.append(str(exc))
     results["ready_to_collect"] = not errors
     results["errors"] = errors
-    results["final_data_generated"] = False
+    results["final_benchmark_data_generated"] = False
     results["preflight_only"] = mode == "--preflight-only"
-    if mode == "--preflight-only":
+    if mode in {"--preflight-only", "--smoke-test"}:
+        if mode == "--smoke-test" and not errors:
+            results["smoke_test"] = run_smoke_test(
+                cfg, env, binary, results["checks"], results["repository_base_commit"])
+            if not results["smoke_test"]["all_cases_passed"]:
+                errors.extend(results["smoke_test"]["errors"])
+        results["errors"] = errors
+        results["ready_to_collect"] = not errors
+        results["final_benchmark_data_generated"] = False
         evidence_dir = ROOT / "evidence/final-workflow"
         evidence_dir.mkdir(parents=True, exist_ok=True)
-        evidence = evidence_dir / ("preflight-" + dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ") + ".json")
+        prefix = "smoke-test-" if mode == "--smoke-test" else "preflight-"
+        evidence = evidence_dir / (prefix + dt.datetime.now(dt.timezone.utc).strftime("%Y%m%dT%H%M%SZ") + ".json")
         results["evidence_path"] = str(evidence.relative_to(ROOT))
         fd = os.open(evidence, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o644)
         with os.fdopen(fd, "w") as f:
@@ -303,26 +409,29 @@ def main() -> int:
         print(json.dumps(results, indent=2))
         return 0 if not errors else 1
     if errors:
-        print(json.dumps({"ready_to_collect": False, "errors": errors}, indent=2), file=sys.stderr)
+        print(json.dumps({"campaign_id": campaign_id, "ready_to_collect": False, "errors": errors}, indent=2), file=sys.stderr)
         return 1
     return execute_batches(cfg, env, binary, results["checks"]["openssl_version"],
-                           results["checks"]["openssl_source_commit"], results["repository_base_commit"])
+                           results["checks"]["openssl_source_commit"], results["repository_base_commit"], campaign_id)
 
 
 def execute_batches(cfg: dict, env: dict, binary: Path, openssl_version: str,
-                    openssl_commit: str, repo_commit: str) -> int:
+                    openssl_commit: str, repo_commit: str, campaign_id: str) -> int:
     helper = load_pilot_module()
     seeds = random.Random(int(cfg["master_seed"]))
     previous_id = None
     cases = cfg["cases"]
+    campaign_raw_dir, campaign_meta_dir = RAW_DIR / campaign_id, META_DIR / campaign_id
+    if campaign_raw_dir.exists() or campaign_meta_dir.exists():
+        raise FileExistsError(f"Campaign already exists; refusing overwrite or resume: {campaign_id}")
+    campaign_raw_dir.mkdir(parents=True, exist_ok=False)
+    campaign_meta_dir.mkdir(parents=True, exist_ok=False)
     for batch_num in range(1, int(cfg["batch_count"]) + 1):
         batch_seed = seeds.getrandbits(64)
-        batch_id = dt.datetime.now(dt.timezone.utc).strftime("final-%Y%m%dT%H%M%SZ") + f"-b{batch_num:02d}-" + uuid.uuid4().hex[:8]
-        csv_path, meta_path = RAW_DIR / f"{batch_id}.csv", META_DIR / f"{batch_id}.json"
+        batch_id = f"{campaign_id}-b{batch_num:02d}"
+        csv_path, meta_path = campaign_raw_dir / f"{batch_id}.csv", campaign_meta_dir / f"{batch_id}.json"
         if csv_path.exists() or meta_path.exists():
             raise FileExistsError(f"Batch output already exists; refusing overwrite or resume: {batch_id}")
-        RAW_DIR.mkdir(parents=True, exist_ok=True)
-        META_DIR.mkdir(parents=True, exist_ok=True)
         # Exclusive creation is the no-overwrite/no-resume boundary.
         fd = os.open(csv_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o444)
         csv_file = os.fdopen(fd, "w", newline="", buffering=1)
@@ -336,7 +445,7 @@ def execute_batches(cfg: dict, env: dict, binary: Path, openssl_version: str,
         planned = [{"case_id": c["case_id"], "warmup": True} for c in warmups] + [
             {"case_id": c["case_id"], "warmup": False} for c in measured]
         meta = {
-            "batch_id": batch_id, "batch_number": batch_num, "status": "incomplete",
+            "campaign_id": campaign_id, "batch_id": batch_id, "batch_number": batch_num, "status": "incomplete",
             "stage": "preflight",
             "created_utc": utc_now(), "batch_start_utc": None, "batch_end_utc": None,
             "repository_commit": repo_commit, "openssl_version": openssl_version,
