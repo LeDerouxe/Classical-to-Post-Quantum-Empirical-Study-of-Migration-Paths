@@ -31,10 +31,10 @@ Only configurations with a reproducible successful handshake enter the benchmark
 
 | ID | Key establishment | Authentication | Role | Feasibility status |
 | --- | --- | --- | --- | --- |
-| S0 | X25519 | ECDSA | Classical baseline | Pending |
-| S2 | X25519MLKEM768 | ECDSA | Hybrid key establishment | Pending |
-| S3 | X25519MLKEM768 | ML-DSA-65 | Hybrid key establishment with PQ authentication | Pending |
-| S4 | ML-KEM-768, if TLS/OpenSSL supports it | ML-DSA-65 | PQ candidate | Pending |
+| S0 | X25519 | ECDSA | Classical baseline | passed, 3/3 feasibility handshakes |
+| S2 | X25519MLKEM768 | ECDSA | Hybrid key establishment | passed, 3/3 feasibility handshakes |
+| S3 | X25519MLKEM768 | ML-DSA-65 | Hybrid key establishment with PQ authentication | passed, 3/3 feasibility handshakes |
+| S4 | ML-KEM-768 | ML-DSA-65 | PQ candidate | passed, 3/3 feasibility handshakes |
 
 ## Phase 2: pilot
 

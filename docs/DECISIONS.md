@@ -17,13 +17,13 @@ This log records decisions that constrain the study design. A later change must 
 ## D-003 Primary cryptographic stack
 
 - **Status:** accepted
-- **Decision:** Use native OpenSSL 3.5.x for primary experiments; pin the exact patch release during environment setup.
+- **Decision:** Use native OpenSSL 3.5.9, source commit `45e844fa2a14ec92d146bd8f5778ac130b6625fb`, for primary experiments.
 - **Rationale:** A fixed native stack reduces implementation confounding. OQS/liboqs may be used only in a separately reported auxiliary comparison.
 
 ## D-004 Candidate configurations
 
-- **Status:** accepted, pending feasibility validation
-- **Decision:** Start feasibility testing with X25519 + ECDSA, X25519MLKEM768 + ECDSA, X25519MLKEM768 + ML-DSA-65, and ML-KEM-768 + ML-DSA-65 where supported by TLS 1.3/OpenSSL.
+- **Status:** accepted; feasibility confirmed on the pinned primary stack
+- **Decision:** Use X25519 + ECDSA, X25519MLKEM768 + ECDSA, X25519MLKEM768 + ML-DSA-65, and ML-KEM-768 + ML-DSA-65 in the primary configuration matrix.
 - **Rationale:** These candidates cover classical, hybrid, and post-quantum transitions while maintaining a focused scope.
 
 ## D-005 Experimental platforms
