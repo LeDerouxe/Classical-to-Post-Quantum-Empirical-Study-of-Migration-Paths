@@ -9,3 +9,4 @@
 
 # Preserve raw measurement bytes so the recorded SHA-256 survives Windows checkouts.
 data/raw/pilot/*.csv -text
+data/raw/final/**/*.csv -text
