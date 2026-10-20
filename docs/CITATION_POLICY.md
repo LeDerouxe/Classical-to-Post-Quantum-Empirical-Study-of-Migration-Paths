@@ -12,4 +12,6 @@ For every manuscript reference, record the following before final use:
 
 Use standards bodies for normative or standardization claims, publisher records and full texts for research findings, and vendor documentation only for vendor-specific implementation facts.
 
-The citation evidence matrix will be created when the first verified literature batch is imported.
+The active evidence register is maintained in
+[`citations/EVIDENCE_MATRIX.md`](citations/EVIDENCE_MATRIX.md). It is updated
+before, not after, any source is introduced into manuscript prose.
