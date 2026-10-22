@@ -6,7 +6,7 @@ Measure how classical, hybrid, and post-quantum TLS 1.3/OpenSSL configurations a
 
 ## Research questions
 
-- **RQ1:** How do classical, hybrid, and post-quantum TLS 1.3/OpenSSL configurations affect computational performance, resource consumption, communication overhead, and interoperability?
+- **RQ1:** Within the controlled primary environment, how do classical, hybrid, and post-quantum TLS 1.3/OpenSSL configurations differ in fresh-handshake latency, resource descriptors, communication descriptors, and same-configuration handshake outcomes?
 - **RQ2:** How do alternative migration paths from a classical TLS deployment to PQC differ in migration effort, configuration changes, and compatibility outcomes?
 - **RQ3:** To what extent do controlled network conditions amplify the end-to-end effects of PQC and hybrid communication overhead?
 - **RQ4:** To what extent are observed configuration-level effects consistent across Ubuntu and Windows on the same hardware, and across a secondary hardware platform?
@@ -52,6 +52,11 @@ For every feasible configuration:
 - Record median, P50, P95, P99, a dispersion measure, and confidence intervals.
 - Keep payload, TLS version, cipher suite, certificate chain, OpenSSL version, compiler, build flags, client concurrency, topology, warm-up policy, and measurement method fixed unless the experiment explicitly varies them.
 
+**Status: completed as the final five-batch Ubuntu loopback campaign.** The
+campaign collected 10 warm-ups and 30 measured fresh handshakes per case in
+each of five batches, for 600 measured observations. The authoritative campaign
+integrity and analysis records supersede the minimum repetition guidance above.
+
 ## Phase 4: network sensitivity
 
 Use a controlled native-Linux topology and `tc/netem`. Start with 0% loss and RTT values of 1 ms, 10 ms, 50 ms, and 100 ms. Add 0.1% and 1% loss only after the pilot confirms that the measurement harness is stable. Add bandwidth shaping only if pilot evidence shows it is relevant.
@@ -59,8 +64,11 @@ Use a controlled native-Linux topology and `tc/netem`. Start with 0% loss and RT
 ## Phase 5: validation
 
 - Re-run a selected subset of successful primary experiments on Windows 11 using the same Intel Core i5-12450H.
-- Re-run a selected subset on Ubuntu using the AMD A10-5800B.
 - Treat these as validation analyses, not as a full duplicate of the primary matrix.
+
+An AMD A10-5800B run is optional feasibility/portability evidence only; it is
+not required for the planned validation and must not be used for direct
+performance comparison with the primary Intel platform.
 
 ## Migration effort recording
 
