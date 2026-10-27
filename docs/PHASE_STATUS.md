@@ -55,6 +55,11 @@ The reproducible primary analysis is recorded in
 
 ## Planned follow-up studies
 
-Profile-compatibility testing, controlled network sensitivity, and a limited
-Windows replication are planned as distinct studies. They have not started and
-must not be described as completed results.
+The approved profile-compatibility design is recorded in
+[PROFILE_COMPATIBILITY_PROTOCOL.md](phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md).
+It includes a mandatory native-OpenSSL dual-certificate selection gate before
+its 4-by-4 profile matrix can run. Collection has not started.
+
+Controlled network sensitivity and a limited Windows replication remain
+planned distinct studies. They have not started and must not be described as
+completed results.

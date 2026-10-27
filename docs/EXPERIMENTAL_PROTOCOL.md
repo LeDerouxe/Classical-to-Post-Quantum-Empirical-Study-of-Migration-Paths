@@ -73,3 +73,12 @@ performance comparison with the primary Intel platform.
 ## Migration effort recording
 
 For each transition, record raw descriptors rather than a synthetic score: files changed, configuration entries changed, dependencies or build changes, migration steps, test changes, failure/recovery events, and documented elapsed migration time. The measure is case-specific and must not be generalized as an industry-wide migration-effort index.
+
+## Follow-up Study A: migration-profile compatibility
+
+The primary campaign validates same-configuration handshakes; it does not
+answer staged deployment compatibility. The separately scoped profile study
+uses legacy, hybrid-transition, dual-capable-transition, and strict-PQ client
+and server profiles. Its gate, matrix, evidence fields, and interpretation
+limits are in [PROFILE_COMPATIBILITY_PROTOCOL.md](phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md).
+It is functional evidence only, not a performance phase.
