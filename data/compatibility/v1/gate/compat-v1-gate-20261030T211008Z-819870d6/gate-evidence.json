@@ -1,0 +1,699 @@
+{
+  "build": {
+    "argv": [
+      "/usr/bin/cc",
+      "-std=c11",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-I",
+      "/home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/include",
+      "/home/ae/Desktop/EXP/ubuntu-study-repo/scripts/compatibility/v1/tls_compat_gate.c",
+      "-L",
+      "/home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib",
+      "-Wl,-rpath,/home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib",
+      "-lssl",
+      "-lcrypto",
+      "-o",
+      "/home/ae/Desktop/EXP/ubuntu-study-repo/data/compatibility/v1/gate/compat-v1-gate-20261030T211008Z-819870d6/tls_compat_gate"
+    ],
+    "binary_sha256": "a6267232d931fc92c3af73b88752f9d6726806b9ff29f85b9fea14d005011251",
+    "linked_openssl": {
+      "argv": [
+        "ldd",
+        "/home/ae/Desktop/EXP/ubuntu-study-repo/data/compatibility/v1/gate/compat-v1-gate-20261030T211008Z-819870d6/tls_compat_gate"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "linux-vdso.so.1 (0x000072cb71e19000)\n\tlibssl.so.3 => /home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib/libssl.so.3 (0x000072cb71cf2000)\n\tlibcrypto.so.3 => /home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib/libcrypto.so.3 (0x000072cb71600000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x000072cb71200000)\n\tlibz.so.1 => /usr/lib/x86_64-linux-gnu/libz.so.1 (0x000072cb71cc4000)\n\t/lib64/ld-linux-x86-64.so.2 (0x000072cb71e1b000)"
+    },
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  "campaign_id": "compat-v1-gate-20261030T211008Z-819870d6",
+  "ended_utc": "2026-10-30T21:10:08.641Z",
+  "environment_snapshot": {
+    "ac_battery": {
+      "ADP1": {
+        "online": "1",
+        "type": "Mains"
+      },
+      "BAT0": {
+        "capacity": "82",
+        "status": "Charging",
+        "type": "Battery"
+      },
+      "ucsi-source-psy-USBC000:001": {
+        "online": "0",
+        "status": "Not charging",
+        "type": "USB"
+      }
+    },
+    "affinity_plan": {
+      "client_cpu": 2,
+      "cpu0_reserved_for_os": true,
+      "server_cpu": 4
+    },
+    "captured_utc": "2026-10-30T21:10:08.392Z",
+    "cpu_policies": {
+      "policy0": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "0",
+        "scaling_cur_freq": "1944685",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "4400000",
+        "scaling_min_freq": "400000"
+      },
+      "policy1": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "1",
+        "scaling_cur_freq": "838688",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "4400000",
+        "scaling_min_freq": "400000"
+      },
+      "policy10": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "10",
+        "scaling_cur_freq": "3302210",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "3300000",
+        "scaling_min_freq": "400000"
+      },
+      "policy11": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "11",
+        "scaling_cur_freq": "3270043",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "3300000",
+        "scaling_min_freq": "400000"
+      },
+      "policy2": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "2",
+        "scaling_cur_freq": "3556589",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "4400000",
+        "scaling_min_freq": "400000"
+      },
+      "policy3": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "3",
+        "scaling_cur_freq": "4100745",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "4400000",
+        "scaling_min_freq": "400000"
+      },
+      "policy4": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "4",
+        "scaling_cur_freq": "1307589",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "4400000",
+        "scaling_min_freq": "400000"
+      },
+      "policy5": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "5",
+        "scaling_cur_freq": "400000",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "4400000",
+        "scaling_min_freq": "400000"
+      },
+      "policy6": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "6",
+        "scaling_cur_freq": "2092179",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "4400000",
+        "scaling_min_freq": "400000"
+      },
+      "policy7": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "7",
+        "scaling_cur_freq": "400000",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "4400000",
+        "scaling_min_freq": "400000"
+      },
+      "policy8": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "8",
+        "scaling_cur_freq": "2370286",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "3300000",
+        "scaling_min_freq": "400000"
+      },
+      "policy9": {
+        "energy_performance_preference": "performance",
+        "related_cpus": "9",
+        "scaling_cur_freq": "1962896",
+        "scaling_governor": "powersave",
+        "scaling_max_freq": "3300000",
+        "scaling_min_freq": "400000"
+      }
+    },
+    "load_average_1_5_15": [
+      1.34716796875,
+      0.66943359375,
+      0.2587890625
+    ],
+    "platform": "Linux-7.0.0-38-generic-x86_64-with-glibc2.43",
+    "platform_profile": "performance",
+    "power_profile": {
+      "argv": [
+        "powerprofilesctl",
+        "get"
+      ],
+      "returncode": 0,
+      "stderr": "",
+      "stdout": "performance"
+    },
+    "thermal_zones": {
+      "thermal_zone0": {
+        "temp_c": 47.0,
+        "type": "acpitz"
+      },
+      "thermal_zone1": {
+        "temp_c": 50.0,
+        "type": "TCPU_PCI"
+      },
+      "thermal_zone2": {
+        "temp_c": 50.0,
+        "type": "x86_pkg_temp"
+      }
+    },
+    "top_running_process_summary": [
+      "python3         28.5",
+      "ChatGPT         24.6",
+      "ChatGPT         11.6",
+      "ChatGPT         11.4",
+      "gnome-shell      9.6",
+      "ChatGPT          6.4",
+      "codex            3.5",
+      "Xwayland         1.7",
+      "ibus-extension-  1.6",
+      "ChatGPT          1.3",
+      "systemd          0.9",
+      "ChatGPT          0.7",
+      "snapd            0.7",
+      "napi/phy0-0      0.6",
+      "MainThread       0.5",
+      "kworker/u48:0-i  0.4",
+      "MainThread       0.4",
+      "kworker/u48:12-  0.4",
+      "kworker/u48:11-  0.4",
+      "napi/phy0-0      0.4"
+    ],
+    "topology": {
+      "0": {
+        "core_id": "0",
+        "current_frequency_khz": "459732",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "0-1"
+      },
+      "1": {
+        "core_id": "0",
+        "current_frequency_khz": "627149",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "0-1"
+      },
+      "10": {
+        "core_id": "18",
+        "current_frequency_khz": "3300524",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "10"
+      },
+      "11": {
+        "core_id": "19",
+        "current_frequency_khz": "3319656",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "11"
+      },
+      "2": {
+        "core_id": "4",
+        "current_frequency_khz": "4138708",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "2-3"
+      },
+      "3": {
+        "core_id": "4",
+        "current_frequency_khz": "3131486",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "2-3"
+      },
+      "4": {
+        "core_id": "8",
+        "current_frequency_khz": "3911474",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "4-5"
+      },
+      "5": {
+        "core_id": "8",
+        "current_frequency_khz": "400000",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "4-5"
+      },
+      "6": {
+        "core_id": "12",
+        "current_frequency_khz": "2092179",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "6-7"
+      },
+      "7": {
+        "core_id": "12",
+        "current_frequency_khz": "400000",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "6-7"
+      },
+      "8": {
+        "core_id": "16",
+        "current_frequency_khz": "2370286",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "8"
+      },
+      "9": {
+        "core_id": "17",
+        "current_frequency_khz": "1962896",
+        "online": "1",
+        "physical_package_id": "0",
+        "thread_siblings_list": "9"
+      }
+    },
+    "uname": {
+      "machine": "x86_64",
+      "node": "AE",
+      "processor": "",
+      "release": "7.0.0-38-generic",
+      "system": "Linux",
+      "version": "#38-Ubuntu SMP PREEMPT_DYNAMIC Fri Sep  4 09:10:14 UTC 2026"
+    }
+  },
+  "failures": [
+    "gate test L failed or selected unexpected credential",
+    "gate test D failed or selected unexpected credential"
+  ],
+  "gate_passed": false,
+  "harness_source_sha256": "732ebf5e73f4895fa943d53bcd88ca5849ddfd8248a98fa4e33de6c37897799a",
+  "historical_changed_paths": [],
+  "historical_tracked_files_after_sha256": {
+    ".gitattributes": "44a9e8bad527d36e715fc3ee1bbec57c9e4cd7e9eb0c29664e4a9e34092a2444",
+    ".gitignore": "91b2a58c7226c56f0ce5766609a85c8f4cbe58b51a346b142ee86d0c83891d03",
+    "README.md": "5d1cff37257b2eef57d4e8a161d2481b599e7d3bdf8db28128be74f648da4083",
+    "configs/compatibility/v1/profiles.json": "ab355488a4e1597e30420e79b8b358ee8fd29ea95ea732bc3d3cd27f2146b328",
+    "configs/final/final.json": "2ae9bb7b14a84d080d35139464c3fb3a589ac468a9fb66281d3ba95a2792776b",
+    "configs/openssl/feasibility-openssl.cnf": "d83d40f9311fd6c941f9114aba32688d927495d37cfd9a720cb68e11464889e6",
+    "configs/pilot/metadata-template.json": "3466bef0d2230ad5837ea517fcaef73a77343c5a32e055e69d3aba0caa192fc4",
+    "configs/pilot/pilot.json": "907131fc1104814c7ea82ffad6862412b989890f37ebe05a5a55ed0fb8094eb8",
+    "data/compatibility/v1/gate/compat-v1-gate-20261030T205421Z-615a62aa/gate-evidence.json": "bc6f87630d6b9f8a5a2064eae17dfeb584e4cc0d824773bdbd4f7b350ad119f0",
+    "data/compatibility/v1/gate/compat-v1-gate-20261030T205421Z-615a62aa/gate-evidence.json.sha256": "fa4aef50a4e39b797bc710d52067fff7f0630758e26e107c5af1b1c4462892a2",
+    "data/compatibility/v1/gate/compat-v1-gate-20261030T205421Z-615a62aa/gate-summary.md": "cdca754d2a56ea44cad9e607c31bfad91497585abba8d8d7415501f015627390",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b01.json": "bb3c89bed200269617cc205cab31fd50ed01cf76da922dd5a09813485406dc08",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b02.json": "787a8dc1190e4186aaafc4011a2197ad7559c61bfb73bd7854902d7ed22dfb02",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b03.json": "c4a8c1c9d36a14ea4a774ae62552e6ee43d9f33873564f6faa39d729363da6e5",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b04.json": "bd4588d549c24c3458aea7571d55d79a29f757e44ca13212c656711815210ad1",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b05.json": "47ce906d6acd55ded2ad8aebd206779de5962475273fcf4890bd28c6b59ec9be",
+    "data/metadata/pilot/phase2b-preflight-20261018.json": "6d34c45ff91c36dde178d6e0d822579035a60ae7e2eda90d37f607a8b4246026",
+    "data/metadata/pilot/pilot-20261018T100351Z-e2a007cf.json": "e4e461085fea4741f467f76c0e013e881eec9c55290be2a2525d151fd482c410",
+    "data/metadata/pilot/pilot-20261018T191843Z-e9dd8f86.json": "e2160d593e1ac95b434fd1e353b5d6e49ef672d4bed609b1ad48cbfc01420a49",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b01.csv": "19fcaabbdf50fd2d7ad2aeec18280aa7fc61cbae2e80c6a13adb9f25428ed4b5",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b02.csv": "d1176e04151765c67a518e40277b7c8dbeff2a2da3e75d84b91438c71be8c568",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b03.csv": "bba09eb79d1298507bd0f5d27f7f555facaa59312023974de3e3da0b63be3a8e",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b04.csv": "96e99e102bc74ecd9b1f9be35905cc43ac59513e19d6a537d022ac7b34d5236c",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b05.csv": "ad01a94d9ffe18702a413c89b4fc816beea68742c5646fbe398f48ca9100abf2",
+    "data/raw/pilot/pilot-20261018T100351Z-e2a007cf.csv": "d9e2363a8bc26b735094c490bb2d026198edbfbd91a25ddb87f8346632c30cc0",
+    "data/raw/pilot/pilot-20261018T191843Z-e9dd8f86.csv": "016b3e73e25a9403b03b246984aa83b66d5873052b974756fd973784a881397d",
+    "docs/CITATION_POLICY.md": "5b57cf36425f81e32ffa0f6fb372cddc9834c13d3d1f1b862f3efe19e7ca8ff7",
+    "docs/DECISIONS.md": "e021588869c839cfb10573625831a49812ccf8cd379a782833fb4837e23839ce",
+    "docs/EXPERIMENTAL_PROTOCOL.md": "4121e0549008e0fb0510c0e8f686817e311069533539d065fd44143366be9db5",
+    "docs/PHASE_STATUS.md": "c3df6b6929ec10b7a16cf50f99f59d84a914be71c8e8c7c0e16b3131b0ae829a",
+    "docs/UBUNTU_PRACTICAL_HANDOFF.md": "48b75a8be932d063c3fa918b1c817c74abc8a4a620e5d7f05a871b9b114add7c",
+    "docs/citations/EVIDENCE_MATRIX.md": "ea1faf2959e877d1d261534f718bd401dd6d2f94f5735f89dbce769f3b35e42c",
+    "docs/phase-1/FEASIBILITY_CREDENTIALS.md": "ea895f5c09c29d0e326c305a4ecd1079c57911ddeb600ac2f0b701622a7b8487",
+    "docs/phase-1/FEASIBILITY_RESULTS.md": "988e0ed0d2d822808ef713dc4517a3120d095ca294396156661bc6a03946c14d",
+    "docs/phase-2/FINAL-CAMPAIGN-INTEGRITY-20261020.md": "675c178a577c4aeb6081e60e3ce3b49114140685bbeabcd333f84f39c2541d54",
+    "docs/phase-2/FINAL-MULTIBATCH-PROPOSAL.md": "e4890772be91d6849eff35ab43adbf1b61a81f1f93e73fec38caed6e1c038eb0",
+    "docs/phase-2/PHASE-2B-REPORT.md": "f3c7e18dce8994e98e844634334f03aadd94d0a71bb9683ca390bed0f1d52099",
+    "docs/phase-2/PHASE-2B-STABILIZATION.md": "1ec63ed72e455a2bd49ce2dd521966afccc4605e76a13a5ec2d0dd05b4482666",
+    "docs/phase-2/PILOT_PROTOCOL.md": "2bbe84ffcaddc9e44c04f87bec2195865ff7674de9aed8c4d0aa40de45ab7c3f",
+    "docs/phase-2/PILOT_REPORT.md": "1abb380cb55fdde8028536f83c23ad816f692cbe5219d033a95cdcac3227db62",
+    "docs/phase-2/README.md": "ec0dceea606d3941d7d7e59062b43a5c829de44d73fa932a97d73aad77443cc0",
+    "docs/phase-3/FINAL_UBUNTU_ANALYSIS.md": "c7c4aa685611b6033974806734e25539516fdbb928b661574f9564b30dc3f1bf",
+    "docs/phase-3/MIGRATION_EFFORT_RECORD.md": "3b70fa70c730b2f6d7bab811e350398f84d0460e3a998cc1dc6b555aec64034f",
+    "docs/phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md": "066de4a609a41bf16611b4a9e1a5ded5ee14a6626b78356364ea08e247af3586",
+    "environment/ubuntu-26.04.1/README.md": "5e44e1fb82c08f35b70a5396ec64de691c61092b447af8edd68ae1314d8bbc08",
+    "environment/ubuntu-26.04.1/environment-manifest.md": "1cdb7a33651a649a7ec4228bdbcc54b37e592ae92e9814e91e2a6d0ecc09c446",
+    "environment/ubuntu-26.04.1/openssl-inventory.txt": "cba72f2f539e06de0c40dbe52815c3bc59c14b00ec7199a02a85ae530a458a77",
+    "evidence/feasibility/README.md": "17fdb96703c1ea918d7a91eae3c3852285bc6fe184704dbf268ba7b086102b4b",
+    "evidence/feasibility/S0-run1-client.txt": "1586c878a25ea40976687c12ac54930f0e056f56febcbc416a4822edb06f85cc",
+    "evidence/feasibility/S0-run2-client.txt": "1586c878a25ea40976687c12ac54930f0e056f56febcbc416a4822edb06f85cc",
+    "evidence/feasibility/S0-run3-client.txt": "1586c878a25ea40976687c12ac54930f0e056f56febcbc416a4822edb06f85cc",
+    "evidence/feasibility/S2-run1-client.txt": "66b1a2a5504af236d9c515f75d2d3bb9452ac80f21b0b26636ce637aeeaf56e1",
+    "evidence/feasibility/S2-run2-client.txt": "66b1a2a5504af236d9c515f75d2d3bb9452ac80f21b0b26636ce637aeeaf56e1",
+    "evidence/feasibility/S2-run3-client.txt": "66b1a2a5504af236d9c515f75d2d3bb9452ac80f21b0b26636ce637aeeaf56e1",
+    "evidence/feasibility/S3-run1-client.txt": "f06e7e46224918137a47893bb4ce784cd263f9205e9372238225b821c8983c06",
+    "evidence/feasibility/S3-run2-client.txt": "f06e7e46224918137a47893bb4ce784cd263f9205e9372238225b821c8983c06",
+    "evidence/feasibility/S3-run3-client.txt": "f06e7e46224918137a47893bb4ce784cd263f9205e9372238225b821c8983c06",
+    "evidence/feasibility/S4-run1-client.txt": "84dce3a9b2b9b67798e991ec4299cf95b7321321d64df8230700338a9b26525a",
+    "evidence/feasibility/S4-run2-client.txt": "84dce3a9b2b9b67798e991ec4299cf95b7321321d64df8230700338a9b26525a",
+    "evidence/feasibility/S4-run3-client.txt": "84dce3a9b2b9b67798e991ec4299cf95b7321321d64df8230700338a9b26525a",
+    "evidence/final-workflow/preflight-20261019T202706Z.json": "2a3bede2a8780d4ff1550d1f53fe620d4ac3f7f7e6173eff2cb35d788d158e14",
+    "evidence/final-workflow/preflight-20261019T211005Z.json": "34b8f57173281c448098f254c373f7fd2fda65cd41d0eb5a42ff5743129dafe6",
+    "evidence/final-workflow/smoke-test-20261019T211007Z.json": "ada72ed9d95d8c876efd7b38f95b13841b29c55259f0edbfdfb019c1c84158f9",
+    "manuscript/figures/README.md": "80b0254afd1d58892327a465235a732636ddfeee4049f06e0da70a5fa85065d3",
+    "manuscript/figures/figure-1-latency.svg": "f24832612cb9f1b8a66fdb2d7dc1bf19dfaf071c54c600ca5ed22a3d5eecd88b",
+    "manuscript/figures/figure-2-communication.svg": "f2285ef826eca8a39201ddba5de2f8fcf036b6fcfece3ef8f7fe46171f5f556b",
+    "manuscript/references.bib": "a27b39759d4af9c7fcd7c76c28b3138c539eda4d08f7879cbdc2ac018bd49f55",
+    "manuscript/sections/01-introduction.md": "72ac3d8fb8c88935012bb299baabe98393006cf43377030fa290349b451a263f",
+    "manuscript/sections/02-background-and-related-work.md": "26c703d9863704c8c23ccdea946f58e8e8b39fc18fb819bdaf45b7595956f18f",
+    "manuscript/sections/05-methodology.md": "a19025d9df2ee72301893feee891d8e1fc3f14bfd1567e1851a43e28d200eefa",
+    "manuscript/sections/07-results.md": "c971d469cf667e49eaa8a6263316571fc6d193fc2f8ebc918d6daf0587120e9b",
+    "scripts/analysis/analyze_final_campaign.py": "7bf17d92c9f8c54e7fcf024d973f65b879988d147db445a7c7d7d16e28a52ec9",
+    "scripts/analysis/render_final_figures.py": "93fa7e82a2a917f4418186365aff97cd522ac78c9353c5ea3f059fe15c9ba2fe",
+    "scripts/compatibility/v1/README.md": "90502881a2ce36b99f955e7e61c91b764686bdf64ec6dfbfe3ad62e0d8020c54",
+    "scripts/compatibility/v1/run_gate.py": "7aa2efbaf01b6ed3db5688ea9c8269f75fbf63e6a3f9d186166b3afcf6049cc6",
+    "scripts/compatibility/v1/tls_compat_gate.c": "732ebf5e73f4895fa943d53bcd88ca5849ddfd8248a98fa4e33de6c37897799a",
+    "scripts/feasibility/run_feasibility.py": "6a7d6aefa08a44effd72b8cf9e423d1c1d8f735d557711e4259b4506cd08ee19",
+    "scripts/final/README.md": "93900be4836542ebf95af8609336e6638fd0c70c38eea7c7e7288706ca03e337",
+    "scripts/final/run_final.py": "e348c5f732f5835e1d6d9e74b5a233bd6a1e0a41820baaaea9a95ebadd7bddd2",
+    "scripts/pilot/run_pilot.py": "024789fde35d06743f22eb47b072480d5a4fee38d7f7cabee32353bb6094f845",
+    "scripts/pilot/tls_pilot.c": "c510e460bbc61b1edc452ca01257fdf0a18d5870a6c38e92439f22e52cae7ef9",
+    "scripts/setup/build_openssl.sh": "c1df16ffea2ea79be787510d8b1e1890bbcadef19fef48cd6a8aa60bc5b7990f",
+    "scripts/setup/capture_openssl_inventory.sh": "aeace5fa52600b23c41312c8b5062dedb0c343917744db24797afa502aaeb694"
+  },
+  "historical_tracked_files_before_sha256": {
+    ".gitattributes": "44a9e8bad527d36e715fc3ee1bbec57c9e4cd7e9eb0c29664e4a9e34092a2444",
+    ".gitignore": "91b2a58c7226c56f0ce5766609a85c8f4cbe58b51a346b142ee86d0c83891d03",
+    "README.md": "5d1cff37257b2eef57d4e8a161d2481b599e7d3bdf8db28128be74f648da4083",
+    "configs/compatibility/v1/profiles.json": "ab355488a4e1597e30420e79b8b358ee8fd29ea95ea732bc3d3cd27f2146b328",
+    "configs/final/final.json": "2ae9bb7b14a84d080d35139464c3fb3a589ac468a9fb66281d3ba95a2792776b",
+    "configs/openssl/feasibility-openssl.cnf": "d83d40f9311fd6c941f9114aba32688d927495d37cfd9a720cb68e11464889e6",
+    "configs/pilot/metadata-template.json": "3466bef0d2230ad5837ea517fcaef73a77343c5a32e055e69d3aba0caa192fc4",
+    "configs/pilot/pilot.json": "907131fc1104814c7ea82ffad6862412b989890f37ebe05a5a55ed0fb8094eb8",
+    "data/compatibility/v1/gate/compat-v1-gate-20261030T205421Z-615a62aa/gate-evidence.json": "bc6f87630d6b9f8a5a2064eae17dfeb584e4cc0d824773bdbd4f7b350ad119f0",
+    "data/compatibility/v1/gate/compat-v1-gate-20261030T205421Z-615a62aa/gate-evidence.json.sha256": "fa4aef50a4e39b797bc710d52067fff7f0630758e26e107c5af1b1c4462892a2",
+    "data/compatibility/v1/gate/compat-v1-gate-20261030T205421Z-615a62aa/gate-summary.md": "cdca754d2a56ea44cad9e607c31bfad91497585abba8d8d7415501f015627390",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b01.json": "bb3c89bed200269617cc205cab31fd50ed01cf76da922dd5a09813485406dc08",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b02.json": "787a8dc1190e4186aaafc4011a2197ad7559c61bfb73bd7854902d7ed22dfb02",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b03.json": "c4a8c1c9d36a14ea4a774ae62552e6ee43d9f33873564f6faa39d729363da6e5",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b04.json": "bd4588d549c24c3458aea7571d55d79a29f757e44ca13212c656711815210ad1",
+    "data/metadata/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b05.json": "47ce906d6acd55ded2ad8aebd206779de5962475273fcf4890bd28c6b59ec9be",
+    "data/metadata/pilot/phase2b-preflight-20261018.json": "6d34c45ff91c36dde178d6e0d822579035a60ae7e2eda90d37f607a8b4246026",
+    "data/metadata/pilot/pilot-20261018T100351Z-e2a007cf.json": "e4e461085fea4741f467f76c0e013e881eec9c55290be2a2525d151fd482c410",
+    "data/metadata/pilot/pilot-20261018T191843Z-e9dd8f86.json": "e2160d593e1ac95b434fd1e353b5d6e49ef672d4bed609b1ad48cbfc01420a49",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b01.csv": "19fcaabbdf50fd2d7ad2aeec18280aa7fc61cbae2e80c6a13adb9f25428ed4b5",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b02.csv": "d1176e04151765c67a518e40277b7c8dbeff2a2da3e75d84b91438c71be8c568",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b03.csv": "bba09eb79d1298507bd0f5d27f7f555facaa59312023974de3e3da0b63be3a8e",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b04.csv": "96e99e102bc74ecd9b1f9be35905cc43ac59513e19d6a537d022ac7b34d5236c",
+    "data/raw/final/campaign-20261020T083014Z-70543371b61f/campaign-20261020T083014Z-70543371b61f-b05.csv": "ad01a94d9ffe18702a413c89b4fc816beea68742c5646fbe398f48ca9100abf2",
+    "data/raw/pilot/pilot-20261018T100351Z-e2a007cf.csv": "d9e2363a8bc26b735094c490bb2d026198edbfbd91a25ddb87f8346632c30cc0",
+    "data/raw/pilot/pilot-20261018T191843Z-e9dd8f86.csv": "016b3e73e25a9403b03b246984aa83b66d5873052b974756fd973784a881397d",
+    "docs/CITATION_POLICY.md": "5b57cf36425f81e32ffa0f6fb372cddc9834c13d3d1f1b862f3efe19e7ca8ff7",
+    "docs/DECISIONS.md": "e021588869c839cfb10573625831a49812ccf8cd379a782833fb4837e23839ce",
+    "docs/EXPERIMENTAL_PROTOCOL.md": "4121e0549008e0fb0510c0e8f686817e311069533539d065fd44143366be9db5",
+    "docs/PHASE_STATUS.md": "c3df6b6929ec10b7a16cf50f99f59d84a914be71c8e8c7c0e16b3131b0ae829a",
+    "docs/UBUNTU_PRACTICAL_HANDOFF.md": "48b75a8be932d063c3fa918b1c817c74abc8a4a620e5d7f05a871b9b114add7c",
+    "docs/citations/EVIDENCE_MATRIX.md": "ea1faf2959e877d1d261534f718bd401dd6d2f94f5735f89dbce769f3b35e42c",
+    "docs/phase-1/FEASIBILITY_CREDENTIALS.md": "ea895f5c09c29d0e326c305a4ecd1079c57911ddeb600ac2f0b701622a7b8487",
+    "docs/phase-1/FEASIBILITY_RESULTS.md": "988e0ed0d2d822808ef713dc4517a3120d095ca294396156661bc6a03946c14d",
+    "docs/phase-2/FINAL-CAMPAIGN-INTEGRITY-20261020.md": "675c178a577c4aeb6081e60e3ce3b49114140685bbeabcd333f84f39c2541d54",
+    "docs/phase-2/FINAL-MULTIBATCH-PROPOSAL.md": "e4890772be91d6849eff35ab43adbf1b61a81f1f93e73fec38caed6e1c038eb0",
+    "docs/phase-2/PHASE-2B-REPORT.md": "f3c7e18dce8994e98e844634334f03aadd94d0a71bb9683ca390bed0f1d52099",
+    "docs/phase-2/PHASE-2B-STABILIZATION.md": "1ec63ed72e455a2bd49ce2dd521966afccc4605e76a13a5ec2d0dd05b4482666",
+    "docs/phase-2/PILOT_PROTOCOL.md": "2bbe84ffcaddc9e44c04f87bec2195865ff7674de9aed8c4d0aa40de45ab7c3f",
+    "docs/phase-2/PILOT_REPORT.md": "1abb380cb55fdde8028536f83c23ad816f692cbe5219d033a95cdcac3227db62",
+    "docs/phase-2/README.md": "ec0dceea606d3941d7d7e59062b43a5c829de44d73fa932a97d73aad77443cc0",
+    "docs/phase-3/FINAL_UBUNTU_ANALYSIS.md": "c7c4aa685611b6033974806734e25539516fdbb928b661574f9564b30dc3f1bf",
+    "docs/phase-3/MIGRATION_EFFORT_RECORD.md": "3b70fa70c730b2f6d7bab811e350398f84d0460e3a998cc1dc6b555aec64034f",
+    "docs/phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md": "066de4a609a41bf16611b4a9e1a5ded5ee14a6626b78356364ea08e247af3586",
+    "environment/ubuntu-26.04.1/README.md": "5e44e1fb82c08f35b70a5396ec64de691c61092b447af8edd68ae1314d8bbc08",
+    "environment/ubuntu-26.04.1/environment-manifest.md": "1cdb7a33651a649a7ec4228bdbcc54b37e592ae92e9814e91e2a6d0ecc09c446",
+    "environment/ubuntu-26.04.1/openssl-inventory.txt": "cba72f2f539e06de0c40dbe52815c3bc59c14b00ec7199a02a85ae530a458a77",
+    "evidence/feasibility/README.md": "17fdb96703c1ea918d7a91eae3c3852285bc6fe184704dbf268ba7b086102b4b",
+    "evidence/feasibility/S0-run1-client.txt": "1586c878a25ea40976687c12ac54930f0e056f56febcbc416a4822edb06f85cc",
+    "evidence/feasibility/S0-run2-client.txt": "1586c878a25ea40976687c12ac54930f0e056f56febcbc416a4822edb06f85cc",
+    "evidence/feasibility/S0-run3-client.txt": "1586c878a25ea40976687c12ac54930f0e056f56febcbc416a4822edb06f85cc",
+    "evidence/feasibility/S2-run1-client.txt": "66b1a2a5504af236d9c515f75d2d3bb9452ac80f21b0b26636ce637aeeaf56e1",
+    "evidence/feasibility/S2-run2-client.txt": "66b1a2a5504af236d9c515f75d2d3bb9452ac80f21b0b26636ce637aeeaf56e1",
+    "evidence/feasibility/S2-run3-client.txt": "66b1a2a5504af236d9c515f75d2d3bb9452ac80f21b0b26636ce637aeeaf56e1",
+    "evidence/feasibility/S3-run1-client.txt": "f06e7e46224918137a47893bb4ce784cd263f9205e9372238225b821c8983c06",
+    "evidence/feasibility/S3-run2-client.txt": "f06e7e46224918137a47893bb4ce784cd263f9205e9372238225b821c8983c06",
+    "evidence/feasibility/S3-run3-client.txt": "f06e7e46224918137a47893bb4ce784cd263f9205e9372238225b821c8983c06",
+    "evidence/feasibility/S4-run1-client.txt": "84dce3a9b2b9b67798e991ec4299cf95b7321321d64df8230700338a9b26525a",
+    "evidence/feasibility/S4-run2-client.txt": "84dce3a9b2b9b67798e991ec4299cf95b7321321d64df8230700338a9b26525a",
+    "evidence/feasibility/S4-run3-client.txt": "84dce3a9b2b9b67798e991ec4299cf95b7321321d64df8230700338a9b26525a",
+    "evidence/final-workflow/preflight-20261019T202706Z.json": "2a3bede2a8780d4ff1550d1f53fe620d4ac3f7f7e6173eff2cb35d788d158e14",
+    "evidence/final-workflow/preflight-20261019T211005Z.json": "34b8f57173281c448098f254c373f7fd2fda65cd41d0eb5a42ff5743129dafe6",
+    "evidence/final-workflow/smoke-test-20261019T211007Z.json": "ada72ed9d95d8c876efd7b38f95b13841b29c55259f0edbfdfb019c1c84158f9",
+    "manuscript/figures/README.md": "80b0254afd1d58892327a465235a732636ddfeee4049f06e0da70a5fa85065d3",
+    "manuscript/figures/figure-1-latency.svg": "f24832612cb9f1b8a66fdb2d7dc1bf19dfaf071c54c600ca5ed22a3d5eecd88b",
+    "manuscript/figures/figure-2-communication.svg": "f2285ef826eca8a39201ddba5de2f8fcf036b6fcfece3ef8f7fe46171f5f556b",
+    "manuscript/references.bib": "a27b39759d4af9c7fcd7c76c28b3138c539eda4d08f7879cbdc2ac018bd49f55",
+    "manuscript/sections/01-introduction.md": "72ac3d8fb8c88935012bb299baabe98393006cf43377030fa290349b451a263f",
+    "manuscript/sections/02-background-and-related-work.md": "26c703d9863704c8c23ccdea946f58e8e8b39fc18fb819bdaf45b7595956f18f",
+    "manuscript/sections/05-methodology.md": "a19025d9df2ee72301893feee891d8e1fc3f14bfd1567e1851a43e28d200eefa",
+    "manuscript/sections/07-results.md": "c971d469cf667e49eaa8a6263316571fc6d193fc2f8ebc918d6daf0587120e9b",
+    "scripts/analysis/analyze_final_campaign.py": "7bf17d92c9f8c54e7fcf024d973f65b879988d147db445a7c7d7d16e28a52ec9",
+    "scripts/analysis/render_final_figures.py": "93fa7e82a2a917f4418186365aff97cd522ac78c9353c5ea3f059fe15c9ba2fe",
+    "scripts/compatibility/v1/README.md": "90502881a2ce36b99f955e7e61c91b764686bdf64ec6dfbfe3ad62e0d8020c54",
+    "scripts/compatibility/v1/run_gate.py": "7aa2efbaf01b6ed3db5688ea9c8269f75fbf63e6a3f9d186166b3afcf6049cc6",
+    "scripts/compatibility/v1/tls_compat_gate.c": "732ebf5e73f4895fa943d53bcd88ca5849ddfd8248a98fa4e33de6c37897799a",
+    "scripts/feasibility/run_feasibility.py": "6a7d6aefa08a44effd72b8cf9e423d1c1d8f735d557711e4259b4506cd08ee19",
+    "scripts/final/README.md": "93900be4836542ebf95af8609336e6638fd0c70c38eea7c7e7288706ca03e337",
+    "scripts/final/run_final.py": "e348c5f732f5835e1d6d9e74b5a233bd6a1e0a41820baaaea9a95ebadd7bddd2",
+    "scripts/pilot/run_pilot.py": "024789fde35d06743f22eb47b072480d5a4fee38d7f7cabee32353bb6094f845",
+    "scripts/pilot/tls_pilot.c": "c510e460bbc61b1edc452ca01257fdf0a18d5870a6c38e92439f22e52cae7ef9",
+    "scripts/setup/build_openssl.sh": "c1df16ffea2ea79be787510d8b1e1890bbcadef19fef48cd6a8aa60bc5b7990f",
+    "scripts/setup/capture_openssl_inventory.sh": "aeace5fa52600b23c41312c8b5062dedb0c343917744db24797afa502aaeb694"
+  },
+  "historical_tracked_files_unchanged": true,
+  "matrix_attempt_count": 0,
+  "matrix_started": false,
+  "openssl": {
+    "identity": {
+      "executable_is_3_5_9": true,
+      "executable_path": "/home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/bin/openssl",
+      "executable_version": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)"
+      },
+      "identity_guard_passed": true,
+      "ldd": {
+        "returncode": 0,
+        "stderr": "",
+        "stdout": "linux-vdso.so.1 (0x00007c2dafaae000)\n\tlibssl.so.3 => /home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib/libssl.so.3 (0x00007c2daf871000)\n\tlibcrypto.so.3 => /home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install/lib/libcrypto.so.3 (0x00007c2daf200000)\n\tlibc.so.6 => /usr/lib/x86_64-linux-gnu/libc.so.6 (0x00007c2daee00000)\n\tlibz.so.1 => /usr/lib/x86_64-linux-gnu/libz.so.1 (0x00007c2daf843000)\n\t/lib64/ld-linux-x86-64.so.2 (0x00007c2dafab0000)"
+      },
+      "library_is_3_5_9": true,
+      "library_version": {
+        "reported_line": "OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)",
+        "returncode": 0,
+        "stderr": ""
+      },
+      "ssl_crypto_linkage_is_pinned": true
+    },
+    "install_path": "/home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/install",
+    "source_commit": "45e844fa2a14ec92d146bd8f5778ac130b6625fb",
+    "source_path": "/home/ae/Desktop/EXP/ubuntu-study-repo/third_party/openssl-3.5.9/source"
+  },
+  "profile_configuration": {
+    "cipher_suites": "TLS_AES_128_GCM_SHA256",
+    "gate": {
+      "server_context": "one native OpenSSL SSL_CTX with SSL_CTX_set_cert_cb",
+      "tests": [
+        {
+          "client_profile": "L",
+          "expected_server_credential": "ECDSA-P-256"
+        },
+        {
+          "client_profile": "D",
+          "expected_server_credential": "ML-DSA-65"
+        }
+      ]
+    },
+    "profiles": {
+      "D": {
+        "groups": "X25519MLKEM768:x25519:MLKEM768",
+        "role": "Dual-capable transition",
+        "server_credential_capability": [
+          "ECDSA-P-256",
+          "ML-DSA-65"
+        ],
+        "signature_algorithms": "ecdsa_secp256r1_sha256:mldsa65",
+        "trust": "combined-local-ecdsa-and-mldsa-roots"
+      },
+      "H": {
+        "groups": "X25519MLKEM768:x25519",
+        "role": "Hybrid-key-establishment transition",
+        "server_credential_capability": [
+          "ECDSA-P-256"
+        ],
+        "signature_algorithms": "ecdsa_secp256r1_sha256",
+        "trust": "ecdsa-local-root-only"
+      },
+      "L": {
+        "groups": "x25519",
+        "role": "Legacy",
+        "server_credential_capability": [
+          "ECDSA-P-256"
+        ],
+        "signature_algorithms": "ecdsa_secp256r1_sha256",
+        "trust": "ecdsa-local-root-only"
+      },
+      "Q": {
+        "groups": "MLKEM768",
+        "role": "Strict PQ",
+        "server_credential_capability": [
+          "ML-DSA-65"
+        ],
+        "signature_algorithms": "mldsa65",
+        "trust": "mldsa-local-root-only"
+      }
+    },
+    "protocol": "docs/phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md",
+    "schema_version": 1,
+    "session_cache": false,
+    "tickets": false,
+    "tls_version": "TLSv1.3"
+  },
+  "profile_configuration_sha256": "ab355488a4e1597e30420e79b8b358ee8fd29ea95ea732bc3d3cd27f2146b328",
+  "protocol_path": "docs/phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md",
+  "purpose": "mandatory dual-certificate capability gate only; no compatibility matrix attempted",
+  "repository": {
+    "branch": "main",
+    "commit_before_gate": "6975a685ba6295a5618dda8466dcd78cae00c050",
+    "path": "/home/ae/Desktop/EXP/ubuntu-study-repo"
+  },
+  "schema_version": 1,
+  "started_utc": "2026-10-30T21:10:08.370Z",
+  "status": "gate_failed_matrix_not_run",
+  "study": "Follow-up Study A",
+  "test_results": [
+    {
+      "case_id": "L",
+      "client": {
+        "argv": [
+          "/usr/bin/taskset",
+          "-c",
+          "2",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/data/compatibility/v1/gate/compat-v1-gate-20261030T211008Z-819870d6/tls_compat_gate",
+          "client",
+          "57037",
+          "x25519",
+          "ecdsa_secp256r1_sha256",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/ecdsa.cert.pem",
+          "ecdsa.localhost"
+        ],
+        "observed": {},
+        "returncode": 1,
+        "stderr": "ERROR\tSSL_connect\tC0F2C92D65760000:error:0A000086:SSL routines:tls_post_process_server_certificate:certificate verify failed:ssl/statem/statem_clnt.c:2124:",
+        "stdout": ""
+      },
+      "client_profile": "L",
+      "configured_groups": "x25519",
+      "configured_signature_algorithms": "ecdsa_secp256r1_sha256",
+      "ended_utc": "2026-10-30T21:10:08.632Z",
+      "expected_certificate_verify_signature_scheme": "ecdsa_secp256r1_sha256",
+      "expected_peer_public_key_type": "EC",
+      "expected_server_credential_label": "ECDSA-P-256",
+      "selected_server_credential_label": null,
+      "server": {
+        "argv": [
+          "/usr/bin/taskset",
+          "-c",
+          "4",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/data/compatibility/v1/gate/compat-v1-gate-20261030T211008Z-819870d6/tls_compat_gate",
+          "server",
+          "57037",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/ecdsa.cert.pem",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/ecdsa.key.pem",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/mldsa.cert.pem",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/mldsa.key.pem"
+        ],
+        "observed": {},
+        "returncode": 1,
+        "stderr": "ERROR\tSSL_accept\tC092C9AFB37E0000:error:0A000415:SSL routines:ssl3_read_bytes:ssl/tls alert certificate expired:ssl/record/rec_layer_s3.c:918:SSL alert number 45",
+        "stdout": [
+          "READY\tport=57037\tcontext=single-native-SSL_CTX"
+        ]
+      },
+      "started_utc": "2026-10-30T21:10:08.611Z",
+      "success": false,
+      "trust_bundle_path": "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/ecdsa.cert.pem",
+      "trust_bundle_sha256": "7f21df9840134a890c5fc22e303016ebd1488f61266f712dd2ba787510a7bdda"
+    },
+    {
+      "case_id": "D",
+      "client": {
+        "argv": [
+          "/usr/bin/taskset",
+          "-c",
+          "2",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/data/compatibility/v1/gate/compat-v1-gate-20261030T211008Z-819870d6/tls_compat_gate",
+          "client",
+          "40951",
+          "X25519MLKEM768:x25519:MLKEM768",
+          "ecdsa_secp256r1_sha256:mldsa65",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/compat-v1-combined-ca-bundle.pem",
+          "mldsa.localhost"
+        ],
+        "observed": {},
+        "returncode": 1,
+        "stderr": "ERROR\tSSL_connect\tC06224B0157C0000:error:0A000086:SSL routines:tls_post_process_server_certificate:certificate verify failed:ssl/statem/statem_clnt.c:2124:",
+        "stdout": ""
+      },
+      "client_profile": "D",
+      "configured_groups": "X25519MLKEM768:x25519:MLKEM768",
+      "configured_signature_algorithms": "ecdsa_secp256r1_sha256:mldsa65",
+      "ended_utc": "2026-10-30T21:10:08.641Z",
+      "expected_certificate_verify_signature_scheme": "mldsa65",
+      "expected_peer_public_key_type": "ML-DSA-65",
+      "expected_server_credential_label": "ML-DSA-65",
+      "selected_server_credential_label": null,
+      "server": {
+        "argv": [
+          "/usr/bin/taskset",
+          "-c",
+          "4",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/data/compatibility/v1/gate/compat-v1-gate-20261030T211008Z-819870d6/tls_compat_gate",
+          "server",
+          "40951",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/ecdsa.cert.pem",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/ecdsa.key.pem",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/mldsa.cert.pem",
+          "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/mldsa.key.pem"
+        ],
+        "observed": {},
+        "returncode": 1,
+        "stderr": "ERROR\tSSL_accept\tC0B2C48CCD730000:error:0A000415:SSL routines:ssl3_read_bytes:ssl/tls alert certificate expired:ssl/record/rec_layer_s3.c:918:SSL alert number 45",
+        "stdout": [
+          "READY\tport=40951\tcontext=single-native-SSL_CTX"
+        ]
+      },
+      "started_utc": "2026-10-30T21:10:08.632Z",
+      "success": false,
+      "trust_bundle_path": "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/compat-v1-combined-ca-bundle.pem",
+      "trust_bundle_sha256": "08697dc63348575ad27561ab457fbd775b8ee90ffb7f66603c6169f8c268e805"
+    }
+  ],
+  "trust_bundle": {
+    "creation_error": null,
+    "ignored_by_git": true,
+    "path": "/home/ae/Desktop/EXP/ubuntu-study-repo/credentials/compat-v1-combined-ca-bundle.pem",
+    "sha256": "08697dc63348575ad27561ab457fbd775b8ee90ffb7f66603c6169f8c268e805"
+  },
+  "workflow_version": "v1"
+}
