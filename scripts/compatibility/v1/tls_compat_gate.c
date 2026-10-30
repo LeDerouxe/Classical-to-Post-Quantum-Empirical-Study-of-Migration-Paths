@@ -31,20 +31,28 @@ static void print_errors(const char *where) {
     ERR_print_errors_fp(stderr);
 }
 
-static int select_certificate(SSL *ssl, void *arg) {
-    credentials *creds = (credentials *)arg;
+/* SSL_get_sigalgs documents rhash as the high byte and rsig as the low byte
+ * of each TLS SignatureScheme value. Compare those documented outputs in
+ * that order so the predicate exactly matches the wire scheme. */
+static int client_offers_signature_scheme(SSL *ssl,
+                                          unsigned char expected_rhash,
+                                          unsigned char expected_rsig) {
     int count = SSL_get_sigalgs(ssl, -1, NULL, NULL, NULL, NULL, NULL);
-    int has_mldsa = 0, has_ecdsa = 0;
     int sign = NID_undef, hash = NID_undef, signhash = NID_undef;
     unsigned char rsig = 0, rhash = 0;
-
-    /* Inspect the peer's actual signature_algorithms ClientHello extension. */
     for (int i = 0; i < count; i++) {
-        if (SSL_get_sigalgs(ssl, i, &sign, &hash, &signhash, &rsig, &rhash) <= 0)
-            continue;
-        if (rsig == 0x09 && rhash == 0x05) has_mldsa = 1; /* mldsa65 */
-        if (rsig == 0x04 && rhash == 0x03) has_ecdsa = 1; /* ecdsa_secp256r1_sha256 */
+        if (SSL_get_sigalgs(ssl, i, &sign, &hash, &signhash, &rsig, &rhash) > 0 &&
+            rhash == expected_rhash && rsig == expected_rsig)
+            return 1;
     }
+    return 0;
+}
+
+static int select_certificate(SSL *ssl, void *arg) {
+    credentials *creds = (credentials *)arg;
+    /* Inspect the peer's actual signature_algorithms ClientHello extension. */
+    int has_ecdsa = client_offers_signature_scheme(ssl, 0x04, 0x03);
+    int has_mldsa = client_offers_signature_scheme(ssl, 0x09, 0x05);
 
     const char *label = NULL;
     X509 *cert = NULL;

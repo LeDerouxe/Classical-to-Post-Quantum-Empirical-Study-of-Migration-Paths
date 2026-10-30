@@ -15,6 +15,9 @@ dual-certificate capability gate only. It does not implement or collect the
   [`configs/compatibility/v1/profiles.json`](../../../configs/compatibility/v1/profiles.json).
 - Test keys/certificates must already exist locally under `credentials/`; no
   credential is generated, copied, or committed by this workflow.
+- L trusts only the ECDSA test root. D uses a combined local CA bundle made
+  from both existing test roots; the ignored bundle's SHA-256 is recorded in
+  gate evidence.
 - No power setting is changed.
 
 ## Native dual-certificate gate
@@ -25,6 +28,11 @@ callback inspects the actual peer `signature_algorithms` list through
 `SSL_get_sigalgs`: an offered `mldsa65` scheme selects ML-DSA-65; otherwise an
 offered `ecdsa_secp256r1_sha256` selects ECDSA P-256. No separate
 single-certificate server configuration is used.
+
+The workflow runs the pinned `openssl` executable with the install's pinned
+`LD_LIBRARY_PATH`, records the executable and library versions, and refuses
+the gate unless both report OpenSSL 3.5.9 and the executable resolves `libssl`
+and `libcrypto` from the pinned install.
 
 The client tests are exactly:
 

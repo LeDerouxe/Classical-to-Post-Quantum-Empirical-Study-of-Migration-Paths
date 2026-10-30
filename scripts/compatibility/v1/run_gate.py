@@ -27,6 +27,7 @@ CERT_EC = ROOT / "credentials/ecdsa.cert.pem"
 KEY_EC = ROOT / "credentials/ecdsa.key.pem"
 CERT_MLDSA = ROOT / "credentials/mldsa.cert.pem"
 KEY_MLDSA = ROOT / "credentials/mldsa.key.pem"
+TRUST_BUNDLE = ROOT / "credentials/compat-v1-combined-ca-bundle.pem"
 EXPECTED_REPO_COMMIT = subprocess.run(
     ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True
 ).stdout.strip()
@@ -51,6 +52,62 @@ def cmd(args: list[str], *, timeout: int = 10) -> dict:
                 "stdout": result.stdout.strip(), "stderr": result.stderr.strip()}
     except (OSError, subprocess.TimeoutExpired) as exc:
         return {"argv": args, "returncode": None, "stdout": "", "stderr": str(exc)}
+
+
+def pinned_environment() -> dict[str, str]:
+    env = os.environ.copy()
+    env["LD_LIBRARY_PATH"] = str(INSTALL / "lib") + (":" + env["LD_LIBRARY_PATH"] if env.get("LD_LIBRARY_PATH") else "")
+    env["OPENSSL_CONF"] = str(ROOT / "configs/openssl/feasibility-openssl.cnf")
+    return env
+
+
+def capture_openssl_identity() -> dict:
+    executable = INSTALL / "bin/openssl"
+    env = pinned_environment()
+    executable_version = subprocess.run([str(executable), "version", "-v"], cwd=ROOT,
+                                        env=env, capture_output=True, text=True)
+    library_detail = subprocess.run([str(executable), "version", "-a"], cwd=ROOT,
+                                    env=env, capture_output=True, text=True)
+    linked = subprocess.run(["ldd", str(executable)], cwd=ROOT, env=env,
+                            capture_output=True, text=True)
+    executable_text = executable_version.stdout.strip()
+    library_text = next((line.strip() for line in library_detail.stdout.splitlines()
+                         if "Library: OpenSSL " in line), "")
+    executable_ok = bool(re.search(r"^OpenSSL 3\.5\.9(?:\s|$)", executable_text))
+    library_ok = bool(re.search(r"Library: OpenSSL 3\.5\.9(?:\s|$)", library_text))
+    linked_paths = re.findall(r"=>\s+(\S+)", linked.stdout)
+    expected_libdir = str(INSTALL / "lib") + "/"
+    ssl_crypto_paths = {Path(path).name.split(".so", 1)[0]: path for path in linked_paths
+                        if Path(path).name.startswith(("libssl.so", "libcrypto.so"))}
+    linked_pinned = (set(ssl_crypto_paths) == {"libssl", "libcrypto"} and
+                     all(path.startswith(expected_libdir) for path in ssl_crypto_paths.values()))
+    return {
+        "executable_path": str(executable),
+        "executable_version": {"returncode": executable_version.returncode,
+                               "stdout": executable_text, "stderr": executable_version.stderr.strip()},
+        "library_version": {"returncode": library_detail.returncode,
+                            "reported_line": library_text, "stderr": library_detail.stderr.strip()},
+        "ldd": {"returncode": linked.returncode, "stdout": linked.stdout.strip(),
+                "stderr": linked.stderr.strip()},
+        "executable_is_3_5_9": executable_ok,
+        "library_is_3_5_9": library_ok,
+        "ssl_crypto_linkage_is_pinned": linked.returncode == 0 and linked_pinned,
+        "identity_guard_passed": executable_ok and library_ok and linked.returncode == 0 and linked_pinned,
+    }
+
+
+def ensure_combined_trust_bundle() -> str:
+    contents = CERT_EC.read_bytes().rstrip() + b"\n" + CERT_MLDSA.read_bytes().rstrip() + b"\n"
+    try:
+        with TRUST_BUNDLE.open("xb") as stream:
+            stream.write(contents)
+    except FileExistsError:
+        if TRUST_BUNDLE.read_bytes() != contents:
+            raise RuntimeError("existing ignored combined trust bundle differs from local roots")
+    ignored = subprocess.run(["git", "check-ignore", "-q", str(TRUST_BUNDLE)], cwd=ROOT).returncode == 0
+    if not ignored:
+        raise RuntimeError("combined trust bundle path is not ignored by Git")
+    return sha256(TRUST_BUNDLE)
 
 
 def read(path: Path) -> str | None:
@@ -149,23 +206,22 @@ def parse_fields(line: str, prefix: str) -> dict[str, str]:
 
 
 def run_one(binary: Path, case_id: str, profile: dict, expected_label: str,
-            timeout_seconds: int = 20) -> dict:
+            trust_bundle_sha256: str, timeout_seconds: int = 20) -> dict:
     # A kernel-assigned free loopback port, then a one-accept server in a fresh process.
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
         probe.bind(("127.0.0.1", 0))
         port = probe.getsockname()[1]
     server_argv = [str(binary), "server", str(port), str(CERT_EC), str(KEY_EC),
                    str(CERT_MLDSA), str(KEY_MLDSA)]
+    trust_path = CERT_EC if case_id == "L" else TRUST_BUNDLE
     client_argv = [str(binary), "client", str(port), profile["groups"],
-                   profile["signature_algorithms"], str(CERT_EC if expected_label == "ECDSA-P-256" else CERT_MLDSA),
+                   profile["signature_algorithms"], str(trust_path),
                    "ecdsa.localhost" if expected_label == "ECDSA-P-256" else "mldsa.localhost"]
     taskset = shutil.which("taskset")
     if taskset:
         server_argv = [taskset, "-c", "4", *server_argv]
         client_argv = [taskset, "-c", "2", *client_argv]
-    env = os.environ.copy()
-    env["LD_LIBRARY_PATH"] = str(INSTALL / "lib") + (":" + env["LD_LIBRARY_PATH"] if env.get("LD_LIBRARY_PATH") else "")
-    env["OPENSSL_CONF"] = str(ROOT / "configs/openssl/feasibility-openssl.cnf")
+    env = pinned_environment()
     started = utc_now()
     server = subprocess.Popen(server_argv, cwd=ROOT, env=env, text=True,
                               stdout=subprocess.PIPE, stderr=subprocess.PIPE, bufsize=1)
@@ -223,6 +279,8 @@ def run_one(binary: Path, case_id: str, profile: dict, expected_label: str,
             "case_id": case_id, "client_profile": case_id,
             "configured_groups": profile["groups"],
             "configured_signature_algorithms": profile["signature_algorithms"],
+            "trust_bundle_path": str(trust_path),
+            "trust_bundle_sha256": sha256(trust_path) if case_id == "D" else sha256(CERT_EC),
             "selected_server_credential_label": actual_label,
             "expected_server_credential_label": expected_label,
             "expected_peer_public_key_type": expected_type,
@@ -257,6 +315,14 @@ def main() -> int:
     evidence_dir.mkdir(parents=True, exist_ok=False)
     base_commit = EXPECTED_REPO_COMMIT
     historical_before = base_manifest(base_commit)
+    identity = capture_openssl_identity()
+    trust_bundle_hash = None
+    bundle_error = None
+    if all(path.is_file() for path in (CERT_EC, CERT_MLDSA)):
+        try:
+            trust_bundle_hash = ensure_combined_trust_bundle()
+        except (OSError, RuntimeError) as exc:
+            bundle_error = str(exc)
     evidence = {
         "schema_version": 1,
         "study": "Follow-up Study A",
@@ -268,24 +334,28 @@ def main() -> int:
         "started_utc": utc_now(),
         "repository": {"path": str(ROOT), "commit_before_gate": base_commit,
                        "branch": cmd(["git", "branch", "--show-current"])["stdout"]},
-        "openssl": {"install_path": str(INSTALL), "version": cmd([str(INSTALL / "bin/openssl"), "version", "-a"]),
+        "openssl": {"install_path": str(INSTALL), "identity": identity,
                     "source_path": str(OPENSSL_SOURCE),
                     "source_commit": cmd(["git", "-C", str(OPENSSL_SOURCE), "rev-parse", "HEAD"])["stdout"]},
         "environment_snapshot": environment_snapshot(),
         "profile_configuration": config,
         "profile_configuration_sha256": sha256(CONFIG_PATH),
         "harness_source_sha256": sha256(SOURCE_PATH),
+        "trust_bundle": {"path": str(TRUST_BUNDLE), "sha256": trust_bundle_hash,
+                         "ignored_by_git": bool(trust_bundle_hash), "creation_error": bundle_error},
         "historical_tracked_files_before_sha256": historical_before,
         "test_results": [],
     }
     failures = []
     if evidence["openssl"]["source_commit"] != EXPECTED_OPENSSL_COMMIT:
         failures.append("pinned OpenSSL source commit mismatch")
-    if evidence["openssl"]["version"].get("returncode") != 0 or "OpenSSL 3.5.9" not in evidence["openssl"]["version"].get("stdout", ""):
-        failures.append("pinned OpenSSL 3.5.9 installation unavailable")
+    if not identity["identity_guard_passed"]:
+        failures.append("pinned OpenSSL executable and library must both be 3.5.9 and link to pinned install")
     for item in (CERT_EC, KEY_EC, CERT_MLDSA, KEY_MLDSA):
         if not item.is_file():
             failures.append(f"required ignored local credential missing: {item.name}")
+    if bundle_error or trust_bundle_hash is None:
+        failures.append(bundle_error or "combined ignored local CA bundle unavailable")
 
     binary = evidence_dir / "tls_compat_gate"
     compiler = shutil.which(os.environ.get("CC", "cc"))
@@ -304,7 +374,8 @@ def main() -> int:
 
     if not failures:
         for case_id, expected_label in (("L", "ECDSA-P-256"), ("D", "ML-DSA-65")):
-            result = run_one(binary, case_id, config["profiles"][case_id], expected_label)
+            result = run_one(binary, case_id, config["profiles"][case_id], expected_label,
+                             trust_bundle_hash)
             evidence["test_results"].append(result)
             if not result.get("success"):
                 failures.append(f"gate test {case_id} failed or selected unexpected credential")
