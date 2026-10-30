@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "protocol": "docs/phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md",
+  "tls_version": "TLSv1.3",
+  "cipher_suites": "TLS_AES_128_GCM_SHA256",
+  "tickets": false,
+  "session_cache": false,
+  "profiles": {
+    "L": {
+      "role": "Legacy",
+      "groups": "x25519",
+      "signature_algorithms": "ecdsa_secp256r1_sha256",
+      "server_credential_capability": ["ECDSA-P-256"]
+    },
+    "H": {
+      "role": "Hybrid-key-establishment transition",
+      "groups": "X25519MLKEM768:x25519",
+      "signature_algorithms": "ecdsa_secp256r1_sha256",
+      "server_credential_capability": ["ECDSA-P-256"]
+    },
+    "D": {
+      "role": "Dual-capable transition",
+      "groups": "X25519MLKEM768:x25519:MLKEM768",
+      "signature_algorithms": "ecdsa_secp256r1_sha256:mldsa65",
+      "server_credential_capability": ["ECDSA-P-256", "ML-DSA-65"]
+    },
+    "Q": {
+      "role": "Strict PQ",
+      "groups": "MLKEM768",
+      "signature_algorithms": "mldsa65",
+      "server_credential_capability": ["ML-DSA-65"]
+    }
+  },
+  "gate": {
+    "server_context": "one native OpenSSL SSL_CTX with SSL_CTX_set_cert_cb",
+    "tests": [
+      {"client_profile": "L", "expected_server_credential": "ECDSA-P-256"},
+      {"client_profile": "D", "expected_server_credential": "ML-DSA-65"}
+    ]
+  }
+}
