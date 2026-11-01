@@ -2,11 +2,14 @@
 
 ## Purpose and status
 
-**Status: approved design; collection has not started.** This functional study
-tests whether defined client and server migration profiles negotiate TLS 1.3,
-what they negotiate, and whether a transition profile retains a classical
-fallback. It is separate from the final Ubuntu performance campaign: it is not
-a latency benchmark and makes no browser, public-PKI, or production claim.
+**Status: completed.** The dual-certificate gate and the 4-by-4 matrix were
+collected as specified. The factual outcome is recorded in
+[PROFILE_COMPATIBILITY_RESULTS.md](PROFILE_COMPATIBILITY_RESULTS.md). This
+functional study tests whether defined client and server migration profiles
+negotiate TLS 1.3, what they negotiate, and whether a transition profile
+retains a classical fallback. It is separate from the final Ubuntu performance
+campaign: it is not a latency benchmark and makes no browser, public-PKI, or
+production claim.
 
 Forced S0-by-S4 pairings would mostly document predictable failures from
 mutually exclusive settings. This profile-based design instead tests plausible

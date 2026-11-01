@@ -5,7 +5,7 @@ may be cited in prose only for one of the claim forms recorded below.  It is
 not a general bibliography and it does not license broader claims.
 
 **Verification date:** 2026-10-22
-**Verifier:** CDX  
+**Verification basis:** primary standards, publisher records, and checked supporting passages.
 **Scope of this first batch:** normative TLS/PQC terminology and standards.
 Empirical findings and related-work sources will be recorded in later batches,
 after their publisher records and supporting passages have been checked.

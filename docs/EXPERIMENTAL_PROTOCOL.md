@@ -81,4 +81,6 @@ answer staged deployment compatibility. The separately scoped profile study
 uses legacy, hybrid-transition, dual-capable-transition, and strict-PQ client
 and server profiles. Its gate, matrix, evidence fields, and interpretation
 limits are in [PROFILE_COMPATIBILITY_PROTOCOL.md](phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md).
+The completed matrix outcome is recorded in
+[PROFILE_COMPATIBILITY_RESULTS.md](phase-4/PROFILE_COMPATIBILITY_RESULTS.md).
 It is functional evidence only, not a performance phase.

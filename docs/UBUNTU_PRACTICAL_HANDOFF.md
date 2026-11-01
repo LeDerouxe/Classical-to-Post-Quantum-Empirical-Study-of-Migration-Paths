@@ -2,7 +2,7 @@
 
 ## Purpose and stopping point
 
-This document is the operational handoff for the Codex session running on the native Ubuntu 26.04.1 LTS installation. It covers **only Phase 0 and Phase 1** of the study.
+This document is the operational handoff for the native Ubuntu 26.04.1 LTS environment. It covers **only Phase 0 and Phase 1** of the study.
 
 Do not begin the pilot, performance benchmark, network emulation, Windows validation, or AMD validation in this handoff. After Phase 1, produce the requested report, commit non-sensitive artifacts, and wait for the researcher to review the findings with the planning session.
 
