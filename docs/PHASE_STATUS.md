@@ -70,6 +70,8 @@ claims about browsers, public PKI, Internet paths, or production deployment.
 
 ## Planned follow-up studies
 
-Controlled network sensitivity and a limited Windows replication remain
-separate planned studies. They have not started and must not be described as
-completed results.
+Windows validation preparation has started, but no Windows OpenSSL build,
+feasibility result, smoke result, or measurement data exists yet. Its protocol
+is [Windows validation protocol](windows-validation/PROTOCOL.md). Controlled
+network sensitivity remains a separate planned study. Neither study may be
+described as a completed result.
