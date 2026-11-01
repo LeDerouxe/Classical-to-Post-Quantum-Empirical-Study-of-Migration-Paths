@@ -18,3 +18,10 @@ This roadmap separates completed evidence from planned work. A later phase does 
 Data collection and factual reporting for Step 3 are complete. Its compact matrix table and initial RQ2 reporting are now in the manuscript. No further Ubuntu collection is required for Step 3.
 
 Steps 4 and 5 require separate protocol review before collection. They are not prerequisites for preserving or reporting the completed Ubuntu loopback results, but they are needed before making cross-platform or controlled-network claims.
+
+## Naming note
+
+The repository path `docs/phase-4/` is a historical storage label for
+Follow-up Study A, the completed migration-profile compatibility study. It is
+not Step 4 of this roadmap. Step 4 is the planned Windows 11 validation and
+has not started.

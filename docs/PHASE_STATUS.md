@@ -53,7 +53,7 @@ checksums are recorded in
 The reproducible primary analysis is recorded in
 [FINAL_UBUNTU_ANALYSIS.md](phase-3/FINAL_UBUNTU_ANALYSIS.md).
 
-## Phase 4 — Migration-profile compatibility
+## Follow-up Study A — Migration-profile compatibility
 
 **Technical status: completed.** The native-OpenSSL dual-certificate gate
 passed before collection. The follow-up matrix then ran every ordered pair of
