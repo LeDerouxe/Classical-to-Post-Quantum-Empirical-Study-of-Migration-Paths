@@ -35,7 +35,7 @@ The final configuration matrix is conditional on successful TLS/OpenSSL feasibil
 docs/       Research protocol, decisions, and citation evidence
 configs/    Versioned OpenSSL, benchmark, and network configurations
 scripts/    Setup, feasibility, benchmark, and analysis automation
-data/       Local experimental data; raw results are ignored by Git
+data/       Versioned non-sensitive experimental records and integrity metadata
 ```
 
 ## Working rules
@@ -46,18 +46,17 @@ data/       Local experimental data; raw results are ignored by Git
 4. Private keys, certificates with personal data, build artifacts, and large raw captures are never committed.
 5. Every reference used in the manuscript must be verified against its primary source or publisher record before it is cited.
 
-## Next milestone
+## Project status
 
-Phase 0 and Phase 1 feasibility work, the diagnostic pilots, and the final
-controlled five-batch Ubuntu loopback campaign have been completed on the
-primary platform. The final campaign contains 600 measured fresh handshakes
-(150 per configuration), 200 retained warm-ups, batch metadata, and immutable
-raw-artifact checksums. Its analysis is documented in
+The final Ubuntu loopback campaign is complete: 600 measured fresh handshakes
+(150 per configuration), 200 retained warm-ups, batch metadata, and raw-file
+checksums. Its analysis is documented in
 `docs/phase-3/FINAL_UBUNTU_ANALYSIS.md`.
 
-The next empirical work is separately planned profile-compatibility testing,
-controlled network sensitivity, and a limited Windows replication on the same
-Intel hardware. These are not yet results and will not be retroactively mixed
-with the primary campaign.
+The migration-profile compatibility follow-up is also complete. Its
+dual-certificate gate and 4-by-4 matrix are documented in
+`docs/phase-4/PROFILE_COMPATIBILITY_RESULTS.md`. Controlled network sensitivity
+and limited Windows replication remain separate planned studies; their results
+will not be mixed retroactively with the primary Ubuntu campaign.
 
-See [the phase status](docs/PHASE_STATUS.md), [the experimental protocol](docs/EXPERIMENTAL_PROTOCOL.md), and [the decision log](docs/DECISIONS.md).
+See [the project roadmap](docs/PROJECT_ROADMAP.md), [the phase status](docs/PHASE_STATUS.md), [the experimental protocol](docs/EXPERIMENTAL_PROTOCOL.md), and [the decision log](docs/DECISIONS.md).

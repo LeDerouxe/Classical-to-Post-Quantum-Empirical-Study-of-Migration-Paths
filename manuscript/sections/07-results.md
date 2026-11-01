@@ -63,3 +63,28 @@ combines the group and authentication/credential changes in one cutover.
 These are case-specific configuration descriptors, not a general migration
 effort score. The study did not measure mixed-version interoperability, PKI
 operations, human labor time, rollback, or production deployment risk.
+
+## 7.6 Migration-profile compatibility
+
+The profile-compatibility follow-up completed its dual-certificate gate before
+running the matrix. The gate confirmed that one native OpenSSL server context
+selected ECDSA P-256 for an L client and ML-DSA-65 for a D client; both records
+completed TLS 1.3 chain and hostname verification.
+
+The subsequent 4-by-4 matrix comprised 48 fresh attempts, or three attempts
+per ordered client/server pair. Thirty-six attempts succeeded and twelve
+failed. All failures were recorded as no-common-group outcomes, before
+certificate verification. The observed success counts were as follows:
+
+| Client \\ Server | L | H | D | Q |
+| --- | ---: | ---: | ---: | ---: |
+| L | 3/3 | 3/3 | 3/3 | 0/3 |
+| H | 3/3 | 3/3 | 3/3 | 0/3 |
+| D | 3/3 | 3/3 | 3/3 | 3/3 |
+| Q | 0/3 | 0/3 | 3/3 | 3/3 |
+
+In this local implementation, D retained an ECDSA-authenticated path with L
+and H and negotiated the ML-DSA-65/MLKEM768 path with Q. This shows that the
+defined D profile can bridge the other evaluated profiles in the pinned
+environment. It does not establish interoperability with browsers, public
+trust stores, arbitrary TLS implementations, or production deployments.

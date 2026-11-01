@@ -53,13 +53,23 @@ checksums are recorded in
 The reproducible primary analysis is recorded in
 [FINAL_UBUNTU_ANALYSIS.md](phase-3/FINAL_UBUNTU_ANALYSIS.md).
 
+## Phase 4 — Migration-profile compatibility
+
+**Technical status: completed.** The native-OpenSSL dual-certificate gate
+passed before collection. The follow-up matrix then ran every ordered pair of
+the L, H, D, and Q profiles three times in a recorded randomized order. It
+contains 48 fresh attempts: 36 completed handshakes and 12 retained failures.
+Every failure was recorded as `NO_COMMON_GROUP`; no matrix attempt was retried.
+
+The protocol is recorded in
+[PROFILE_COMPATIBILITY_PROTOCOL.md](phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md),
+and the factual outcome is recorded in
+[PROFILE_COMPATIBILITY_RESULTS.md](phase-4/PROFILE_COMPATIBILITY_RESULTS.md).
+This is local native-OpenSSL compatibility evidence only. It does not support
+claims about browsers, public PKI, Internet paths, or production deployment.
+
 ## Planned follow-up studies
 
-The approved profile-compatibility design is recorded in
-[PROFILE_COMPATIBILITY_PROTOCOL.md](phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md).
-It includes a mandatory native-OpenSSL dual-certificate selection gate before
-its 4-by-4 profile matrix can run. Collection has not started.
-
 Controlled network sensitivity and a limited Windows replication remain
-planned distinct studies. They have not started and must not be described as
+separate planned studies. They have not started and must not be described as
 completed results.

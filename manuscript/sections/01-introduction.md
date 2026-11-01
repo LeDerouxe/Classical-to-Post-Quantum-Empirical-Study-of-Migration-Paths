@@ -62,7 +62,7 @@ The paper addresses the following research questions:
   in a separately reported cross-operating-system validation on the same
   hardware?
 
-RQ1 is answered by the completed primary campaign.  RQ2--RQ4 are reported only
-after their separately versioned compatibility, network-sensitivity, and
-cross-operating-system studies have been completed; until then, they define
-the study plan rather than empirical findings.
+RQ1 is answered by the completed primary campaign, and RQ2 by the separately
+versioned profile-compatibility study. RQ3 and RQ4 remain study plans until the
+controlled network-sensitivity and cross-operating-system validations are
+completed.

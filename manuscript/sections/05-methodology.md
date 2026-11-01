@@ -94,3 +94,19 @@ signature, certificate/trust material, hostname, harness/build requirements,
 validation procedure, and same-configuration compatibility evidence. Human
 labor time, PKI operations, mixed-version interoperability, rollback, and
 production deployment effects were not measured and are reported as such.
+
+## 5.7 Profile-compatibility follow-up
+
+A separate functional follow-up evaluated four migration profiles: legacy (L),
+hybrid-key-establishment transition (H), dual-capable transition (D), and
+strict PQ (Q). Before matrix collection, a single native OpenSSL server context
+with a certificate-selection callback had to demonstrate distinct ECDSA P-256
+selection for L and ML-DSA-65 selection for D. The gate used fresh local test
+credentials, TLS 1.3, and the same pinned OpenSSL build.
+
+After the gate passed, every ordered client/server profile pair was attempted
+three times in a recorded randomized order, yielding 48 fresh attempts. The
+matrix recorded negotiated parameters, certificate selection, verification
+outcomes, and sanitized failure information; it did not collect performance
+measurements. A successful TCP connection alone was not sufficient: TLS
+completion and certificate-chain and hostname validation were required.
