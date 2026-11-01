@@ -23,11 +23,12 @@ SOURCE_PATH = VERSION_DIR / "tls_compat_gate.c"
 INSTALL = ROOT / "third_party/openssl-3.5.9/install"
 OPENSSL_SOURCE = ROOT / "third_party/openssl-3.5.9/source"
 EXPECTED_OPENSSL_COMMIT = "45e844fa2a14ec92d146bd8f5778ac130b6625fb"
-CERT_EC = ROOT / "credentials/ecdsa.cert.pem"
-KEY_EC = ROOT / "credentials/ecdsa.key.pem"
-CERT_MLDSA = ROOT / "credentials/mldsa.cert.pem"
-KEY_MLDSA = ROOT / "credentials/mldsa.key.pem"
-TRUST_BUNDLE = ROOT / "credentials/compat-v1-combined-ca-bundle.pem"
+COMPAT_CREDENTIALS = ROOT / "credentials/compat-v1"
+CERT_EC = COMPAT_CREDENTIALS / "ecdsa.cert.pem"
+KEY_EC = COMPAT_CREDENTIALS / "ecdsa.key.pem"
+CERT_MLDSA = COMPAT_CREDENTIALS / "mldsa.cert.pem"
+KEY_MLDSA = COMPAT_CREDENTIALS / "mldsa.key.pem"
+TRUST_BUNDLE = COMPAT_CREDENTIALS / "combined-ca-bundle.pem"
 EXPECTED_REPO_COMMIT = subprocess.run(
     ["git", "rev-parse", "HEAD"], cwd=ROOT, capture_output=True, text=True, check=True
 ).stdout.strip()
@@ -108,6 +109,71 @@ def ensure_combined_trust_bundle() -> str:
     if not ignored:
         raise RuntimeError("combined trust bundle path is not ignored by Git")
     return sha256(TRUST_BUNDLE)
+
+
+def inspect_certificate(path: Path, expected_hostname: str,
+                        expected_public_key_type: str, run_time: datetime) -> dict:
+    env = pinned_environment()
+    openssl = str(INSTALL / "bin/openssl")
+    detail = subprocess.run(
+        [openssl, "x509", "-in", str(path), "-noout", "-subject", "-nameopt", "RFC2253",
+         "-dates", "-ext", "subjectAltName"], cwd=ROOT, env=env,
+        capture_output=True, text=True)
+    key_detail = subprocess.run([openssl, "x509", "-in", str(path), "-noout", "-text"],
+                                cwd=ROOT, env=env, capture_output=True, text=True)
+    output = detail.stdout
+    subject_match = re.search(r"^subject=(.*)$", output, re.MULTILINE)
+    before_match = re.search(r"^notBefore=(.*)$", output, re.MULTILINE)
+    after_match = re.search(r"^notAfter=(.*)$", output, re.MULTILINE)
+    key_match = re.search(r"Public Key Algorithm:\s*(.+)", key_detail.stdout)
+    san_match = re.search(r"X509v3 Subject Alternative Name:\s*\n\s*([^\n]+)", output)
+    san_entries = [item.strip() for item in san_match.group(1).split(",")] if san_match else []
+    not_before = not_after = None
+    parse_errors = []
+    for label, match in (("notBefore", before_match), ("notAfter", after_match)):
+        if not match:
+            parse_errors.append(f"missing {label}")
+            continue
+        try:
+            parsed = datetime.strptime(match.group(1).strip(), "%b %d %H:%M:%S %Y GMT").replace(tzinfo=timezone.utc)
+            if label == "notBefore":
+                not_before = parsed
+            else:
+                not_after = parsed
+        except ValueError as exc:
+            parse_errors.append(f"could not parse {label}: {exc}")
+    validity_days = ((not_after - not_before).total_seconds() / 86400
+                     if not_before and not_after else None)
+    hostname_present = f"DNS:{expected_hostname}" in san_entries
+    key_type = key_match.group(1).strip() if key_match else None
+    valid_at_run_time = bool(not_before and not_after and not_before <= run_time <= not_after)
+    checks = {
+        "certificate_readable": detail.returncode == 0 and key_detail.returncode == 0,
+        "hostname_present_in_san": hostname_present,
+        "public_key_type_matches": key_type == expected_public_key_type,
+        "valid_at_run_timestamp": valid_at_run_time,
+        "validity_at_least_365_days": validity_days is not None and validity_days >= 365,
+    }
+    return {
+        "path": str(path),
+        "sha256": sha256(path) if path.is_file() else None,
+        "subject": subject_match.group(1).strip() if subject_match else None,
+        "san_dns_entries": san_entries,
+        "expected_hostname": expected_hostname,
+        "public_key_type": key_type,
+        "expected_public_key_type": expected_public_key_type,
+        "not_before_utc": not_before.isoformat().replace("+00:00", "Z") if not_before else None,
+        "not_after_utc": not_after.isoformat().replace("+00:00", "Z") if not_after else None,
+        "validity_days": validity_days,
+        "validity_evaluated_at_utc": run_time.isoformat(timespec="milliseconds").replace("+00:00", "Z"),
+        "valid_at_run_timestamp": valid_at_run_time,
+        "checks": checks,
+        "passed": all(checks.values()) and not parse_errors,
+        "parse_errors": parse_errors,
+        "inspection_commands": [detail.args, key_detail.args],
+        "inspection_returncodes": [detail.returncode, key_detail.returncode],
+        "openssl_stderr": "\n".join(x for x in (detail.stderr.strip(), key_detail.stderr.strip()) if x),
+    }
 
 
 def read(path: Path) -> str | None:
@@ -315,6 +381,7 @@ def main() -> int:
     evidence_dir.mkdir(parents=True, exist_ok=False)
     base_commit = EXPECTED_REPO_COMMIT
     historical_before = base_manifest(base_commit)
+    run_time = datetime.now(timezone.utc)
     identity = capture_openssl_identity()
     trust_bundle_hash = None
     bundle_error = None
@@ -323,6 +390,12 @@ def main() -> int:
             trust_bundle_hash = ensure_combined_trust_bundle()
         except (OSError, RuntimeError) as exc:
             bundle_error = str(exc)
+    certificates = {
+        "ecdsa": inspect_certificate(CERT_EC, "ecdsa.localhost", "id-ecPublicKey", run_time)
+        if CERT_EC.is_file() else {"path": str(CERT_EC), "passed": False, "checks": {}, "parse_errors": ["certificate missing"]},
+        "mldsa": inspect_certificate(CERT_MLDSA, "mldsa.localhost", "ML-DSA-65", run_time)
+        if CERT_MLDSA.is_file() else {"path": str(CERT_MLDSA), "passed": False, "checks": {}, "parse_errors": ["certificate missing"]},
+    }
     evidence = {
         "schema_version": 1,
         "study": "Follow-up Study A",
@@ -343,6 +416,7 @@ def main() -> int:
         "harness_source_sha256": sha256(SOURCE_PATH),
         "trust_bundle": {"path": str(TRUST_BUNDLE), "sha256": trust_bundle_hash,
                          "ignored_by_git": bool(trust_bundle_hash), "creation_error": bundle_error},
+        "certificates": certificates,
         "historical_tracked_files_before_sha256": historical_before,
         "test_results": [],
     }
@@ -356,6 +430,9 @@ def main() -> int:
             failures.append(f"required ignored local credential missing: {item.name}")
     if bundle_error or trust_bundle_hash is None:
         failures.append(bundle_error or "combined ignored local CA bundle unavailable")
+    for name, certificate in certificates.items():
+        if not certificate.get("passed"):
+            failures.append(f"{name} compatibility certificate preflight failed")
 
     binary = evidence_dir / "tls_compat_gate"
     compiler = shutil.which(os.environ.get("CC", "cc"))

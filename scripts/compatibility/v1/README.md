@@ -13,11 +13,14 @@ dual-certificate capability gate only. It does not implement or collect the
 - Fresh client/server processes per gate test; tickets and session cache off.
 - All four profile definitions are in
   [`configs/compatibility/v1/profiles.json`](../../../configs/compatibility/v1/profiles.json).
-- Test keys/certificates must already exist locally under `credentials/`; no
-  credential is generated, copied, or committed by this workflow.
+- Compatibility-only test keys/certificates live under the ignored
+  `credentials/compat-v1/` directory; historical credentials remain unused and
+  untouched. The workflow refuses handshakes unless both certificates have
+  the expected public-key type and SAN hostname, are currently valid, and span
+  at least 365 days.
 - L trusts only the ECDSA test root. D uses a combined local CA bundle made
-  from both existing test roots; the ignored bundle's SHA-256 is recorded in
-  gate evidence.
+  from both compatibility-only test roots; the ignored bundle's SHA-256 is
+  recorded in gate evidence.
 - No power setting is changed.
 
 ## Native dual-certificate gate
