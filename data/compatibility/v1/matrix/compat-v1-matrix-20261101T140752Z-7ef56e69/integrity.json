@@ -1,0 +1,11 @@
+{
+  "campaign_id": "compat-v1-matrix-20261101T140752Z-7ef56e69",
+  "files": {
+    "attempts.csv": "1e7272cc286c37b653ed41bd2f49eef215efa04cedbf338176cc4075f685ef7c",
+    "metadata.json": "1a91903b87faeda108e419dc8d970e864a81e1f888b2135344e5df6ba27e1ab7",
+    "outcome-report.md": "1de67c805b24b8603cd52da99572ca8a529808832d0d90599bf0288c76f5d8e5"
+  },
+  "historical_changed_paths": [],
+  "historical_manifest_unchanged": true,
+  "matrix_attempt_count": 48
+}
