@@ -10,7 +10,9 @@ dual-certificate capability gate only. It does not implement or collect the
 - Protocol: [`docs/phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md`](../../../docs/phase-4/PROFILE_COMPATIBILITY_PROTOCOL.md)
 - OpenSSL source: 3.5.9 commit `45e844fa2a14ec92d146bd8f5778ac130b6625fb`
 - TLS: TLS 1.3, `TLS_AES_128_GCM_SHA256`
-- Fresh client/server processes per gate test; tickets and session cache off.
+- Fresh client/server processes per gate test. TLS session tickets are
+  intentionally disabled for this fresh, one-shot compatibility gate, and
+  session resumption is outside its scope; the session cache is also off.
 - All four profile definitions are in
   [`configs/compatibility/v1/profiles.json`](../../../configs/compatibility/v1/profiles.json).
 - Compatibility-only test keys/certificates live under the ignored

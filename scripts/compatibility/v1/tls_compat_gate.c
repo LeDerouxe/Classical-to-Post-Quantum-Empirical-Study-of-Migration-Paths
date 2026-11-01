@@ -7,6 +7,7 @@
 #include <openssl/ssl.h>
 #include <openssl/tls1.h>
 #include <openssl/x509v3.h>
+#include <signal.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -121,6 +122,9 @@ static int run_server(const char *port_text, const char *ecert_path,
         SSL_CTX_set1_sigalgs_list(ctx, SERVER_SIGALGS) != 1) {
         print_errors("configure_single_dual_certificate_context"); goto done;
     }
+    if (SSL_CTX_set_num_tickets(ctx, 0) != 1) {
+        print_errors("disable_tls13_session_tickets"); goto done;
+    }
     SSL_CTX_set_options(ctx, SSL_OP_NO_TICKET);
     SSL_CTX_set_session_cache_mode(ctx, SSL_SESS_CACHE_OFF);
     SSL_CTX_set_cert_cb(ctx, select_certificate, &creds);
@@ -212,6 +216,10 @@ done:
 }
 
 int main(int argc, char **argv) {
+    if (signal(SIGPIPE, SIG_IGN) == SIG_ERR) {
+        perror("signal(SIGPIPE, SIG_IGN)");
+        return 1;
+    }
     if (argc == 7 && strcmp(argv[1], "server") == 0)
         return run_server(argv[2], argv[3], argv[4], argv[5], argv[6]);
     if (argc == 7 && strcmp(argv[1], "client") == 0)
