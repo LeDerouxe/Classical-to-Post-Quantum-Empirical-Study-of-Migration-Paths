@@ -110,3 +110,23 @@ matrix recorded negotiated parameters, certificate selection, verification
 outcomes, and sanitized failure information; it did not collect performance
 measurements. A successful TCP connection alone was not sufficient: TLS
 completion and certificate-chain and hostname validation were required.
+
+## 5.8 Windows direction-validation follow-up
+
+A separate native Windows 11 campaign used the same physical Intel Core
+i5-12450H, OpenSSL source commit, TLS version, cipher suite, four
+configurations, fresh-process handshake design, and five-batch structure. The
+Windows client measured the QueryPerformanceCounter interval around
+`SSL_connect()`. Before collection, the workflow required AC power, the
+explicitly selected `High performance` scheme, valid local credentials, the
+pinned OpenSSL identity, and two active, non-sibling performance-class cores.
+It recorded process affinity, configuration validation, and environment
+snapshots before and after each batch.
+
+The Windows analysis uses the same median, IQR, and 20,000-resample
+batch-aware percentile-bootstrap approach as the Ubuntu latency analysis. Its
+purpose is qualitative: it checks whether the direction of each within-Windows
+S0 contrast agrees with the Ubuntu direction. The two raw datasets are not
+pooled, and no Windows-minus-Ubuntu absolute-time comparison or general
+operating-system effect is estimated. Linux-specific TCP_INFO and `getrusage`
+secondary metrics are not replicated on Windows.

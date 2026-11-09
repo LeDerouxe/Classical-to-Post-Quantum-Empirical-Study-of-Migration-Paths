@@ -68,12 +68,23 @@ and the factual outcome is recorded in
 This is local native-OpenSSL compatibility evidence only. It does not support
 claims about browsers, public PKI, Internet paths, or production deployment.
 
-## Planned follow-up studies
+## Windows cross-platform validation
 
-Windows validation has a completed native OpenSSL build and four-case
-feasibility gate; its result is recorded in
-[Windows feasibility results](windows-validation/FEASIBILITY_RESULTS.md). No
-Windows smoke result, performance campaign, or measurement data exists yet.
-Its protocol is [Windows validation protocol](windows-validation/PROTOCOL.md).
-Controlled network sensitivity remains a separate planned study. Neither study
-may be described as a completed result.
+**Technical status: completed.** The separate Windows 11 campaign used the
+same device, pinned OpenSSL source, four cases, fresh-process structure, and
+five-batch design as the validation protocol, while keeping its observations
+separate from Ubuntu. Its 800 rows, preflight, smoke record, checksums, and
+environment snapshots are recorded in the
+[Windows integrity record](windows-validation/FINAL_CAMPAIGN_INTEGRITY_20261109.md).
+
+The within-Windows analysis is recorded in
+[Final Windows analysis](windows-validation/FINAL_WINDOWS_ANALYSIS.md). The
+qualitative contrast-direction check against Ubuntu is recorded in
+[Ubuntu-Windows direction comparison](windows-validation/UBUNTU_WINDOWS_DIRECTION_COMPARISON.md).
+Neither document pools observations or claims a general operating-system
+effect.
+
+## Planned follow-up study
+
+Controlled network sensitivity remains a separate planned study. It may not
+be described as a completed result.

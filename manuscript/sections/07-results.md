@@ -88,3 +88,25 @@ and H and negotiated the ML-DSA-65/MLKEM768 path with Q. This shows that the
 defined D profile can bridge the other evaluated profiles in the pinned
 environment. It does not establish interoperability with browsers, public
 trust stores, arbitrary TLS implementations, or production deployments.
+
+## 7.7 Windows direction-validation follow-up
+
+The separate Windows campaign completed all five planned batches. It retained
+200 warm-ups and analyzed 600 fresh handshakes, or 150 per configuration. All
+800 rows passed process-return, TLS 1.3, cipher, group, authentication,
+certificate-chain, hostname, and affinity validation. AC power and the `High
+performance` scheme were recorded before and after each batch.
+
+Within Windows, the median `SSL_connect()` durations were 1.439 ms for S0,
+1.783 ms for S2, 2.088 ms for S3, and 1.912 ms for S4. Relative to S0, the
+batch-aware median contrasts were +0.344 ms for S2 (95% CI [+0.294, +0.406]),
++0.649 ms for S3 ([+0.507, +0.788]), and +0.473 ms for S4 ([+0.369,
++0.631]). Each contrast was positive in every one of the five Windows batches.
+
+The same three contrasts were positive in all five Ubuntu batches. Thus, the
+Windows follow-up corroborates the direction of the within-platform S0
+contrasts in this controlled case study. This is not an absolute comparison of
+Windows and Ubuntu latency: the datasets were not pooled, the timing
+implementations differ, and the study does not estimate an operating-system
+effect. Linux-specific communication and resource descriptors were not
+replicated on Windows.
