@@ -70,8 +70,10 @@ claims about browsers, public PKI, Internet paths, or production deployment.
 
 ## Planned follow-up studies
 
-Windows validation preparation has started, but no Windows OpenSSL build,
-feasibility result, smoke result, or measurement data exists yet. Its protocol
-is [Windows validation protocol](windows-validation/PROTOCOL.md). Controlled
-network sensitivity remains a separate planned study. Neither study may be
-described as a completed result.
+Windows validation has a completed native OpenSSL build and four-case
+feasibility gate; its result is recorded in
+[Windows feasibility results](windows-validation/FEASIBILITY_RESULTS.md). No
+Windows smoke result, performance campaign, or measurement data exists yet.
+Its protocol is [Windows validation protocol](windows-validation/PROTOCOL.md).
+Controlled network sensitivity remains a separate planned study. Neither study
+may be described as a completed result.
