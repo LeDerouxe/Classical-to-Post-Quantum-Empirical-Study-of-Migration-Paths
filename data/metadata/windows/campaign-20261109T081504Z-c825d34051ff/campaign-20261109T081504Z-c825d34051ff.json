@@ -1,0 +1,2592 @@
+{
+  "workflow": "windows-final-validation",
+  "campaign_id": "campaign-20261109T081504Z-c825d34051ff",
+  "started_utc": "2026-11-09T08:15:04.712769+00:00",
+  "repository_commit": "16dcb476683a0d4df7dbbac31e2927cdfce9e8a5",
+  "configuration_sha256": "c083ceef3d6a950564d2abc5ad57b07f411e0de0329038d5e508923f45f1aad5",
+  "preflight": {
+    "checks": {
+      "openssl_version": "OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)",
+      "openssl_source_commit": "45e844fa2a14ec92d146bd8f5778ac130b6625fb",
+      "harness_sha256": "bb45dcacbd98ef49d7b16b7bc62fdff2dfe80830f1e0bac4cc3cd30772c46843",
+      "topology_tool_sha256": "a80e736768dcaab0abd06ea31a15a17a74c3ffcaf688865667aaa9a3338fca2a",
+      "credentials": [
+        {
+          "credential": "ecdsa",
+          "certificate": "credentials\\windows-validation\\ecdsa.cert.pem",
+          "certificate_sha256": "9cb678fac0f299da442b37e4d86791397ddca5310a2664077df88fc998d6a6a3",
+          "ok": true,
+          "errors": []
+        },
+        {
+          "credential": "mldsa",
+          "certificate": "credentials\\windows-validation\\mldsa.cert.pem",
+          "certificate_sha256": "f6308a60da603aeb16f76fd28f9a2173d76f8c0526a6448038bf732472b91949",
+          "ok": true,
+          "errors": []
+        }
+      ],
+      "environment_snapshot": {
+        "captured_utc": "2026-11-09T08:15:04.199705+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 93,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 243.90625
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 131.890625
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 121.390625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 86.375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 80.5625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 71.796875
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 22.875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.03125
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 17.59375
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 16.625
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 16.609375
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.015625
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 11.84375
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.703125
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.640625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.265625
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      }
+    },
+    "errors": [],
+    "ready_to_collect": true
+  },
+  "batches": [
+    {
+      "batch_id": "b01",
+      "csv": "data\\raw\\windows\\campaign-20261109T081504Z-c825d34051ff\\campaign-20261109T081504Z-c825d34051ff-b01.csv",
+      "sha256": "29b42bc16256a837660cba3e75e2922343bc7cb5513f8ea0fa9f6564090a71f5",
+      "environment_before": {
+        "captured_utc": "2026-11-09T08:15:04.741408+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 93,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 243.90625
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 131.890625
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 121.484375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 86.375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 80.5625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 71.796875
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 22.875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.03125
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 17.59375
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 16.625
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 16.609375
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.015625
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 11.84375
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.703125
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.640625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.265625
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      },
+      "environment_after": {
+        "captured_utc": "2026-11-09T08:15:11.377448+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 93,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 244.015625
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 131.890625
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 122.59375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 86.375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 80.5625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 71.796875
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 22.875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.03125
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 17.59375
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 16.828125
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 16.609375
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.015625
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 11.84375
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.703125
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.640625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.265625
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      }
+    },
+    {
+      "batch_id": "b02",
+      "csv": "data\\raw\\windows\\campaign-20261109T081504Z-c825d34051ff\\campaign-20261109T081504Z-c825d34051ff-b02.csv",
+      "sha256": "0b2453db92e94c7166f595d290510cd4a441fbc2487fcec67b1b882eb8718705",
+      "environment_before": {
+        "captured_utc": "2026-11-09T08:17:11.664111+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 94,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 248.1875
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 132.046875
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 132.046875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 94.90625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 88.90625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 83.59375
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 24.109375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.046875
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 18.96875
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 17.8125
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 16.9375
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.3125
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 11.921875
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.703125
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.65625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.375
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      },
+      "environment_after": {
+        "captured_utc": "2026-11-09T08:17:18.509985+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 94,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 248.296875
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 133.515625
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 132.046875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 95.03125
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 88.953125
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 83.59375
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 24.234375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.046875
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 19.34375
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 17.828125
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 16.953125
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.3125
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 11.921875
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.703125
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.65625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.375
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      }
+    },
+    {
+      "batch_id": "b03",
+      "csv": "data\\raw\\windows\\campaign-20261109T081504Z-c825d34051ff\\campaign-20261109T081504Z-c825d34051ff-b03.csv",
+      "sha256": "94feb4bc41ad62cf0ea8a2fb13463e5ff0895c68399abecdd45cf090cc4ed2ee",
+      "environment_before": {
+        "captured_utc": "2026-11-09T08:19:18.802987+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 94,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 253.71875
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 156.78125
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 132.234375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 98.34375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 89.609375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 83.609375
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 25.03125
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 23.015625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.0625
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 18.03125
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 17.15625
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.40625
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 11.953125
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.703125
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.65625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.375
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      },
+      "environment_after": {
+        "captured_utc": "2026-11-09T08:19:25.539742+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 94,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 254.203125
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 158.453125
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 132.25
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 98.390625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 89.640625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 83.609375
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 25.15625
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 23.171875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.0625
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 18.03125
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 17.15625
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.4375
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 11.953125
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.703125
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.65625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.375
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      }
+    },
+    {
+      "batch_id": "b04",
+      "csv": "data\\raw\\windows\\campaign-20261109T081504Z-c825d34051ff\\campaign-20261109T081504Z-c825d34051ff-b04.csv",
+      "sha256": "0bd62b311d0681d8e44807a7898c7995c0a1812a19e80ab89dc3aa850c454c67",
+      "environment_before": {
+        "captured_utc": "2026-11-09T08:21:25.821178+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 95,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 256.203125
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 169.328125
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 132.40625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 104.90625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 94.296875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 90.8125
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 25.5625
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 24.53125
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.0625
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 18.1875
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 17.3125
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.609375
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 12.046875
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.734375
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.65625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.4375
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      },
+      "environment_after": {
+        "captured_utc": "2026-11-09T08:21:32.477007+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 95,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 256.265625
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 170.75
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 132.40625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 104.921875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 94.296875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 90.8125
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 25.5625
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 24.53125
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.0625
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 18.1875
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 17.3125
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.609375
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 12.046875
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.734375
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.65625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.4375
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      }
+    },
+    {
+      "batch_id": "b05",
+      "csv": "data\\raw\\windows\\campaign-20261109T081504Z-c825d34051ff\\campaign-20261109T081504Z-c825d34051ff-b05.csv",
+      "sha256": "adf303f824f3683458375144d590c7d2cd62d4186fac811f969e292a62b51814",
+      "environment_before": {
+        "captured_utc": "2026-11-09T08:23:32.770314+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 95,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 262.390625
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 192.265625
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 132.765625
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 107.484375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 94.296875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 91.359375
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 25.921875
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 24.796875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.078125
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 18.453125
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 17.59375
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.890625
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 12.109375
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.75
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.65625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.453125
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      },
+      "environment_after": {
+        "captured_utc": "2026-11-09T08:23:39.437300+00:00",
+        "power": {
+          "ac_line_status": 1,
+          "battery_percent": 96,
+          "battery_flag": 9,
+          "system_status_flag": 0
+        },
+        "active_power_scheme": {
+          "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+          "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+          "name": "High performance"
+        },
+        "selected_affinity": {
+          "efficiency_class": 1,
+          "client": {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "server": {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          "client_mask": 8,
+          "server_mask": 16,
+          "all_rows": [
+            {
+              "id": 256,
+              "group": 0,
+              "logical_processor": 0,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 257,
+              "group": 0,
+              "logical_processor": 1,
+              "core": 0,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 258,
+              "group": 0,
+              "logical_processor": 2,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 259,
+              "group": 0,
+              "logical_processor": 3,
+              "core": 2,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 260,
+              "group": 0,
+              "logical_processor": 4,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 261,
+              "group": 0,
+              "logical_processor": 5,
+              "core": 4,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 262,
+              "group": 0,
+              "logical_processor": 6,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 0,
+              "allocated": 0
+            },
+            {
+              "id": 263,
+              "group": 0,
+              "logical_processor": 7,
+              "core": 6,
+              "efficiency_class": 1,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 264,
+              "group": 0,
+              "logical_processor": 8,
+              "core": 8,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 265,
+              "group": 0,
+              "logical_processor": 9,
+              "core": 9,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 266,
+              "group": 0,
+              "logical_processor": 10,
+              "core": 10,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            },
+            {
+              "id": 267,
+              "group": 0,
+              "logical_processor": 11,
+              "core": 11,
+              "efficiency_class": 0,
+              "parked": 1,
+              "allocated": 0
+            }
+          ]
+        },
+        "top_processes_by_cpu_time": [
+          {
+            "ProcessName": "explorer",
+            "Id": 11260,
+            "CPU": 262.96875
+          },
+          {
+            "ProcessName": "PotPlayerMini64",
+            "Id": 12900,
+            "CPU": 193.640625
+          },
+          {
+            "ProcessName": "CrossDeviceService",
+            "Id": 11640,
+            "CPU": 132.796875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 7224,
+            "CPU": 107.484375
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 12872,
+            "CPU": 94.3125
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 14848,
+            "CPU": 91.375
+          },
+          {
+            "ProcessName": "codex",
+            "Id": 10696,
+            "CPU": 25.921875
+          },
+          {
+            "ProcessName": "audiodg",
+            "Id": 18596,
+            "CPU": 24.796875
+          },
+          {
+            "ProcessName": "ChatGPT",
+            "Id": 10236,
+            "CPU": 22.078125
+          },
+          {
+            "ProcessName": "nvsphelper64",
+            "Id": 12424,
+            "CPU": 18.46875
+          },
+          {
+            "ProcessName": "mintty",
+            "Id": 15800,
+            "CPU": 17.625
+          },
+          {
+            "ProcessName": "XboxService",
+            "Id": 8276,
+            "CPU": 16.90625
+          },
+          {
+            "ProcessName": "NVIDIA Overlay",
+            "Id": 12472,
+            "CPU": 12.109375
+          },
+          {
+            "ProcessName": "MSPCManagerService",
+            "Id": 9996,
+            "CPU": 9.75
+          },
+          {
+            "ProcessName": "SearchHost",
+            "Id": 12308,
+            "CPU": 9.65625
+          },
+          {
+            "ProcessName": "nvcontainer",
+            "Id": 9568,
+            "CPU": 9.453125
+          }
+        ],
+        "os": "Microsoft Windows [Version 10.0.26100.9550]"
+      }
+    }
+  ],
+  "status": "complete",
+  "ended_utc": "2026-11-09T08:23:39.712480+00:00"
+}

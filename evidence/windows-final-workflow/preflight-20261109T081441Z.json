@@ -1,0 +1,262 @@
+{
+  "workflow": "windows-final-validation",
+  "mode": "--preflight-only",
+  "captured_utc": "2026-11-09T08:14:41.834412+00:00",
+  "repository_commit": "16dcb476683a0d4df7dbbac31e2927cdfce9e8a5",
+  "configuration_path": "configs\\windows\\final.json",
+  "configuration_sha256": "c083ceef3d6a950564d2abc5ad57b07f411e0de0329038d5e508923f45f1aad5",
+  "checks": {
+    "openssl_version": "OpenSSL 3.5.9 29 Sep 2026 (Library: OpenSSL 3.5.9 29 Sep 2026)",
+    "openssl_source_commit": "45e844fa2a14ec92d146bd8f5778ac130b6625fb",
+    "harness_sha256": "c5e8745856144876cb8b3dad0f8d9e66342e05451ad004592287544a568b4162",
+    "topology_tool_sha256": "bd0bd5f821058107ac6f412da7f667805ee8748f738e34e1449e406b2435c167",
+    "credentials": [
+      {
+        "credential": "ecdsa",
+        "certificate": "credentials\\windows-validation\\ecdsa.cert.pem",
+        "certificate_sha256": "9cb678fac0f299da442b37e4d86791397ddca5310a2664077df88fc998d6a6a3",
+        "ok": true,
+        "errors": []
+      },
+      {
+        "credential": "mldsa",
+        "certificate": "credentials\\windows-validation\\mldsa.cert.pem",
+        "certificate_sha256": "f6308a60da603aeb16f76fd28f9a2173d76f8c0526a6448038bf732472b91949",
+        "ok": true,
+        "errors": []
+      }
+    ],
+    "environment_snapshot": {
+      "captured_utc": "2026-11-09T08:14:41.376190+00:00",
+      "power": {
+        "ac_line_status": 1,
+        "battery_percent": 93,
+        "battery_flag": 9,
+        "system_status_flag": 0
+      },
+      "active_power_scheme": {
+        "raw": "Power Scheme GUID: 255923b3-4b02-4ce7-b7e5-f3aafae64808  (High performance)",
+        "guid": "255923b3-4b02-4ce7-b7e5-f3aafae64808",
+        "name": "High performance"
+      },
+      "selected_affinity": {
+        "efficiency_class": 1,
+        "client": {
+          "id": 258,
+          "group": 0,
+          "logical_processor": 2,
+          "core": 2,
+          "efficiency_class": 1,
+          "parked": 0,
+          "allocated": 0
+        },
+        "server": {
+          "id": 260,
+          "group": 0,
+          "logical_processor": 4,
+          "core": 4,
+          "efficiency_class": 1,
+          "parked": 0,
+          "allocated": 0
+        },
+        "client_mask": 4,
+        "server_mask": 16,
+        "all_rows": [
+          {
+            "id": 256,
+            "group": 0,
+            "logical_processor": 0,
+            "core": 0,
+            "efficiency_class": 1,
+            "parked": 1,
+            "allocated": 0
+          },
+          {
+            "id": 257,
+            "group": 0,
+            "logical_processor": 1,
+            "core": 0,
+            "efficiency_class": 1,
+            "parked": 1,
+            "allocated": 0
+          },
+          {
+            "id": 258,
+            "group": 0,
+            "logical_processor": 2,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          {
+            "id": 259,
+            "group": 0,
+            "logical_processor": 3,
+            "core": 2,
+            "efficiency_class": 1,
+            "parked": 1,
+            "allocated": 0
+          },
+          {
+            "id": 260,
+            "group": 0,
+            "logical_processor": 4,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          {
+            "id": 261,
+            "group": 0,
+            "logical_processor": 5,
+            "core": 4,
+            "efficiency_class": 1,
+            "parked": 1,
+            "allocated": 0
+          },
+          {
+            "id": 262,
+            "group": 0,
+            "logical_processor": 6,
+            "core": 6,
+            "efficiency_class": 1,
+            "parked": 0,
+            "allocated": 0
+          },
+          {
+            "id": 263,
+            "group": 0,
+            "logical_processor": 7,
+            "core": 6,
+            "efficiency_class": 1,
+            "parked": 1,
+            "allocated": 0
+          },
+          {
+            "id": 264,
+            "group": 0,
+            "logical_processor": 8,
+            "core": 8,
+            "efficiency_class": 0,
+            "parked": 1,
+            "allocated": 0
+          },
+          {
+            "id": 265,
+            "group": 0,
+            "logical_processor": 9,
+            "core": 9,
+            "efficiency_class": 0,
+            "parked": 1,
+            "allocated": 0
+          },
+          {
+            "id": 266,
+            "group": 0,
+            "logical_processor": 10,
+            "core": 10,
+            "efficiency_class": 0,
+            "parked": 1,
+            "allocated": 0
+          },
+          {
+            "id": 267,
+            "group": 0,
+            "logical_processor": 11,
+            "core": 11,
+            "efficiency_class": 0,
+            "parked": 1,
+            "allocated": 0
+          }
+        ]
+      },
+      "top_processes_by_cpu_time": [
+        {
+          "ProcessName": "explorer",
+          "Id": 11260,
+          "CPU": 243.25
+        },
+        {
+          "ProcessName": "CrossDeviceService",
+          "Id": 11640,
+          "CPU": 131.875
+        },
+        {
+          "ProcessName": "PotPlayerMini64",
+          "Id": 12900,
+          "CPU": 118.484375
+        },
+        {
+          "ProcessName": "ChatGPT",
+          "Id": 14848,
+          "CPU": 85.84375
+        },
+        {
+          "ProcessName": "ChatGPT",
+          "Id": 7224,
+          "CPU": 78.125
+        },
+        {
+          "ProcessName": "ChatGPT",
+          "Id": 12872,
+          "CPU": 70.875
+        },
+        {
+          "ProcessName": "codex",
+          "Id": 10696,
+          "CPU": 22.609375
+        },
+        {
+          "ProcessName": "ChatGPT",
+          "Id": 10236,
+          "CPU": 22.03125
+        },
+        {
+          "ProcessName": "nvsphelper64",
+          "Id": 12424,
+          "CPU": 17.5625
+        },
+        {
+          "ProcessName": "mintty",
+          "Id": 15800,
+          "CPU": 16.578125
+        },
+        {
+          "ProcessName": "audiodg",
+          "Id": 18596,
+          "CPU": 16.265625
+        },
+        {
+          "ProcessName": "XboxService",
+          "Id": 8276,
+          "CPU": 16
+        },
+        {
+          "ProcessName": "NVIDIA Overlay",
+          "Id": 12472,
+          "CPU": 11.84375
+        },
+        {
+          "ProcessName": "MSPCManagerService",
+          "Id": 9996,
+          "CPU": 9.6875
+        },
+        {
+          "ProcessName": "SearchHost",
+          "Id": 12308,
+          "CPU": 9.640625
+        },
+        {
+          "ProcessName": "nvcontainer",
+          "Id": 9568,
+          "CPU": 9.265625
+        }
+      ],
+      "os": "Microsoft Windows [Version 10.0.26100.9550]"
+    }
+  },
+  "errors": [],
+  "ready_to_collect": true
+}
