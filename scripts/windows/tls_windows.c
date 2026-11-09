@@ -18,8 +18,28 @@ static void print_errors(const char *where) {
 }
 
 static void usage(const char *name) {
-    fprintf(stderr, "usage: %s server PORT CERT KEY GROUP SIGALG | %s client PORT CA HOST GROUP SIGALG\n", name, name);
+    fprintf(stderr, "usage: %s server PORT CERT KEY GROUP SIGALG [--affinity-mask MASK] | %s client PORT CA HOST GROUP SIGALG [--affinity-mask MASK]\n", name, name);
     exit(2);
+}
+
+static int apply_affinity_if_requested(int argc, char **argv, DWORD_PTR *mask_out) {
+    DWORD_PTR process_mask = 0, system_mask = 0;
+    char *end = NULL;
+    unsigned long long requested = 0;
+    if (argc == 7) {
+        *mask_out = 0;
+        return 1;
+    }
+    if (argc != 9 || strcmp(argv[7], "--affinity-mask") != 0) return 0;
+    requested = _strtoui64(argv[8], &end, 0);
+    if (!end || *end != '\0' || requested == 0 || requested > (unsigned long long)(~(DWORD_PTR)0)) return 0;
+    if (!SetProcessAffinityMask(GetCurrentProcess(), (DWORD_PTR)requested) ||
+        !GetProcessAffinityMask(GetCurrentProcess(), &process_mask, &system_mask) ||
+        process_mask != (DWORD_PTR)requested) {
+        return 0;
+    }
+    *mask_out = process_mask;
+    return 1;
 }
 
 static uint64_t now_ticks(void) {
@@ -83,21 +103,22 @@ static int server_mode(int argc, char **argv) {
     SSL_CTX *ctx = NULL;
     SSL *ssl = NULL;
     const char *version = "", *cipher = "", *group = "", *signature = "";
+    DWORD_PTR affinity_mask = 0;
     int rc = 1;
-    if (argc != 7) usage(argv[0]);
+    if (!apply_affinity_if_requested(argc, argv, &affinity_mask)) usage(argv[0]);
     ctx = new_context(1, argv[5], argv[6]);
     if (!ctx || SSL_CTX_use_certificate_chain_file(ctx, argv[3]) != 1 ||
         SSL_CTX_use_PrivateKey_file(ctx, argv[4], SSL_FILETYPE_PEM) != 1 ||
         SSL_CTX_check_private_key(ctx) != 1) { print_errors("configure_server"); goto done; }
     listener = make_listener((unsigned short)strtoul(argv[2], NULL, 10));
     if (listener == INVALID_SOCKET) { fprintf(stderr, "ERROR\tlisten\t%d\n", WSAGetLastError()); goto done; }
-    printf("READY\tport=%s\n", argv[2]); fflush(stdout);
+    printf("READY\tport=%s\taffinity_mask=0x%llx\n", argv[2], (unsigned long long)affinity_mask); fflush(stdout);
     fd = accept(listener, NULL, NULL);
     if (fd == INVALID_SOCKET) { fprintf(stderr, "ERROR\taccept\t%d\n", WSAGetLastError()); goto done; }
     ssl = SSL_new(ctx);
     if (!ssl || SSL_set_fd(ssl, (int)fd) != 1 || SSL_accept(ssl) != 1) { print_errors("SSL_accept"); goto done; }
     fields(ssl, 1, &version, &cipher, &group, &signature);
-    printf("SERVER_RESULT\ttls_version=%s\tcipher=%s\tgroup=%s\tsignature=%s\n", version, cipher, group, signature);
+    printf("SERVER_RESULT\ttls_version=%s\tcipher=%s\tgroup=%s\tsignature=%s\taffinity_mask=0x%llx\n", version, cipher, group, signature, (unsigned long long)affinity_mask);
     fflush(stdout);
     rc = 0;
 done:
@@ -118,9 +139,10 @@ static int client_mode(int argc, char **argv) {
     EVP_PKEY *key = NULL;
     const char *key_type = "(missing)";
     uint64_t start = 0, stop = 0, freq = frequency();
+    DWORD_PTR affinity_mask = 0;
     int rc = 1, host_ok = 0;
     long verify = X509_V_ERR_UNSPECIFIED;
-    if (argc != 7) usage(argv[0]);
+    if (!apply_affinity_if_requested(argc, argv, &affinity_mask)) usage(argv[0]);
     ctx = new_context(0, argv[5], argv[6]);
     if (!ctx || SSL_CTX_load_verify_locations(ctx, argv[3], NULL) != 1) { print_errors("configure_client"); goto done; }
     SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, NULL);
@@ -146,10 +168,11 @@ static int client_mode(int argc, char **argv) {
     fields(ssl, 0, &version, &cipher, &group, &signature);
     rc = (verify == X509_V_OK && host_ok == 1 && peer && key) ? 0 : 1;
 done:
-    printf("CLIENT_RESULT\tsuccess=%d\ttls_version=%s\tcipher=%s\tgroup=%s\tpeer_public_key_type=%s\tcertificate_verify_signature_scheme=%s\tchain_result=%s\thostname_result=%s\tqpc_start=%llu\tqpc_stop=%llu\tqpc_frequency=%llu\n",
+    printf("CLIENT_RESULT\tsuccess=%d\ttls_version=%s\tcipher=%s\tgroup=%s\tpeer_public_key_type=%s\tcertificate_verify_signature_scheme=%s\tchain_result=%s\thostname_result=%s\tqpc_start=%llu\tqpc_stop=%llu\tqpc_frequency=%llu\taffinity_mask=0x%llx\n",
            rc == 0, version, cipher, group, key_type, signature,
            verify == X509_V_OK ? "PASS" : "FAIL", host_ok == 1 ? "PASS" : "FAIL",
-           (unsigned long long)start, (unsigned long long)stop, (unsigned long long)freq);
+           (unsigned long long)start, (unsigned long long)stop, (unsigned long long)freq,
+           (unsigned long long)affinity_mask);
     fflush(stdout);
     EVP_PKEY_free(key); X509_free(peer);
     if (ssl) SSL_free(ssl);

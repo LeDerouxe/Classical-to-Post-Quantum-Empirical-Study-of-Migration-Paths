@@ -8,7 +8,11 @@
 *.md text eol=lf
 *.txt text eol=lf
 *.cnf text eol=lf
+*.json text eol=lf
 
 # Preserve raw measurement bytes so the recorded SHA-256 survives Windows checkouts.
 data/raw/pilot/*.csv -text
 data/raw/final/**/*.csv -text
+data/raw/windows/**/*.csv -text
+data/metadata/**/*.json -text
+evidence/**/*.json -text
