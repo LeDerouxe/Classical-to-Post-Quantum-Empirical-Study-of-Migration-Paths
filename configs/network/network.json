@@ -1,0 +1,32 @@
+{
+  "workflow_version": 1,
+  "required_openssl_version": "OpenSSL 3.5.9",
+  "required_openssl_source_commit": "45e844fa2a14ec92d146bd8f5778ac130b6625fb",
+  "client_cpu": 2,
+  "server_cpu": 4,
+  "required_power_profile": "performance",
+  "required_governor": "performance",
+  "required_epp": "performance",
+  "batch_count": 5,
+  "warmups_per_case": 10,
+  "measured_per_case": 30,
+  "idle_seconds_between_batches": 120,
+  "master_seed": 2026111001,
+  "client_namespace": "pqc-tls-client",
+  "server_namespace": "pqc-tls-server",
+  "client_address": "198.18.5.1",
+  "server_address": "198.18.5.2",
+  "conditions": [
+    {"condition_id": "rtt-000ms", "rtt_ms": 0, "one_way_delay": "0ms"},
+    {"condition_id": "rtt-001ms", "rtt_ms": 1, "one_way_delay": "500us"},
+    {"condition_id": "rtt-010ms", "rtt_ms": 10, "one_way_delay": "5ms"},
+    {"condition_id": "rtt-050ms", "rtt_ms": 50, "one_way_delay": "25ms"},
+    {"condition_id": "rtt-100ms", "rtt_ms": 100, "one_way_delay": "50ms"}
+  ],
+  "cases": [
+    {"case_id":"S0", "group":"x25519", "signature":"ecdsa_secp256r1_sha256", "credential":"ecdsa", "hostname":"ecdsa.localhost"},
+    {"case_id":"S2", "group":"X25519MLKEM768", "signature":"ecdsa_secp256r1_sha256", "credential":"ecdsa", "hostname":"ecdsa.localhost"},
+    {"case_id":"S3", "group":"X25519MLKEM768", "signature":"mldsa65", "credential":"mldsa", "hostname":"mldsa.localhost"},
+    {"case_id":"S4", "group":"MLKEM768", "signature":"mldsa65", "credential":"mldsa", "hostname":"mldsa.localhost"}
+  ]
+}

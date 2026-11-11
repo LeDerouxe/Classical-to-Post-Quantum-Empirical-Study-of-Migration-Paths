@@ -61,6 +61,12 @@ integrity and analysis records supersede the minimum repetition guidance above.
 
 Use a controlled native-Linux topology and `tc/netem`. Start with 0% loss and RTT values of 1 ms, 10 ms, 50 ms, and 100 ms. Add 0.1% and 1% loss only after the pilot confirms that the measurement harness is stable. Add bandwidth shaping only if pilot evidence shows it is relevant.
 
+**Implementation status: protocol and guarded workflow prepared; no network
+topology, preflight, smoke test, or campaign has yet been run.** The approved
+workflow adds a 0-ms veth topology control and keeps loss and bandwidth
+shaping out of the delay campaign. See
+[`docs/network-sensitivity/PROTOCOL.md`](network-sensitivity/PROTOCOL.md).
+
 ## Phase 5: validation
 
 - Re-run a selected subset of successful primary experiments on Windows 11 using the same Intel Core i5-12450H.

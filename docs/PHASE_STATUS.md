@@ -86,5 +86,7 @@ effect.
 
 ## Planned follow-up study
 
-Controlled network sensitivity remains a separate planned study. It may not
-be described as a completed result.
+The controlled network-sensitivity protocol and guarded namespace/veth/netem
+workflow are prepared, but no network topology, preflight, smoke test, or
+campaign has been run. It remains a separate planned study and may not be
+described as a completed result.

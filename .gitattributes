@@ -14,5 +14,6 @@
 data/raw/pilot/*.csv -text
 data/raw/final/**/*.csv -text
 data/raw/windows/**/*.csv -text
+data/raw/network/**/*.csv -text
 data/metadata/**/*.json -text
 evidence/**/*.json -text
