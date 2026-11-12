@@ -35,8 +35,8 @@ case ${1:-} in
     exists "$client_ns" && exists "$server_ns" || { echo "topology missing" >&2; exit 1; }
     ip -n "$client_ns" -brief addr show "$client_if"
     ip -n "$server_ns" -brief addr show "$server_if"
-    ip -n "$client_ns" -s qdisc show dev "$client_if"
-    ip -n "$server_ns" -s qdisc show dev "$server_if"
+    ip netns exec "$client_ns" tc -s qdisc show dev "$client_if"
+    ip netns exec "$server_ns" tc -s qdisc show dev "$server_if"
     ;;
   teardown)
     exists "$client_ns" && ip netns del "$client_ns" || true
