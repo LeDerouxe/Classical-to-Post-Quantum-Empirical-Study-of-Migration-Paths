@@ -105,7 +105,12 @@ def qdisc_errors(condition: dict, snapshot: dict[str, list[str]]) -> list[str]:
         netem = next((line for line in lines if "netem" in line), "")
         match = re.search(r"delay\s+([0-9.]+)(us|ms)", netem)
         if not match:
-            failures.append(namespace)
+            # tc omits the delay attribute when a netem qdisc is configured
+            # with a zero delay. Its presence is sufficient for the 0-ms
+            # topology-control condition; every nonzero condition must show
+            # its configured delay explicitly.
+            if not netem or expected_us != 0:
+                failures.append(namespace)
             continue
         actual_us = float(match.group(1)) * (1000 if match.group(2) == "ms" else 1)
         if abs(actual_us - expected_us) > 0.1:
