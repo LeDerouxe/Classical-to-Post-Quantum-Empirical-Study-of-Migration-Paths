@@ -123,7 +123,9 @@ def compile_harness() -> Path:
 def parse_result(text: str, count: int) -> list[str]:
     for line in text.splitlines():
         parts = line.split("\t")
-        if parts and parts[0] == "RESULT" and len(parts) == count:
+        # ``count`` is the number of result values after the literal RESULT
+        # record tag, not the total number of tab-separated fields.
+        if parts and parts[0] == "RESULT" and len(parts) == count + 1:
             return parts[1:]
     raise RuntimeError(f"malformed harness output: {text[-800:]!r}")
 
@@ -137,7 +139,7 @@ def run_one(binary: Path, cfg: dict, case: dict, port: int) -> dict[str, str | i
             raise RuntimeError(f"server readiness failed: {stderr[-800:]}")
         client = command(namespace_command(cfg["client_namespace"], ["taskset", "-c", str(cfg["client_cpu"]), str(binary), "client", cfg["server_address"], str(port), str(credential.with_suffix(".cert.pem")), case["hostname"], case["group"], case["signature"], "TLS_AES_128_GCM_SHA256"]), env=local_env(), timeout=35)
         server_stdout, server_stderr = server.communicate(timeout=35)
-        client_data, server_data = parse_result(client.stdout, 10), parse_result(server_stdout, 5)
+        client_data, server_data = parse_result(client.stdout, 9), parse_result(server_stdout, 5)
         valid = (client.returncode == 0 and server.returncode == 0 and client_data[0] == "1" and server_data[0] == "1" and client_data[1] == "TLSv1.3" and server_data[1] == "TLSv1.3" and client_data[2] == "TLS_AES_128_GCM_SHA256" and server_data[2] == "TLS_AES_128_GCM_SHA256" and client_data[3].lower() == case["group"].lower() and server_data[3].lower() == case["group"].lower() and client_data[4].lower() == case["signature"].lower() and server_data[4].lower() == case["signature"].lower())
         return {"case_id": case["case_id"], "tls_version": client_data[1], "cipher_suite": client_data[2], "requested_group": case["group"], "observed_group": client_data[3], "requested_signature_type": case["signature"], "observed_signature_type": client_data[4], "handshake_success_failure": "success" if valid else "failure", "tcp_connect_ns": client_data[5], "tls_handshake_ns": client_data[6], "handshake_bytes": client_data[7], "packet_count": client_data[8], "client_returncode": client.returncode, "server_returncode": server.returncode, "error_reason": "" if valid else (client.stderr + " " + server_stderr)[-600:]}
     finally:
