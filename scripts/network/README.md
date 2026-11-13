@@ -1,8 +1,8 @@
 # Network-sensitivity workflow
 
 This workflow is intentionally separate from the Ubuntu loopback and Windows
-campaigns. It needs Ubuntu, the pinned local OpenSSL build, existing ignored
-credentials, `iproute2`, and temporary `sudo` authorization.
+campaigns. It needs Ubuntu, the pinned local OpenSSL build, currently valid
+ignored credentials, `iproute2`, and temporary `sudo` authorization.
 
 First create the isolated topology, from the repository root:
 

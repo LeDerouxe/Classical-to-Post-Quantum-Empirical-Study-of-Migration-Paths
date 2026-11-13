@@ -208,6 +208,7 @@ def credential_checks(cfg: dict, env: dict) -> list[dict]:
         cert, key = stem.with_suffix(".cert.pem"), stem.with_suffix(".key.pem")
         item = {"case_id": case["case_id"], "certificate": str(cert.relative_to(ROOT)),
                 "private_key": str(key.relative_to(ROOT)), "certificate_sha256": None,
+                "not_before": None, "not_after": None, "certificate_currently_valid": False,
                 "private_key_permissions_ok": False, "ok": False, "errors": []}
         try:
             if not cert.is_file() or not key.is_file():
@@ -215,7 +216,15 @@ def credential_checks(cfg: dict, env: dict) -> list[dict]:
             if key.stat().st_mode & 0o077:
                 raise RuntimeError("private-key permissions are broader than 0600")
             item["private_key_permissions_ok"] = True
-            run([str(OPENSSL_BIN), "x509", "-in", str(cert), "-noout", "-subject"], env=env)
+            validity = run([str(OPENSSL_BIN), "x509", "-in", str(cert), "-noout",
+                            "-startdate", "-enddate"], env=env).stdout.splitlines()
+            for line in validity:
+                if line.startswith("notBefore="):
+                    item["not_before"] = line.removeprefix("notBefore=")
+                elif line.startswith("notAfter="):
+                    item["not_after"] = line.removeprefix("notAfter=")
+            run([str(OPENSSL_BIN), "x509", "-in", str(cert), "-noout", "-checkend", "0"], env=env)
+            item["certificate_currently_valid"] = True
             run([str(OPENSSL_BIN), "pkey", "-in", str(key), "-check", "-noout"], env=env)
             cert_pub = run([str(OPENSSL_BIN), "x509", "-in", str(cert), "-pubkey", "-noout"], env=env).stdout.strip()
             key_pub = run([str(OPENSSL_BIN), "pkey", "-in", str(key), "-pubout"], env=env).stdout.strip()

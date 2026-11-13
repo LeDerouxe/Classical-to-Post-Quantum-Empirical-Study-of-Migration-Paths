@@ -42,8 +42,8 @@ and batch-aware analysis principle used in the primary Ubuntu campaign.
    and their veth endpoints. It refuses to overwrite pre-existing dedicated
    namespaces.
 2. Preflight confirms the topology, exact addresses, MTU 1500, OpenSSL identity,
-   credentials, CPU/power guards, and root qdisc snapshots. It creates evidence
-   only.
+   current validity of the local credentials, CPU/power guards, and root qdisc
+   snapshots. It creates evidence only.
 3. Smoke performs one fresh handshake per case at `rtt-000ms`, checks the
    requested TLS negotiation and both endpoint TCP_INFO availability, and
    creates evidence only.

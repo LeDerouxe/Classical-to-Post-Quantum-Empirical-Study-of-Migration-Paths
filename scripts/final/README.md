@@ -10,7 +10,7 @@ From the repository root run:
 python3 scripts/final/run_final.py --preflight-only
 ```
 
-Preflight compiles the harness into ignored `build/final/`, checks the pinned OpenSSL 3.5.9 source commit and local shared-library linkage, validates the configured credentials without printing key material, inspects CPU topology and power state, inventories prior campaigns, and records evidence under `evidence/final-workflow/`. It never creates a final raw CSV. It exits nonzero and reports `ready_to_collect: false` if AC, power or platform profile, any governor/EPP, topology, credentials, OpenSSL, or compilation checks fail. It does not change power settings. Existing final campaigns are reported and do not by themselves fail preflight.
+Preflight compiles the harness into ignored `build/final/`, checks the pinned OpenSSL 3.5.9 source commit and local shared-library linkage, validates the configured credentials (including their current X.509 validity) without printing key material, inspects CPU topology and power state, inventories prior campaigns, and records evidence under `evidence/final-workflow/`. It never creates a final raw CSV. It exits nonzero and reports `ready_to_collect: false` if AC, power or platform profile, any governor/EPP, topology, credentials, OpenSSL, or compilation checks fail. It does not change power settings. Existing final campaigns are reported and do not by themselves fail preflight.
 
 ## Smoke test
 
