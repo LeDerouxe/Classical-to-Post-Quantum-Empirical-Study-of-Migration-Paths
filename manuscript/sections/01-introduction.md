@@ -62,7 +62,8 @@ The paper addresses the following research questions:
   in a separately reported cross-operating-system validation on the same
   hardware?
 
-RQ1 is answered by the completed primary campaign, and RQ2 by the separately
-versioned profile-compatibility study. RQ3 and RQ4 remain study plans until the
-controlled network-sensitivity and cross-operating-system validations are
-completed.
+RQ1 is answered by the completed primary campaign, RQ2 by the separately
+versioned profile-compatibility study, RQ3 by the controlled
+network-sensitivity follow-up, and RQ4 by the separately reported Windows
+direction-validation campaign. These evidence streams remain distinct and are
+not pooled.
