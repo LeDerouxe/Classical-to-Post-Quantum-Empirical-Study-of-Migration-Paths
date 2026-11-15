@@ -28,6 +28,12 @@ contrasts from +0.380 to +0.546 ms. The fixed-batch sensitivity intervals also
 excluded zero for all three contrasts. No observation or completed batch was
 removed during analysis.
 
+Supplementary Figure S1 displays the five retained batch medians per
+configuration. It is a batch-level stability view; it does not replace the
+observation-level, batch-aware inference in Figure 1.
+
+![Supplementary Figure S1. Primary Ubuntu batch-level medians.](../figures/figure-s1-primary-batches.svg)
+
 ![Figure 1. TLS handshake latency.](../figures/figure-1-latency.svg)
 
 ## 7.3 Communication overhead
@@ -88,6 +94,11 @@ and H and negotiated the ML-DSA-65/MLKEM768 path with Q. This shows that the
 defined D profile can bridge the other evaluated profiles in the pinned
 environment. It does not establish interoperability with browsers, public
 trust stores, arbitrary TLS implementations, or production deployments.
+
+Supplementary Figure S2 provides the same 4-by-4 outcome matrix as a compact
+visual summary. Each cell reports three retained fresh attempts.
+
+![Supplementary Figure S2. Migration-profile compatibility matrix.](../figures/figure-s2-compatibility-matrix.svg)
 
 ## 7.7 Windows direction-validation follow-up
 

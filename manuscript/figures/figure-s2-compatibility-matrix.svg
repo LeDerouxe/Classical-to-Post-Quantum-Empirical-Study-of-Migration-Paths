@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="580" viewBox="0 0 700 580" role="img" aria-labelledby="title desc">
+<title id="title">Native OpenSSL migration-profile compatibility matrix</title>
+<desc id="desc">Successes out of three fresh attempts for every ordered client and server profile pair. Failures were recorded as no common group.</desc>
+<rect width="100%" height="100%" fill="white"/>
+<style>text{font-family:Arial,sans-serif;fill:#111827}.small{font-size:13px}.label{font-size:16px}.title{font-size:20px;font-weight:600}.cell{stroke:#d1d5db;stroke-width:1}</style>
+<text x="55" y="35" class="title">Migration-profile compatibility</text>
+<text x="55" y="57" class="small">Native OpenSSL 3.5.9; fresh attempts; each cell reports success / 3</text>
+<text x="390" y="100" text-anchor="middle" class="label">Server profile</text>
+<text x="45" y="345" transform="rotate(-90 45 345)" text-anchor="middle" class="label">Client profile</text>
+<text x="232.5" y="119" text-anchor="middle" class="label">L</text>
+<text x="164" y="193.5" text-anchor="end" class="label">L</text>
+<text x="337.5" y="119" text-anchor="middle" class="label">H</text>
+<text x="164" y="298.5" text-anchor="end" class="label">H</text>
+<text x="442.5" y="119" text-anchor="middle" class="label">D</text>
+<text x="164" y="403.5" text-anchor="end" class="label">D</text>
+<text x="547.5" y="119" text-anchor="middle" class="label">Q</text>
+<text x="164" y="508.5" text-anchor="end" class="label">Q</text>
+<rect x="180" y="135" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="232.5" y="183" text-anchor="middle" class="label">3/3</text>
+<text x="232.5" y="209" text-anchor="middle" class="small">TLS success</text>
+<rect x="285" y="135" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="337.5" y="183" text-anchor="middle" class="label">3/3</text>
+<text x="337.5" y="209" text-anchor="middle" class="small">TLS success</text>
+<rect x="390" y="135" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="442.5" y="183" text-anchor="middle" class="label">3/3</text>
+<text x="442.5" y="209" text-anchor="middle" class="small">TLS success</text>
+<rect x="495" y="135" width="105" height="105" fill="#fee2e2" class="cell"/>
+<text x="547.5" y="183" text-anchor="middle" class="label">0/3</text>
+<text x="547.5" y="209" text-anchor="middle" class="small">no common group</text>
+<rect x="180" y="240" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="232.5" y="288" text-anchor="middle" class="label">3/3</text>
+<text x="232.5" y="314" text-anchor="middle" class="small">TLS success</text>
+<rect x="285" y="240" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="337.5" y="288" text-anchor="middle" class="label">3/3</text>
+<text x="337.5" y="314" text-anchor="middle" class="small">TLS success</text>
+<rect x="390" y="240" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="442.5" y="288" text-anchor="middle" class="label">3/3</text>
+<text x="442.5" y="314" text-anchor="middle" class="small">TLS success</text>
+<rect x="495" y="240" width="105" height="105" fill="#fee2e2" class="cell"/>
+<text x="547.5" y="288" text-anchor="middle" class="label">0/3</text>
+<text x="547.5" y="314" text-anchor="middle" class="small">no common group</text>
+<rect x="180" y="345" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="232.5" y="393" text-anchor="middle" class="label">3/3</text>
+<text x="232.5" y="419" text-anchor="middle" class="small">TLS success</text>
+<rect x="285" y="345" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="337.5" y="393" text-anchor="middle" class="label">3/3</text>
+<text x="337.5" y="419" text-anchor="middle" class="small">TLS success</text>
+<rect x="390" y="345" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="442.5" y="393" text-anchor="middle" class="label">3/3</text>
+<text x="442.5" y="419" text-anchor="middle" class="small">TLS success</text>
+<rect x="495" y="345" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="547.5" y="393" text-anchor="middle" class="label">3/3</text>
+<text x="547.5" y="419" text-anchor="middle" class="small">TLS success</text>
+<rect x="180" y="450" width="105" height="105" fill="#fee2e2" class="cell"/>
+<text x="232.5" y="498" text-anchor="middle" class="label">0/3</text>
+<text x="232.5" y="524" text-anchor="middle" class="small">no common group</text>
+<rect x="285" y="450" width="105" height="105" fill="#fee2e2" class="cell"/>
+<text x="337.5" y="498" text-anchor="middle" class="label">0/3</text>
+<text x="337.5" y="524" text-anchor="middle" class="small">no common group</text>
+<rect x="390" y="450" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="442.5" y="498" text-anchor="middle" class="label">3/3</text>
+<text x="442.5" y="524" text-anchor="middle" class="small">TLS success</text>
+<rect x="495" y="450" width="105" height="105" fill="#d1fae5" class="cell"/>
+<text x="547.5" y="498" text-anchor="middle" class="label">3/3</text>
+<text x="547.5" y="524" text-anchor="middle" class="small">TLS success</text>
+<rect x="180" y="560" width="14" height="14" fill="#d1fae5"/><text x="201" y="572" class="small">all three attempts succeeded</text>
+<rect x="421" y="560" width="14" height="14" fill="#fee2e2"/><text x="442" y="572" class="small">all three failures: no common group</text>
+</svg>
