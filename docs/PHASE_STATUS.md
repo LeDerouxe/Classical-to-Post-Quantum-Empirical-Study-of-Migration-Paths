@@ -84,9 +84,18 @@ qualitative contrast-direction check against Ubuntu is recorded in
 Neither document pools observations or claims a general operating-system
 effect.
 
-## Planned follow-up study
+## Controlled network-sensitivity study
 
-The controlled network-sensitivity protocol and guarded namespace/veth/netem
-workflow are prepared, but no network topology, preflight, smoke test, or
-campaign has been run. It remains a separate planned study and may not be
-described as a completed result.
+**Technical status: completed.** One authorized, non-resumed native Ubuntu
+namespace/veth/netem campaign completed with five randomized batches at each
+of the 0, 1, 10, 50, and 100 ms added-RTT conditions. It contains 4,000 rows:
+1,000 retained warm-ups and 3,000 measured fresh handshakes (150 measured
+observations per case and condition). All handshakes succeeded and all
+per-batch environment and qdisc guards passed.
+
+The immutable raw CSVs, batch metadata, and campaign manifest are stored under
+`data/raw/network/` and `data/metadata/network/`. The condition-specific,
+batch-aware analysis is recorded in
+[FINAL_NETWORK_ANALYSIS.md](network-sensitivity/FINAL_NETWORK_ANALYSIS.md).
+It is controlled local-network evidence only and is not pooled with the
+primary loopback or Windows campaigns.

@@ -110,3 +110,32 @@ Windows and Ubuntu latency: the datasets were not pooled, the timing
 implementations differ, and the study does not estimate an operating-system
 effect. Linux-specific communication and resource descriptors were not
 replicated on Windows.
+
+## 7.8 Controlled network-sensitivity follow-up
+
+The separate namespace/veth/netem campaign completed its 25 planned batches:
+five batches at each of 0, 1, 10, 50, and 100 ms added RTT. It retained 1,000
+warm-ups and analyzed 3,000 measured fresh handshakes, or 150 observations per
+case and condition. All 4,000 handshakes succeeded. The OpenSSL, TLS,
+credential-validity, environment, affinity, and qdisc guards passed before and
+after every batch.
+
+Figure 3 reports condition-specific median handshake durations and batch-aware
+95% bootstrap intervals. In the 0-ms topology control, medians were 0.830 ms
+(S0), 0.996 ms (S2), 1.446 ms (S3), and 1.391 ms (S4). At 1 ms added RTT,
+the medians were 1.897, 2.019, 2.812, and 2.707 ms, respectively. The S2--S0
+median contrast remained small at 0.141, 0.195, and 0.127 ms at 10, 50, and
+100 ms RTT. At those same conditions, the S3 and S4 contrasts were close to
+one additional RTT: 10.095/10.014 ms, 50.141/50.061 ms, and 100.081/99.990 ms.
+All S2, S3, and S4 contrasts were positive in every one of the five batches at
+each condition.
+
+![Figure 3. Controlled network-sensitivity follow-up.](../figures/figure-3-network-sensitivity.svg)
+
+The client-side TCP_INFO descriptors provide a narrow implementation-level
+context: median handshake bytes stayed at approximately 996 (S0), 3,260 (S2),
+11,623 (S3), and 11,559 (S4) across RTT conditions. At 10--100 ms RTT, S0
+and S2 used eight and nine packets, respectively, while S3 and S4 used 19.
+This association is descriptive; the study does not identify a causal network
+mechanism or generalize to other TCP stacks, loss/jitter conditions, browsers,
+or Internet paths.

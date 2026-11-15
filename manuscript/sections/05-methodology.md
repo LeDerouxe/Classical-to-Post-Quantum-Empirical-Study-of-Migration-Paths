@@ -130,3 +130,25 @@ S0 contrast agrees with the Ubuntu direction. The two raw datasets are not
 pooled, and no Windows-minus-Ubuntu absolute-time comparison or general
 operating-system effect is estimated. Linux-specific TCP_INFO and `getrusage`
 secondary metrics are not replicated on Windows.
+
+## 5.9 Controlled network-sensitivity follow-up
+
+A separate native Ubuntu follow-up evaluated the four configurations across
+five fixed added-RTT conditions: 0, 1, 10, 50, and 100 ms. Two dedicated
+Linux network namespaces were connected by one veth pair. The workflow applied
+symmetric `tc netem` egress delay to the two endpoints, so the two one-way
+delays summed to the stated RTT. The 0-ms condition is a topology control, not
+a duplicate of the primary loopback experiment.
+
+Each condition used five randomized batches. A batch contained ten retained
+warm-ups and thirty measured fresh handshakes per configuration, for 150
+measured observations per case and condition. Batch order was randomized over
+all 25 condition-batches. The workflow verified the namespace topology,
+qdisc state, local credential validity, OpenSSL identity, AC power, and the
+same client/server affinity and performance guards before and after each batch.
+
+Latency analysis retained all 3,000 measured observations and applied the same
+condition-specific, batch-aware bootstrap approach as the primary Ubuntu
+analysis. No RTT conditions were pooled. The study did not emulate loss,
+bandwidth caps, jitter, congestion, reordering, browsers, public PKI, or an
+Internet path.

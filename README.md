@@ -55,8 +55,9 @@ checksums. Its analysis is documented in
 
 The migration-profile compatibility follow-up is also complete. Its
 dual-certificate gate and 4-by-4 matrix are documented in
-`docs/phase-4/PROFILE_COMPATIBILITY_RESULTS.md`. Controlled network sensitivity
-and limited Windows replication remain separate planned studies; their results
-will not be mixed retroactively with the primary Ubuntu campaign.
+`docs/phase-4/PROFILE_COMPATIBILITY_RESULTS.md`. The separate Windows
+validation and controlled network-sensitivity study are also complete. Their
+results remain separate from, and are not mixed retroactively with, the
+primary Ubuntu loopback campaign.
 
 See [the project roadmap](docs/PROJECT_ROADMAP.md), [the phase status](docs/PHASE_STATUS.md), [the experimental protocol](docs/EXPERIMENTAL_PROTOCOL.md), and [the decision log](docs/DECISIONS.md).
