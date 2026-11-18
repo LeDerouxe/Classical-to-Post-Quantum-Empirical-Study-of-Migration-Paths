@@ -394,3 +394,66 @@ certificate and trust-store policy, target network conditions, application
 traffic, security requirements, and a rollback plan. The contribution of this
 study is the auditable separation of configuration behavior, transition
 compatibility, and network sensitivity, not a universal migration prescription.
+
+## 8 Threats to Validity and Scope
+
+### 8.1 Construct validity
+
+The primary latency endpoint is the client-side monotonic interval around
+`SSL_connect()`. It measures the selected fresh TLS-handshake boundary; it does
+not measure DNS resolution, application-data transfer, session resumption,
+connection teardown, user-visible page load, or end-to-end service latency.
+TCP_INFO bytes and segments likewise describe that handshake boundary. They are
+neither wire-header accounting nor a measure of application traffic.
+Per-process CPU time and peak resident-set size are run-level descriptors, not
+total-system or production-server resource estimates.
+
+The compatibility matrix measures TLS completion together with local
+certificate-chain and hostname verification for four defined native-OpenSSL
+profiles. It does not measure browser behavior, public-PKI validation, external
+trust stores, profile negotiation beyond the matrix, or deployment policy. S4
+is an implementation-supported MLKEM768/ML-DSA-65 configuration in the pinned
+build; it is not represented as an RFC 10024 hybrid group.
+
+### 8.2 Internal validity
+
+The performance campaigns used fresh client and server processes, a fixed TLS
+version and cipher suite, recorded randomized execution orders, explicit CPU
+affinity, and before/after guards for AC power and performance policy. These
+controls reduce, but cannot eliminate, run-to-run variation. Temperature and
+frequency snapshots are not continuous telemetry, and ordinary operating-system
+activity was not eliminated.
+
+All protocol-defined measured observations and completed batches were retained,
+including statistically unusual values. The bootstrap intervals resample the
+five observed batches and describe uncertainty in these campaigns; they are not
+null-hypothesis tests and cannot compensate for unmeasured confounders. The
+final campaigns were not independently repeated in their entirety.
+
+### 8.3 External validity
+
+The primary evidence comes from one native OpenSSL 3.5.9 source build on one
+Intel Core i5-12450H system running Ubuntu 26.04.1. It cannot establish
+behavior for other processors, operating systems, OpenSSL versions, TLS
+libraries, cryptographic providers, algorithm parameter sets, or deployment
+sizes. The separate Windows campaign is a directional validation on the same
+physical hardware, not a second population from which to estimate a platform
+effect.
+
+The network campaign uses two local namespaces connected by one veth pair and
+fixed symmetric `tc netem` delay. It contains no induced loss, jitter,
+bandwidth cap, congestion, reordering, competing traffic, NAT, proxy,
+middlebox, public-Internet route, or browser stack. Its results are therefore
+not a general network model. The locally generated credentials and controlled
+hostnames also do not model public-CA issuance, certificate-transparency
+workflows, certificate-management systems, or real trust-store diversity.
+
+### 8.4 Reproducibility and evidence integrity
+
+Version pinning, raw CSVs, per-batch metadata, environment snapshots,
+checksums, retained warm-ups, recorded execution orders, and analysis scripts
+make the case study auditable and support reproduction. They do not, however,
+guarantee bitwise-identical artifacts or timing-identical results on another
+machine or at another time. The analysis and manuscript audits are designed to
+detect discrepancies between raw artifacts and reported values; they are not a
+substitute for independent replication.
