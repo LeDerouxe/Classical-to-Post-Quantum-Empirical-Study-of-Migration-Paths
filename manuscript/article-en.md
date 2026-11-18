@@ -1,5 +1,80 @@
 # From Classical to Post-Quantum: An Empirical Study of TLS Migration Paths, Performance Overhead, and Compatibility
 
+## 1 Introduction
+
+Transport Layer Security (TLS) 1.3 establishes a secure channel through a
+handshake that negotiates cryptographic parameters, authenticates peers, and
+establishes shared keying material [@TLS9846]. Public-key choices in that
+handshake are therefore a concrete migration surface for post-quantum
+cryptography (PQC). NIST has standardized ML-KEM for key encapsulation
+[@NISTFIPS203] and ML-DSA for digital signatures [@NISTFIPS204]. In parallel,
+RFC 10024 standardizes `X25519MLKEM768` as a hybrid TLS 1.3 key-establishment
+group combining X25519 ECDHE and ML-KEM-768 [@RFC10024].
+
+A TLS transition is consequently more than a substitution of one primitive.
+Key establishment, authentication material, certificate and trust handling,
+negotiation policy, peer capability, and implementation behavior together
+shape a deployed configuration. An empirical study should therefore distinguish
+two related but different questions: how a selected configuration behaves at a
+defined handshake boundary, and what changes and compatibility constraints
+characterize a path between configurations.
+
+Prior work has established the value of measuring PQ-TLS in context. Sikeridis
+*et al.* evaluated latency and throughput implications of post-quantum
+authentication in TLS 1.3 under realistic network conditions
+[@Sikeridis2020]. Sosnowski *et al.* jointly examined post-quantum
+key-agreement and signature choices, including end-to-end latency, transmitted
+volume, and constrained-network conditions [@Sosnowski2023]. Montenegro *et
+al.* provided an OpenSSL/OQS-based framework for comparing classical, hybrid,
+and post-quantum TLS configurations across controlled and scenario-based
+conditions [@Montenegro2026]. The differing implementations and measurement
+designs of these studies make direct comparison of absolute timings
+inappropriate.
+
+This article complements that work with a reproducible, controlled case study
+of four TLS 1.3 configurations in native OpenSSL 3.5.9: a classical
+X25519/ECDSA P-256 baseline (S0); X25519MLKEM768 with ECDSA P-256 (S2);
+X25519MLKEM768 with ML-DSA-65 (S3); and an implementation-supported
+MLKEM768/ML-DSA-65 configuration (S4). The primary campaign runs on native
+Ubuntu 26.04.1 and measures fresh-handshake latency, communication and resource
+descriptors, negotiated parameters, and same-configuration outcomes. Separate
+follow-ups assess local migration-profile compatibility, the direction of
+within-platform contrasts on Windows running on the same hardware, and
+network sensitivity under fixed added RTT. These evidence streams remain
+separate and are not pooled.
+
+The study makes four contributions. First, it provides a version-pinned native
+OpenSSL campaign with randomized batches, retained warm-ups, environment
+guards, immutable raw artifacts, and checksum-verified metadata. Second, it
+reports configuration-level latency contrasts with a batch-aware bootstrap and
+a fixed-batch sensitivity analysis without excluding completed observations.
+Third, it records migration transitions as auditable configuration changes and
+compatibility outcomes, rather than treating a history-dependent migration path
+as an intrinsic cost of a handshake. Fourth, it evaluates the scope of the
+primary finding through separately reported Windows and fixed-delay network
+follow-ups.
+
+The article addresses the following research questions:
+
+- **RQ1:** Within the controlled native Ubuntu/OpenSSL environment, how do the
+  four selected TLS 1.3 configurations differ in fresh-handshake latency,
+  resource descriptors, communication descriptors, and same-configuration
+  handshake outcomes?
+- **RQ2:** What configuration changes and compatibility evidence characterize
+  the direct and staged migration paths from the classical baseline to the
+  evaluated post-quantum configurations?
+- **RQ3:** How do controlled network conditions affect the configuration
+  contrasts observed in this case study?
+- **RQ4:** To what extent do the directions of the primary contrasts replicate
+  in a separately reported cross-operating-system validation on the same
+  hardware?
+
+RQ1 is answered by the primary Ubuntu campaign; RQ2 by the versioned
+profile-compatibility study; RQ3 by the controlled network-sensitivity
+follow-up; and RQ4 by the Windows direction-validation campaign. The remaining
+sections describe the methodology, report the results, interpret their limits
+and practical implications, and document threats to validity.
+
 ## 5 Methodology
 
 ### 5.1 Study design and analytical scope
