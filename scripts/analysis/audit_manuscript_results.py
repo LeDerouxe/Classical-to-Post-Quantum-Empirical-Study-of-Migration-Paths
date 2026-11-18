@@ -15,6 +15,8 @@ import numpy as np
 
 ROOT = Path(__file__).resolve().parents[2]
 RESULTS = ROOT / "manuscript" / "sections" / "07-results.md"
+ARTICLE_EN = ROOT / "manuscript" / "article-en.md"
+ARTICLE_FA = ROOT / "manuscript" / "article-fa.md"
 WINDOWS_ANALYSIS = ROOT / "docs" / "windows-validation" / "FINAL_WINDOWS_ANALYSIS.md"
 REPORT = ROOT / "docs" / "MANUSCRIPT_RESULTS_AUDIT.md"
 PRIMARY_DIR = ROOT / "data" / "raw" / "final" / "campaign-20261020T083014Z-70543371b61f"
@@ -64,6 +66,8 @@ def require(text: str, fragment: str, errors: list[str]) -> None:
 def main() -> None:
     errors: list[str] = []
     results = RESULTS.read_text(encoding="utf-8")
+    article_en = ARTICLE_EN.read_text(encoding="utf-8")
+    article_fa = ARTICLE_FA.read_text(encoding="utf-8")
     windows_analysis = WINDOWS_ANALYSIS.read_text(encoding="utf-8")
 
     primary = measured(load_csvs(PRIMARY_DIR))
@@ -100,6 +104,27 @@ def main() -> None:
     for fragment in ("10.095/10.014 ms", "50.141/50.061 ms", "100.081/99.990 ms"):
         require(results, fragment, errors)
 
+    # The bilingual main drafts deliberately report the same audited results in
+    # tables. These exact fragments make a later transcription error visible
+    # without treating the Persian prose as machine-translatable text.
+    main_table_fragments = (
+        "| S0 | 150 | 0.834 | [0.812, 0.864] | 0.114 | 0.000 | [0.000, 0.000] |",
+        "| S2 | 150 | 0.989 | [0.955, 1.026] | 0.137 | +0.156 | [+0.115, +0.203] |",
+        "| S3 | 150 | 1.436 | [1.337, 1.538] | 0.642 | +0.603 | [+0.501, +0.700] |",
+        "| S4 | 150 | 1.312 | [1.219, 1.460] | 0.663 | +0.478 | [+0.383, +0.621] |",
+        "| S2 | 150 | 1.783 | [1.735, 1.851] | +0.344 | [+0.294, +0.406] |",
+        "| S3 | 150 | 2.088 | [1.955, 2.227] | +0.649 | [+0.507, +0.788] |",
+        "| S4 | 150 | 1.912 | [1.819, 2.055] | +0.473 | [+0.369, +0.631] |",
+        "| 10 ms | 11.021 | 11.162; +0.141 | 21.116; +10.095 | 21.035; +10.014 |",
+        "| 50 ms | 51.118 | 51.313; +0.195 | 101.260; +50.141 | 101.179; +50.061 |",
+        "| 100 ms | 101.224 | 101.351; +0.127 | 201.305; +100.081 | 201.214; +99.990 |",
+    )
+    for fragment in main_table_fragments:
+        require(article_en, fragment, errors)
+        require(article_fa, fragment.replace("; +", "؛ +"), errors)
+    require(article_en, "Thirty-six attempts succeeded and twelve failed.", errors)
+    require(article_fa, "۳۶ تلاش موفق و ۱۲ تلاش ناموفق بودند.", errors)
+
     attempts = load_csvs(MATRIX.parent)
     successes = sum(row["success"].lower() == "true" for row in attempts)
     failures = [row for row in attempts if row["success"].lower() != "true"]
@@ -112,12 +137,13 @@ def main() -> None:
     status = "PASS" if not errors else "FAIL"
     lines = [
         "# Manuscript Results Audit", "",
-        f"**Status: {status}.** This audit was generated from immutable campaign CSVs, the compatibility attempt record, and the current Results section.", "",
+        f"**Status: {status}.** This audit was generated from immutable campaign CSVs, the compatibility attempt record, the current Results section, and both main-draft Results sections.", "",
         "## Checks", "",
         f"- Primary Ubuntu measured rows: {len(primary)}; computed medians: " + ", ".join(f"{case} {primary_medians[case]:.6f} ms" for case in CASES) + ".",
         f"- Windows measured rows: {len(windows)}; computed medians: " + ", ".join(f"{case} {windows_medians[case]:.6f} ms" for case in CASES) + ".",
         f"- Network measured rows: {len(network)}; conditions: " + ", ".join(sorted(network_by_condition)) + "; every non-S0 median contrast was positive in all five observed batches per condition.",
         f"- Compatibility attempts: {len(attempts)}; successes: {successes}; retained failures: {len(failures)}, all `NO_COMMON_GROUP`.",
+        "- English and Persian main-draft result tables contain the audited primary, Windows, network, and compatibility values.",
         "- Required main and supplementary figure assets are present.",
         "",
         "## Result", "",

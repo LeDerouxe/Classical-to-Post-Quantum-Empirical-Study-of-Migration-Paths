@@ -1,4 +1,4 @@
-# Post-Quantum TLS 1.3 Migration: A Controlled Native OpenSSL Study of Configurations, Compatibility, and Network Sensitivity
+# From Classical to Post-Quantum: An Empirical Study of TLS Migration Paths, Performance Overhead, and Compatibility
 
 ## 5 Methodology
 
@@ -166,3 +166,150 @@ same condition-specific, batch-aware bootstrap design as the primary analysis.
 RTT conditions were not pooled. The setup did not emulate packet loss,
 bandwidth limits, jitter, congestion, reordering, browsers, public PKI, or an
 Internet path.
+
+## 6 Results
+
+### 6.1 Primary-campaign integrity and validation
+
+The final Ubuntu campaign completed all five planned batches and produced 800
+rows: 200 recorded warm-ups and 600 measured handshakes. The analysis retained
+all 600 measured observations, comprising 150 observations per configuration.
+All 800 handshakes succeeded. For every record, the observed TLS version was
+TLS 1.3, the cipher suite was `TLS_AES_128_GCM_SHA256`, and the negotiated
+group and CertificateVerify signature scheme matched the requested case. Each
+raw CSV hash matched its recorded batch metadata. The AC, system-profile,
+platform-profile, CPU-governor, energy-performance-preference, and CPU-affinity
+guards also passed at the start and end of every batch.
+
+### 6.2 Primary handshake latency
+
+Table 2 reports client-side `SSL_connect()` duration in the primary Ubuntu
+loopback campaign. S0 had a median of 0.834 ms. The corresponding medians for
+S2, S3, and S4 were 0.989, 1.436, and 1.312 ms. Relative to S0, the
+batch-aware median contrasts were +0.156 ms for S2, +0.603 ms for S3, and
++0.478 ms for S4. All three contrast intervals excluded zero.
+
+| Case | n | Median (ms) | 95% bootstrap interval | IQR (ms) | Contrast versus S0 (ms) | Contrast 95% interval |
+| --- | ---: | ---: | --- | ---: | ---: | --- |
+| S0 | 150 | 0.834 | [0.812, 0.864] | 0.114 | 0.000 | [0.000, 0.000] |
+| S2 | 150 | 0.989 | [0.955, 1.026] | 0.137 | +0.156 | [+0.115, +0.203] |
+| S3 | 150 | 1.436 | [1.337, 1.538] | 0.642 | +0.603 | [+0.501, +0.700] |
+| S4 | 150 | 1.312 | [1.219, 1.460] | 0.663 | +0.478 | [+0.383, +0.621] |
+
+**Table 2.** Primary Ubuntu latency results. Intervals are 20,000-resample,
+batch-aware percentile-bootstrap intervals.
+
+The direction of every non-classical contrast was positive in all five
+retained batches. The observed batch-level contrast ranges were +0.116 to
++0.226 ms for S2, +0.496 to +0.653 ms for S3, and +0.380 to +0.546 ms for S4.
+No measured observation or completed batch was removed from this analysis.
+
+![Figure 1. Primary Ubuntu TLS handshake latency.](figures/figure-1-latency.svg)
+
+### 6.3 Communication and resource descriptors
+
+Table 3 gives the secondary descriptors measured at the defined handshake
+boundary. Median TCP-connect time was 0.045 ms for every case. S2 transmitted
+and received more median handshake payload bytes than S0 while retaining eight
+median TCP segments. S3 and S4 had higher median payload-byte and segment
+counts. CPU-time and RSS fields are reported as per-process descriptors rather
+than system-wide resource estimates.
+
+| Case | Handshake bytes, median | TCP segments, median | Client CPU, median (ms) | Server CPU, median (ms) | Peak RSS per process (KiB) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| S0 | 967 | 8 | 0.696 | 0.409 | 21,916 |
+| S2 | 3,231 | 8 | 0.655 | 0.475 | 21,916 |
+| S3 | 11,595 | 12 | 0.910 | 0.996 | 21,916 |
+| S4 | 11,531 | 12 | 0.819 | 0.891 | 21,916 |
+
+**Table 3.** Primary Ubuntu communication and resource descriptors.
+
+![Figure 2. Primary Ubuntu handshake communication descriptors.](figures/figure-2-communication.svg)
+
+### 6.4 Migration-path compatibility
+
+Within the parameterized harness, the staged transition from S0 to S2 changes
+the group only; S2 to S3 changes authentication and its associated
+credential/trust material and hostname; and S3 to S4 changes the group only.
+The direct S0-to-S4 transition combines the group and authentication/credential
+changes. No source-code or build modification was required between those
+states in the pinned environment.
+
+The compatibility gate verified that one server context selected an ECDSA
+P-256 credential for an L client and an ML-DSA-65 credential for a D client;
+both gate handshakes completed TLS 1.3 chain and hostname verification. The
+subsequent 4-by-4 matrix retained 48 fresh attempts, three per ordered
+client/server pair. Thirty-six attempts succeeded and twelve failed. All
+failures were recorded as `NO_COMMON_GROUP` before certificate verification.
+
+| Client \ Server | L | H | D | Q |
+| --- | ---: | ---: | ---: | ---: |
+| L | 3/3 | 3/3 | 3/3 | 0/3 |
+| H | 3/3 | 3/3 | 3/3 | 0/3 |
+| D | 3/3 | 3/3 | 3/3 | 3/3 |
+| Q | 0/3 | 0/3 | 3/3 | 3/3 |
+
+**Table 4.** Successful attempts per ordered client/server migration-profile
+pair. Each cell contains three retained fresh attempts.
+
+In this local implementation, D completed with every evaluated profile,
+retaining the ECDSA path with L and H and the ML-DSA-65/MLKEM768 path with Q.
+
+![Supplementary Figure S2. Migration-profile compatibility matrix.](figures/figure-s2-compatibility-matrix.svg)
+
+### 6.5 Windows direction-validation follow-up
+
+The separate Windows campaign completed its five planned batches and retained
+600 measured handshakes, again 150 observations per case. All 800 recorded
+rows, including 200 warm-ups, passed process-return, TLS, cipher, group,
+authentication, certificate-chain, hostname, and affinity validation. Table 5
+reports within-Windows results only. Each non-classical configuration had a
+positive median contrast relative to S0 in each of the five Windows batches.
+
+| Case | n | Median (ms) | 95% bootstrap interval | Contrast versus S0 (ms) | Contrast 95% interval |
+| --- | ---: | ---: | --- | ---: | --- |
+| S0 | 150 | 1.439 | [1.411, 1.470] | 0.000 | [0.000, 0.000] |
+| S2 | 150 | 1.783 | [1.735, 1.851] | +0.344 | [+0.294, +0.406] |
+| S3 | 150 | 2.088 | [1.955, 2.227] | +0.649 | [+0.507, +0.788] |
+| S4 | 150 | 1.912 | [1.819, 2.055] | +0.473 | [+0.369, +0.631] |
+
+**Table 5.** Within-Windows latency results. These timings are not pooled with
+the Ubuntu observations.
+
+The three contrasts were also positive in all five Ubuntu batches. Thus, the
+two campaigns agree in the direction of the within-platform S0 contrasts. The
+datasets use distinct timing environments and are reported separately; this
+result does not estimate an absolute Windows-minus-Ubuntu latency difference.
+
+### 6.6 Controlled network-sensitivity follow-up
+
+The separate namespace/veth/netem campaign completed all 25 planned batches:
+five batches at each added-RTT condition. It retained 1,000 warm-ups and
+analyzed 3,000 measured fresh handshakes, or 150 observations per case and
+condition. All 4,000 handshakes succeeded, and the OpenSSL, TLS, credential,
+environment, affinity, and qdisc guards passed before and after every batch.
+
+Table 6 reports condition-specific medians and median contrasts relative to
+S0. Every S2, S3, and S4 contrast was positive in each of the five
+condition-specific batches. At 10, 50, and 100 ms added RTT, the S2 contrast
+remained below 0.2 ms, whereas the S3 and S4 contrasts were close to the stated
+added RTT.
+
+| Added RTT | S0 median (ms) | S2 median; contrast (ms) | S3 median; contrast (ms) | S4 median; contrast (ms) |
+| ---: | ---: | ---: | ---: | ---: |
+| 0 ms | 0.830 | 0.996; +0.166 | 1.446; +0.615 | 1.391; +0.560 |
+| 1 ms | 1.897 | 2.019; +0.123 | 2.812; +0.916 | 2.707; +0.811 |
+| 10 ms | 11.021 | 11.162; +0.141 | 21.116; +10.095 | 21.035; +10.014 |
+| 50 ms | 51.118 | 51.313; +0.195 | 101.260; +50.141 | 101.179; +50.061 |
+| 100 ms | 101.224 | 101.351; +0.127 | 201.305; +100.081 | 201.214; +99.990 |
+
+**Table 6.** Condition-specific network-sensitivity results. Each cell
+summarizes 150 measured observations; conditions are analyzed separately.
+
+![Figure 3. Controlled network-sensitivity follow-up.](figures/figure-3-network-sensitivity.svg)
+
+Across the five conditions, median client-side handshake bytes remained near
+996 (S0), 3,260 (S2), 11,623 (S3), and 11,559 (S4). At 10--100 ms added RTT,
+the corresponding median TCP-segment counts were 8, 9, 19, and 19. These are
+recorded descriptors of the controlled harness, not a causal decomposition of
+the observed latency differences.
