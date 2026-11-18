@@ -313,3 +313,84 @@ Across the five conditions, median client-side handshake bytes remained near
 the corresponding median TCP-segment counts were 8, 9, 19, and 19. These are
 recorded descriptors of the controlled harness, not a causal decomposition of
 the observed latency differences.
+
+## 7 Discussion
+
+### 7.1 Configuration-level interpretation
+
+The primary result is a within-environment ordering, not a general ranking of
+TLS implementations. In the Ubuntu loopback study, every non-classical case
+had a positive median `SSL_connect()` contrast relative to S0 in every retained
+batch. The incremental configuration S2 changed key establishment while
+retaining ECDSA P-256 authentication. The larger measured contrasts occurred
+in S3 and S4, the two configurations using ML-DSA-65 authentication. This
+design does not identify which cryptographic operation, representation, or
+implementation detail produced the differences. It supports only the
+configuration-level contrasts at the defined handshake boundary.
+
+The secondary descriptors give context without providing a causal
+decomposition. Relative to S0, S2 had a higher median handshake byte count but
+the same median TCP-segment count in the loopback campaign. S3 and S4 had both
+higher median byte counts and additional median segments. These observations
+show that the evaluated cases differ in more than one measured field; they do
+not attribute latency to packetization, certificate material, or computation.
+
+### 7.2 Migration-path implications
+
+The staged S0-to-S2-to-S3-to-S4 record separates configuration behavior from
+the work of changing a deployment. The first and final staged transitions
+change the group, whereas the middle transition changes authentication together
+with credential, trust, and hostname material. The direct S0-to-S4 transition
+combines those changes. This record makes the selected transition path
+auditable, but it is not a measure of organizational effort, PKI operations,
+rollback capability, or deployment risk.
+
+The compatibility follow-up adds local functional evidence to that record. In
+the pinned native OpenSSL environment, D completed with all evaluated profiles,
+whereas Q had no common group with L or H. The defined D profile therefore
+bridged the profiles evaluated in this local matrix. That result is useful for
+the specific transition design studied here, not evidence that an analogous
+dual-capable profile will bridge browsers, public trust stores, other TLS
+libraries, or production policy constraints. It also does not prescribe the
+security policy that should govern a temporary dual-capable phase.
+
+### 7.3 Network conditions and practical scale
+
+The controlled network follow-up preserved the direction of the contrasts but
+changed their practical scale. Under fixed symmetric delay, S2 remained close
+to S0 at the higher added-RTT conditions, whereas S3 and S4 had contrasts close
+to one added RTT. The latter pattern co-occurred with higher recorded TCP_INFO
+packet counts for S3 and S4. A plausible implementation-level interpretation
+is that the observed handshake exchange interacts differently with imposed
+delay in those cases. The experiment cannot isolate that mechanism. In
+particular, it did not test loss, jitter, bandwidth limits, congestion,
+reordering, middleboxes, or Internet paths.
+
+The 0-ms namespace condition is a topology control, rather than a replication
+of the primary loopback experiment. The loopback and namespace/veth campaigns
+therefore answer different questions and remain unpooled.
+
+### 7.4 Cross-platform interpretation
+
+The Windows follow-up supports the narrower conclusion that the observed
+within-platform directions were not unique to one operating-system execution
+of this harness on the tested hardware. S2, S3, and S4 again had positive
+contrasts relative to S0 in every Windows batch, with the same ordering of case
+medians as in Ubuntu. Directional agreement is deliberately weaker than an
+operating-system comparison: the timing implementations, transport
+instrumentation, and surrounding runtime environments differed. No absolute
+Windows-minus-Ubuntu latency effect was estimated, and Linux-only TCP_INFO and
+resource descriptors were not replicated on Windows.
+
+### 7.5 Practical reading of the evidence
+
+For this case study, the evidence supports an incremental interpretation of S2
+rather than a claim that all post-quantum configurations have comparable local
+cost. It also shows that, in the selected configurations, the authentication
+change coincides with larger measured contrasts and that those contrasts become
+more consequential under the fixed-delay topology. A deployment decision still
+requires evidence outside this study: the capabilities of real peers,
+certificate and trust-store policy, target network conditions, application
+traffic, security requirements, and a rollback plan. The contribution of this
+study is the auditable separation of configuration behavior, transition
+compatibility, and network sensitivity, not a universal migration prescription.
