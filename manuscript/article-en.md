@@ -457,3 +457,33 @@ guarantee bitwise-identical artifacts or timing-identical results on another
 machine or at another time. The analysis and manuscript audits are designed to
 detect discrepancies between raw artifacts and reported values; they are not a
 substitute for independent replication.
+
+## 9 Conclusion
+
+This work presents a reproducible, controlled TLS 1.3/OpenSSL migration case
+study, not a universal benchmark. In the primary Ubuntu campaign, each selected
+non-classical configuration had a positive fresh-handshake latency contrast
+relative to the X25519/ECDSA P-256 baseline in every retained batch. The
+hybrid-key-establishment/ECDSA configuration had the smallest contrast, whereas
+the ML-DSA-65 configurations had larger contrasts and higher measured
+handshake byte and packet descriptors.
+
+The follow-ups show why a migration decision cannot rest on one local latency
+value. In the local compatibility matrix, the defined dual-capable profile
+bridged the other evaluated profiles, while some strict-profile pairings failed
+before certificate verification because they had no common group. The Windows
+campaign reproduced the direction of the within-platform contrasts without
+estimating an operating-system effect. In the fixed-delay network topology, S3
+and S4 had contrasts close to one added RTT at 10, 50, and 100 ms, whereas S2
+remained close to the baseline.
+
+These findings are bounded to the pinned OpenSSL implementation, four selected
+configurations, local credentials, tested hardware, and controlled transport
+conditions. They neither predict Internet-scale interoperability nor prescribe
+a production migration sequence. The contribution is a traceable method and
+evidence set that separates configuration behavior, transition compatibility,
+and network sensitivity. Future work should independently replicate the
+campaign across TLS stacks and hardware, extend the network model to loss and
+congestion, and evaluate real-peer and public-PKI constraints. Such studies
+would broaden the external validity of this controlled case study and inform
+deployment-specific migration decisions.
