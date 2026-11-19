@@ -75,6 +75,54 @@ follow-up; and RQ4 by the Windows direction-validation campaign. The remaining
 sections describe the methodology, report the results, interpret their limits
 and practical implications, and document threats to validity.
 
+## 2 Background and Related Work
+
+### 2.1 TLS 1.3 migration choices
+
+TLS 1.3 separates the negotiation of public-key key establishment and peer
+authentication from the record-protection cipher suite [@TLS9846]. This
+separation matters for migration experiments. Changing a negotiated
+key-establishment group and changing certificate or signature material are
+distinct interventions, even when both changes occur in one handshake.
+
+FIPS 203 specifies ML-KEM, including the ML-KEM-512, ML-KEM-768, and
+ML-KEM-1024 parameter sets [@NISTFIPS203]. FIPS 204 specifies ML-DSA for
+digital-signature generation and verification [@NISTFIPS204]. For TLS 1.3,
+RFC 10024 standardizes `X25519MLKEM768` as a hybrid group combining X25519
+ECDHE and ML-KEM-768 [@RFC10024]. The MLKEM768 case evaluated here is
+different: it is an implementation-supported configuration of the pinned
+native OpenSSL build and is not labelled a standardized hybrid group.
+
+### 2.2 Empirical PQ-TLS evaluation
+
+Empirical studies have examined different layers of the PQ-TLS problem.
+Sikeridis *et al.* evaluated post-quantum authentication in TLS 1.3, including
+its latency and throughput implications under realistic network conditions
+[@Sikeridis2020]. Their scope shows why authentication should be examined as a
+system-level configuration choice rather than reduced to a signature
+microbenchmark.
+
+Sosnowski *et al.* jointly examined post-quantum key-agreement and signature
+choices, including end-to-end latency, transmitted volume, and constrained
+network conditions [@Sosnowski2023]. Montenegro *et al.* presented an
+OpenSSL/OQS-based framework for comparing classical, hybrid, and post-quantum
+TLS configurations under controlled and scenario-based conditions
+[@Montenegro2026]. Together, these studies motivate measuring both
+compute-adjacent and communication-facing descriptors. They also make direct
+transfer of absolute latency values inappropriate when implementations, hosts,
+credentials, or network designs differ.
+
+### 2.3 Position of this study
+
+This study complements, rather than numerically ranks itself against, prior
+work. It uses a pinned native OpenSSL 3.5.9 build, verifies negotiated
+parameters per observation, distinguishes a hybrid-key-establishment change
+from a post-quantum-authentication change, and records migration paths as
+configuration and compatibility evidence. Its primary conclusions are limited
+to the controlled Ubuntu loopback study, while the Windows and network
+follow-ups are separately reported checks on the direction and scope of the
+observed contrasts.
+
 ## 5 Methodology
 
 ### 5.1 Study design and analytical scope
@@ -562,3 +610,20 @@ campaign across TLS stacks and hardware, extend the network model to loss and
 congestion, and evaluate real-peer and public-PKI constraints. Such studies
 would broaden the external validity of this controlled case study and inform
 deployment-specific migration decisions.
+
+## 10 Data and Code Availability
+
+The analysis code, harnesses, versioned configurations, non-sensitive raw
+campaign CSVs, batch metadata, integrity records, generated figures, and
+manuscript source are maintained in the project repository:
+<https://github.com/LeDerouxe/Classical-to-Post-Quantum-Empirical-Study-of-Migration-Paths>.
+At the time of submission, the repository is private. A read-only snapshot of
+the revision used for submission, including the artifacts needed to reproduce
+the reported analyses, can be provided to an editor or reviewer on request.
+Any public release will be decided by the author in accordance with the target
+venue's data-availability policy.
+
+Private keys, locally generated certificates, machine-local build products,
+and other sensitive or machine-specific artifacts are intentionally excluded.
+The retained raw data and metadata identify the exact campaign, source commit,
+analysis scripts, and SHA-256 integrity values used for the reported results.
