@@ -123,9 +123,9 @@ to the controlled Ubuntu loopback study, while the Windows and network
 follow-ups are separately reported checks on the direction and scope of the
 observed contrasts.
 
-## 5 Methodology
+## 3 Methodology
 
-### 5.1 Study design and analytical scope
+### 3.1 Study design and analytical scope
 
 This work is a controlled empirical case study of selected TLS 1.3
 configurations in native OpenSSL. It treats configuration behavior and
@@ -145,7 +145,7 @@ hardware and local credentials, and the controlled procedures described below.
 It is not intended to estimate universal PQC performance, browser
 interoperability, public-PKI behavior, or production deployment outcomes.
 
-### 5.2 TLS configurations
+### 3.2 TLS configurations
 
 All cases forced TLS 1.3 and `TLS_AES_128_GCM_SHA256`. Session tickets and
 session caches were disabled. Each observation used a fresh client process and
@@ -170,7 +170,7 @@ feasibility handshakes. A handshake was accepted only if the observed TLS
 version, cipher suite, negotiated group, and CertificateVerify signature scheme
 matched the requested configuration.
 
-### 5.3 Primary Ubuntu campaign
+### 3.3 Primary Ubuntu campaign
 
 The primary campaign contained five batches. In each batch, every case had ten
 recorded warm-up handshakes followed by thirty measured fresh handshakes. The
@@ -190,7 +190,7 @@ the workflow retained the raw CSV, metadata, source and configuration identity,
 planned and realized order, environment snapshots, timestamps, and SHA-256
 integrity information.
 
-### 5.4 Measurements
+### 3.4 Measurements
 
 The primary endpoint was the client-side TLS-handshake duration, defined as the
 `CLOCK_MONOTONIC_RAW` interval immediately around `SSL_connect()`. TCP-connect
@@ -206,7 +206,7 @@ and session tickets were disabled. Thus, the communication descriptors cover
 the defined handshake boundary; they exclude close packets and network headers
 and do not estimate external-network transfer time.
 
-### 5.5 Statistical analysis
+### 3.5 Statistical analysis
 
 All protocol-defined measured observations and completed batches were retained,
 including statistically unusual values. Latency is summarized with the median
@@ -223,7 +223,7 @@ campaign uncertainty; they are not null-hypothesis tests. Communication and
 resource fields are secondary descriptors. Neither a measured observation nor
 a completed batch is excluded merely because it appears unusual.
 
-### 5.6 Migration-path and compatibility evidence
+### 3.6 Migration-path and compatibility evidence
 
 Migration was documented with transition descriptors rather than a synthetic
 complexity score. The direct transition is S0-to-S4; the staged transition is
@@ -248,7 +248,7 @@ and sanitized failure information; it did not collect performance data. A TCP
 connection alone was insufficient: a success required TLS completion as well as
 certificate-chain and hostname validation.
 
-### 5.7 Windows direction-validation follow-up
+### 3.7 Windows direction-validation follow-up
 
 A separate native Windows 11 campaign used the same physical Intel Core
 i5-12450H, the same OpenSSL source commit, TLS version, cipher suite, four
@@ -268,7 +268,7 @@ were not pooled, and the design does not estimate a Windows-minus-Ubuntu
 absolute-latency difference or an operating-system effect. Linux-specific
 `TCP_INFO` and `getrusage` descriptors were not replicated on Windows.
 
-### 5.8 Controlled network-sensitivity follow-up
+### 3.8 Controlled network-sensitivity follow-up
 
 A separate native-Ubuntu follow-up evaluated the same four configurations at
 five prespecified added-RTT conditions: 0, 1, 10, 50, and 100 ms. Two dedicated
@@ -290,9 +290,9 @@ RTT conditions were not pooled. The setup did not emulate packet loss,
 bandwidth limits, jitter, congestion, reordering, browsers, public PKI, or an
 Internet path.
 
-## 6 Results
+## 4 Results
 
-### 6.1 Primary-campaign integrity and validation
+### 4.1 Primary-campaign integrity and validation
 
 The final Ubuntu campaign completed all five planned batches and produced 800
 rows: 200 recorded warm-ups and 600 measured handshakes. The analysis retained
@@ -304,7 +304,7 @@ raw CSV hash matched its recorded batch metadata. The AC, system-profile,
 platform-profile, CPU-governor, energy-performance-preference, and CPU-affinity
 guards also passed at the start and end of every batch.
 
-### 6.2 Primary handshake latency
+### 4.2 Primary handshake latency
 
 Table 2 reports client-side `SSL_connect()` duration in the primary Ubuntu
 loopback campaign. S0 had a median of 0.834 ms. The corresponding medians for
@@ -329,7 +329,7 @@ No measured observation or completed batch was removed from this analysis.
 
 ![Figure 1. Primary Ubuntu TLS handshake latency.](figures/figure-1-latency.svg)
 
-### 6.3 Communication and resource descriptors
+### 4.3 Communication and resource descriptors
 
 Table 3 gives the secondary descriptors measured at the defined handshake
 boundary. Median TCP-connect time was 0.045 ms for every case. S2 transmitted
@@ -349,7 +349,7 @@ than system-wide resource estimates.
 
 ![Figure 2. Primary Ubuntu handshake communication descriptors.](figures/figure-2-communication.svg)
 
-### 6.4 Migration-path compatibility
+### 4.4 Migration-path compatibility
 
 Within the parameterized harness, the staged transition from S0 to S2 changes
 the group only; S2 to S3 changes authentication and its associated
@@ -380,7 +380,7 @@ retaining the ECDSA path with L and H and the ML-DSA-65/MLKEM768 path with Q.
 
 ![Supplementary Figure S2. Migration-profile compatibility matrix.](figures/figure-s2-compatibility-matrix.svg)
 
-### 6.5 Windows direction-validation follow-up
+### 4.5 Windows direction-validation follow-up
 
 The separate Windows campaign completed its five planned batches and retained
 600 measured handshakes, again 150 observations per case. All 800 recorded
@@ -404,7 +404,7 @@ two campaigns agree in the direction of the within-platform S0 contrasts. The
 datasets use distinct timing environments and are reported separately; this
 result does not estimate an absolute Windows-minus-Ubuntu latency difference.
 
-### 6.6 Controlled network-sensitivity follow-up
+### 4.6 Controlled network-sensitivity follow-up
 
 The separate namespace/veth/netem campaign completed all 25 planned batches:
 five batches at each added-RTT condition. It retained 1,000 warm-ups and
@@ -437,9 +437,9 @@ the corresponding median TCP-segment counts were 8, 9, 19, and 19. These are
 recorded descriptors of the controlled harness, not a causal decomposition of
 the observed latency differences.
 
-## 7 Discussion
+## 5 Discussion
 
-### 7.1 Configuration-level interpretation
+### 5.1 Configuration-level interpretation
 
 The primary result is a within-environment ordering, not a general ranking of
 TLS implementations. In the Ubuntu loopback study, every non-classical case
@@ -458,7 +458,7 @@ higher median byte counts and additional median segments. These observations
 show that the evaluated cases differ in more than one measured field; they do
 not attribute latency to packetization, certificate material, or computation.
 
-### 7.2 Migration-path implications
+### 5.2 Migration-path implications
 
 The staged S0-to-S2-to-S3-to-S4 record separates configuration behavior from
 the work of changing a deployment. The first and final staged transitions
@@ -477,7 +477,7 @@ dual-capable profile will bridge browsers, public trust stores, other TLS
 libraries, or production policy constraints. It also does not prescribe the
 security policy that should govern a temporary dual-capable phase.
 
-### 7.3 Network conditions and practical scale
+### 5.3 Network conditions and practical scale
 
 The controlled network follow-up preserved the direction of the contrasts but
 changed their practical scale. Under fixed symmetric delay, S2 remained close
@@ -493,7 +493,7 @@ The 0-ms namespace condition is a topology control, rather than a replication
 of the primary loopback experiment. The loopback and namespace/veth campaigns
 therefore answer different questions and remain unpooled.
 
-### 7.4 Cross-platform interpretation
+### 5.4 Cross-platform interpretation
 
 The Windows follow-up supports the narrower conclusion that the observed
 within-platform directions were not unique to one operating-system execution
@@ -505,7 +505,7 @@ instrumentation, and surrounding runtime environments differed. No absolute
 Windows-minus-Ubuntu latency effect was estimated, and Linux-only TCP_INFO and
 resource descriptors were not replicated on Windows.
 
-### 7.5 Practical reading of the evidence
+### 5.5 Practical reading of the evidence
 
 For this case study, the evidence supports an incremental interpretation of S2
 rather than a claim that all post-quantum configurations have comparable local
@@ -518,9 +518,9 @@ traffic, security requirements, and a rollback plan. The contribution of this
 study is the auditable separation of configuration behavior, transition
 compatibility, and network sensitivity, not a universal migration prescription.
 
-## 8 Threats to Validity and Scope
+## 6 Threats to Validity and Scope
 
-### 8.1 Construct validity
+### 6.1 Construct validity
 
 The primary latency endpoint is the client-side monotonic interval around
 `SSL_connect()`. It measures the selected fresh TLS-handshake boundary; it does
@@ -538,7 +538,7 @@ trust stores, profile negotiation beyond the matrix, or deployment policy. S4
 is an implementation-supported MLKEM768/ML-DSA-65 configuration in the pinned
 build; it is not represented as an RFC 10024 hybrid group.
 
-### 8.2 Internal validity
+### 6.2 Internal validity
 
 The performance campaigns used fresh client and server processes, a fixed TLS
 version and cipher suite, recorded randomized execution orders, explicit CPU
@@ -553,7 +553,7 @@ five observed batches and describe uncertainty in these campaigns; they are not
 null-hypothesis tests and cannot compensate for unmeasured confounders. The
 final campaigns were not independently repeated in their entirety.
 
-### 8.3 External validity
+### 6.3 External validity
 
 The primary evidence comes from one native OpenSSL 3.5.9 source build on one
 Intel Core i5-12450H system running Ubuntu 26.04.1. It cannot establish
@@ -571,7 +571,7 @@ not a general network model. The locally generated credentials and controlled
 hostnames also do not model public-CA issuance, certificate-transparency
 workflows, certificate-management systems, or real trust-store diversity.
 
-### 8.4 Reproducibility and evidence integrity
+### 6.4 Reproducibility and evidence integrity
 
 Version pinning, raw CSVs, per-batch metadata, environment snapshots,
 checksums, retained warm-ups, recorded execution orders, and analysis scripts
@@ -581,7 +581,7 @@ machine or at another time. The analysis and manuscript audits are designed to
 detect discrepancies between raw artifacts and reported values; they are not a
 substitute for independent replication.
 
-## 9 Conclusion
+## 7 Conclusion
 
 This work presents a reproducible, controlled TLS 1.3/OpenSSL migration case
 study, not a universal benchmark. In the primary Ubuntu campaign, each selected
@@ -611,7 +611,7 @@ congestion, and evaluate real-peer and public-PKI constraints. Such studies
 would broaden the external validity of this controlled case study and inform
 deployment-specific migration decisions.
 
-## 10 Data and Code Availability
+## 8 Data and Code Availability
 
 The analysis code, harnesses, versioned configurations, non-sensitive raw
 campaign CSVs, batch metadata, integrity records, generated figures, and
@@ -627,3 +627,10 @@ Private keys, locally generated certificates, machine-local build products,
 and other sensitive or machine-specific artifacts are intentionally excluded.
 The retained raw data and metadata identify the exact campaign, source commit,
 analysis scripts, and SHA-256 integrity values used for the reported results.
+
+## References
+
+The authoritative bibliography is maintained in `manuscript/references.bib`.
+Citation keys are rendered in the reference style required by the target venue
+at submission time. The bibliography and each in-text citation are subject to
+the committed claim-level citation evidence matrix and automated citation audit.
