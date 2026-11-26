@@ -1,0 +1,708 @@
+# From Classical to Post-Quantum: An Empirical Study of TLS Migration Paths, Performance Overhead, and Compatibility
+
+Amirreza Rezaee^a,*, Peyman Neamatollahi^a
+
+^a Department of Computer Engineering, Faculty of Electrical and Computer Engineering, Hakim Sabzevari University, Sabzevar, Iran
+
+*Corresponding author: LeDerouxe@gmail.com
+
+## Abstract
+
+Post-quantum migration in Transport Layer Security (TLS) 1.3 can change key
+establishment, authentication material, negotiation policy, and peer
+compatibility. This paper presents a controlled, reproducible case study of
+four native OpenSSL 3.5.9 configurations: an X25519/ECDSA P-256 baseline (S0),
+X25519MLKEM768/ECDSA P-256 (S2), X25519MLKEM768/ML-DSA-65 (S3), and an
+implementation-supported MLKEM768/ML-DSA-65 configuration (S4). The primary
+Ubuntu 26.04.1 experiment on an Intel Core i5-12450H retained 600 fresh TLS
+1.3 handshakes across five randomized batches. Median client-side handshake
+duration was 0.834 ms for S0, 0.989 ms for S2, 1.436 ms for S3, and 1.312 ms
+for S4; every non-classical case had a positive median contrast relative to S0
+in every batch. A separate 4-by-4 migration-profile matrix recorded 36
+successful and 12 no-common-group outcomes in 48 local native-OpenSSL attempts;
+the defined dual-capable profile bridged the other evaluated profiles. A
+separate Windows campaign on the same hardware reproduced the direction of all
+within-platform contrasts without pooling timings. Finally, a 3,000-observation
+namespace/veth/netem follow-up showed that, under fixed added RTT, the S3 and
+S4 contrasts were close to one additional RTT at 10, 50, and 100 ms, whereas
+S2 remained close to S0. These findings are bounded to the pinned
+implementation, hardware, local credentials, and controlled transport
+conditions. They do not establish Internet-scale interoperability, browser
+behavior, production performance, or causal network mechanisms. The
+accompanying raw artifacts, metadata, and analysis scripts make each reported
+result auditable.
+
+**Keywords—** Transport Layer Security; post-quantum cryptography; migration
+paths; performance evaluation; interoperability.
+
+## 1 Introduction
+
+Transport Layer Security (TLS) 1.3 establishes a secure channel through a
+handshake that negotiates cryptographic parameters, authenticates peers, and
+establishes shared keying material [1]. Public-key choices in that
+handshake are therefore a concrete migration surface for post-quantum
+cryptography (PQC). NIST has standardized ML-KEM for key encapsulation
+[2] and ML-DSA for digital signatures [3]. In parallel,
+RFC 10024 standardizes `X25519MLKEM768` as a hybrid TLS 1.3 key-establishment
+group combining X25519 ECDHE and ML-KEM-768 [4].
+
+A TLS transition is consequently more than a substitution of one primitive.
+Key establishment, authentication material, certificate and trust handling,
+negotiation policy, peer capability, and implementation behavior together
+shape a deployed configuration. An empirical study should therefore distinguish
+two related but different questions: how a selected configuration behaves at a
+defined handshake boundary, and what changes and compatibility constraints
+characterize a path between configurations.
+
+Prior work has established the value of measuring PQ-TLS in context. Sikeridis
+*et al.* evaluated latency and throughput implications of post-quantum
+authentication in TLS 1.3 under realistic network conditions
+[5]. Sosnowski *et al.* jointly examined post-quantum
+key-agreement and signature choices, including end-to-end latency, transmitted
+volume, and constrained-network conditions [6]. Montenegro *et
+al.* provided an OpenSSL/OQS-based framework for comparing classical, hybrid,
+and post-quantum TLS configurations across controlled and scenario-based
+conditions [7]. The differing implementations and measurement
+designs of these studies make direct comparison of absolute timings
+inappropriate.
+
+This article complements that work with a reproducible, controlled case study
+of four TLS 1.3 configurations in native OpenSSL 3.5.9: a classical
+X25519/ECDSA P-256 baseline (S0); X25519MLKEM768 with ECDSA P-256 (S2);
+X25519MLKEM768 with ML-DSA-65 (S3); and an implementation-supported
+MLKEM768/ML-DSA-65 configuration (S4). The primary campaign runs on native
+Ubuntu 26.04.1 and measures fresh-handshake latency, communication and resource
+descriptors, negotiated parameters, and same-configuration outcomes. Separate
+follow-ups assess local migration-profile compatibility, the direction of
+within-platform contrasts on Windows running on the same hardware, and
+network sensitivity under fixed added RTT. These evidence streams remain
+separate and are not pooled.
+
+The study makes four contributions. First, it provides a version-pinned native
+OpenSSL campaign with randomized batches, retained warm-ups, environment
+guards, immutable raw artifacts, and checksum-verified metadata. Second, it
+reports configuration-level latency contrasts with a batch-aware bootstrap and
+a fixed-batch sensitivity analysis without excluding completed observations.
+Third, it records migration transitions as auditable configuration changes and
+compatibility outcomes, rather than treating a history-dependent migration path
+as an intrinsic cost of a handshake. Fourth, it evaluates the scope of the
+primary finding through separately reported Windows and fixed-delay network
+follow-ups.
+
+The article addresses the following research questions:
+
+- **RQ1:** Within the controlled native Ubuntu/OpenSSL environment, how do the
+  four selected TLS 1.3 configurations differ in fresh-handshake latency,
+  resource descriptors, communication descriptors, and same-configuration
+  handshake outcomes?
+- **RQ2:** What configuration changes and compatibility evidence characterize
+  the direct and staged migration paths from the classical baseline to the
+  evaluated post-quantum configurations?
+- **RQ3:** How do controlled network conditions affect the configuration
+  contrasts observed in this case study?
+- **RQ4:** To what extent do the directions of the primary contrasts replicate
+  in a separately reported cross-operating-system validation on the same
+  hardware?
+
+RQ1 is answered by the primary Ubuntu campaign; RQ2 by the versioned
+profile-compatibility study; RQ3 by the controlled network-sensitivity
+follow-up; and RQ4 by the Windows direction-validation campaign. The remaining
+sections describe the methodology, report the results, interpret their limits
+and practical implications, and document threats to validity.
+
+## 2 Background and Related Work
+
+### 2.1 TLS 1.3 migration choices
+
+TLS 1.3 separates the negotiation of public-key key establishment and peer
+authentication from the record-protection cipher suite [1]. This
+separation matters for migration experiments. Changing a negotiated
+key-establishment group and changing certificate or signature material are
+distinct interventions, even when both changes occur in one handshake.
+
+FIPS 203 specifies ML-KEM, including the ML-KEM-512, ML-KEM-768, and
+ML-KEM-1024 parameter sets [2]. FIPS 204 specifies ML-DSA for
+digital-signature generation and verification [3]. For TLS 1.3,
+RFC 10024 standardizes `X25519MLKEM768` as a hybrid group combining X25519
+ECDHE and ML-KEM-768 [4]. The MLKEM768 case evaluated here is
+different: it is an implementation-supported configuration of the pinned
+native OpenSSL build and is not labelled a standardized hybrid group.
+
+### 2.2 Empirical PQ-TLS evaluation
+
+Empirical studies have examined different layers of the PQ-TLS problem.
+Sikeridis *et al.* evaluated post-quantum authentication in TLS 1.3, including
+its latency and throughput implications under realistic network conditions
+[5]. Their scope shows why authentication should be examined as a
+system-level configuration choice rather than reduced to a signature
+microbenchmark.
+
+Sosnowski *et al.* jointly examined post-quantum key-agreement and signature
+choices, including end-to-end latency, transmitted volume, and constrained
+network conditions [6]. Montenegro *et al.* presented an
+OpenSSL/OQS-based framework for comparing classical, hybrid, and post-quantum
+TLS configurations under controlled and scenario-based conditions
+[7]. Together, these studies motivate measuring both
+compute-adjacent and communication-facing descriptors. They also make direct
+transfer of absolute latency values inappropriate when implementations, hosts,
+credentials, or network designs differ.
+
+### 2.3 Position of this study
+
+This study complements, rather than numerically ranks itself against, prior
+work. It uses a pinned native OpenSSL 3.5.9 build, verifies negotiated
+parameters per observation, distinguishes a hybrid-key-establishment change
+from a post-quantum-authentication change, and records migration paths as
+configuration and compatibility evidence. Its primary conclusions are limited
+to the controlled Ubuntu loopback study, while the Windows and network
+follow-ups are separately reported checks on the direction and scope of the
+observed contrasts.
+
+## 3 Methodology
+
+### 3.1 Study design and analytical scope
+
+This work is a controlled empirical case study of selected TLS 1.3
+configurations in native OpenSSL. It treats configuration behavior and
+migration-path behavior as distinct analytical objects. Fresh-handshake
+latency, communication descriptors, resource descriptors, and
+same-configuration handshake outcomes are attributed to a configuration.
+Configuration changes and profile compatibility are instead recorded as
+properties of a transition path. This distinction avoids treating the
+history-dependent work of migration as an intrinsic cost of a single
+handshake.
+
+The primary study was performed on native Ubuntu 26.04.1 running on an Intel
+Core i5-12450H. It used OpenSSL 3.5.9 built from source commit
+`45e844fa2a14ec92d146bd8f5778ac130b6625fb`. The scope is intentionally narrow:
+the evidence concerns this pinned TLS 1.3/OpenSSL implementation, the stated
+hardware and local credentials, and the controlled procedures described below.
+It is not intended to estimate universal PQC performance, browser
+interoperability, public-PKI behavior, or production deployment outcomes.
+
+### 3.2 TLS configurations
+
+All cases forced TLS 1.3 and `TLS_AES_128_GCM_SHA256`. Session tickets and
+session caches were disabled. Each observation used a fresh client process and
+a fresh server process configured to accept one connection. The four evaluated
+configurations are listed in Table 1.
+
+| Case | Key-establishment group | Server authentication |
+| --- | --- | --- |
+| S0 | X25519 | ECDSA P-256 |
+| S2 | X25519MLKEM768 | ECDSA P-256 |
+| S3 | X25519MLKEM768 | ML-DSA-65 |
+| S4 | MLKEM768 | ML-DSA-65 |
+
+**Table 1.** Evaluated TLS 1.3 configurations.
+
+`X25519MLKEM768` is the hybrid TLS 1.3 key-establishment group standardized
+by RFC 10024 [4]. In contrast, S4 is described only as an
+implementation-supported MLKEM768/ML-DSA-65 configuration in the pinned
+OpenSSL build; it is neither labelled nor interpreted as a standardized hybrid
+group. Before data collection, every configuration completed three independent
+feasibility handshakes. A handshake was accepted only if the observed TLS
+version, cipher suite, negotiated group, and CertificateVerify signature scheme
+matched the requested configuration.
+
+### 3.3 Primary Ubuntu campaign
+
+The primary campaign contained five batches. In each batch, every case had ten
+recorded warm-up handshakes followed by thirty measured fresh handshakes. The
+warm-ups were retained as execution records but excluded from statistical
+inference. The 120 measured handshakes within each batch were randomized over
+the four cases using a recorded deterministic batch seed. The completed
+campaign consequently comprised 200 warm-ups and 600 measured handshakes, or
+150 measured observations per case.
+
+The client and server were pinned to CPUs 2 and 4, respectively, after
+confirming that they were distinct, non-sibling performance cores. CPU 0 was
+left available to the operating system. The system was connected to AC power;
+the system and platform profiles, CPU governor, and energy-performance
+preference were required to be `performance` at the start and end of each
+batch. A 120-second idle interval separated completed batches. For every batch,
+the workflow retained the raw CSV, metadata, source and configuration identity,
+planned and realized order, environment snapshots, timestamps, and SHA-256
+integrity information.
+
+### 3.4 Measurements
+
+The primary endpoint was the client-side TLS-handshake duration, defined as the
+`CLOCK_MONOTONIC_RAW` interval immediately around `SSL_connect()`. TCP-connect
+duration was recorded separately. Client and server CPU times were per-thread
+`getrusage` user-plus-system deltas over their documented role boundaries, and
+peak resident-set size (RSS) was the `ru_maxrss` value of each fresh process.
+
+Communication descriptors were obtained at successful `SSL_connect()` from
+client-side Linux per-socket `TCP_INFO` counters: transmitted plus received TCP
+payload bytes and observed TCP segments. A separate packet-capture smoke check
+validated those counters for all four cases. No application payload was sent,
+and session tickets were disabled. Thus, the communication descriptors cover
+the defined handshake boundary; they exclude close packets and network headers
+and do not estimate external-network transfer time.
+
+### 3.5 Statistical analysis
+
+All protocol-defined measured observations and completed batches were retained,
+including statistically unusual values. Latency is summarized with the median
+and interquartile range (IQR); mean, standard deviation, coefficient of
+variation, P95, and P99 are reported only as descriptive diagnostics. The main
+95% percentile-bootstrap intervals use 20,000 resamples: batches are resampled
+first, then observations within each selected batch. A fixed-batch sensitivity
+analysis resamples observations while retaining the five observed batch
+memberships.
+
+Configuration contrasts are median(case) minus median(S0), with batch-aware
+bootstrap intervals. With only five observed batches, these intervals describe
+campaign uncertainty; they are not null-hypothesis tests. Communication and
+resource fields are secondary descriptors. Neither a measured observation nor
+a completed batch is excluded merely because it appears unusual.
+
+### 3.6 Migration-path and compatibility evidence
+
+Migration was documented with transition descriptors rather than a synthetic
+complexity score. The direct transition is S0-to-S4; the staged transition is
+S0-to-S2-to-S3-to-S4. For each transition, the record identifies changes to
+the group, signature scheme, certificate and trust material, hostname,
+harness/build requirements, validation procedure, and same-configuration
+handshake evidence. It does not estimate human labor, PKI operations,
+mixed-version interoperability, rollback behavior, or production deployment
+risk.
+
+A separate compatibility follow-up evaluated four profiles: legacy (L),
+hybrid-key-establishment transition (H), dual-capable transition (D), and
+strict PQ (Q). Before collection, a single native-OpenSSL server context with a
+certificate-selection callback had to demonstrate ECDSA P-256 selection for an
+L client and ML-DSA-65 selection for a D client. The gate used fresh local test
+credentials, TLS 1.3, and the same pinned OpenSSL build.
+
+After the gate passed, every ordered client/server profile pair was attempted
+three times in recorded randomized order, giving 48 fresh attempts. The matrix
+retained negotiated parameters, certificate selection, verification outcomes,
+and sanitized failure information; it did not collect performance data. A TCP
+connection alone was insufficient: a success required TLS completion as well as
+certificate-chain and hostname validation.
+
+### 3.7 Windows direction-validation follow-up
+
+A separate native Windows 11 campaign used the same physical Intel Core
+i5-12450H, the same OpenSSL source commit, TLS version, cipher suite, four
+configurations, fresh-process design, and five-batch structure. The Windows
+client measured the `SSL_connect()` interval with QueryPerformanceCounter.
+Before collection, the workflow required AC power, the explicitly selected
+`High performance` scheme, valid local credentials, the pinned OpenSSL
+identity, and two active, non-sibling performance-class cores. It recorded
+process affinity, configuration validation, and environment snapshots before
+and after every batch.
+
+The Windows analysis used the same median, IQR, and 20,000-resample
+batch-aware percentile-bootstrap approach as the primary Ubuntu analysis. Its
+role was qualitative: it tested whether the direction of each within-Windows
+S0 contrast agreed with the Ubuntu direction. The Windows and Ubuntu datasets
+were not pooled, and the design does not estimate a Windows-minus-Ubuntu
+absolute-latency difference or an operating-system effect. Linux-specific
+`TCP_INFO` and `getrusage` descriptors were not replicated on Windows.
+
+### 3.8 Controlled network-sensitivity follow-up
+
+A separate native-Ubuntu follow-up evaluated the same four configurations at
+five prespecified added-RTT conditions: 0, 1, 10, 50, and 100 ms. Two dedicated
+Linux network namespaces were connected by one veth pair. Symmetric `tc netem`
+egress delay was applied at both endpoints, such that the two one-way delays
+summed to the stated RTT. The 0-ms condition is a topology control and not a
+duplicate of the primary loopback experiment.
+
+Each condition had five randomized batches. A batch contained ten retained
+warm-ups and thirty measured fresh handshakes per case, giving 150 measured
+observations per case and condition. All 25 condition-batches were randomized.
+Before and after each batch, the workflow verified the namespace topology,
+qdisc state, local-credential validity, OpenSSL identity, AC power, and the
+same affinity and performance guards used in the primary campaign.
+
+The network analysis retained all 3,000 measured observations and used the
+same condition-specific, batch-aware bootstrap design as the primary analysis.
+RTT conditions were not pooled. The setup did not emulate packet loss,
+bandwidth limits, jitter, congestion, reordering, browsers, public PKI, or an
+Internet path.
+
+## 4 Results
+
+### 4.1 Primary-campaign integrity and validation
+
+The final Ubuntu campaign completed all five planned batches and produced 800
+rows: 200 recorded warm-ups and 600 measured handshakes. The analysis retained
+all 600 measured observations, comprising 150 observations per configuration.
+All 800 handshakes succeeded. For every record, the observed TLS version was
+TLS 1.3, the cipher suite was `TLS_AES_128_GCM_SHA256`, and the negotiated
+group and CertificateVerify signature scheme matched the requested case. Each
+raw CSV hash matched its recorded batch metadata. The AC, system-profile,
+platform-profile, CPU-governor, energy-performance-preference, and CPU-affinity
+guards also passed at the start and end of every batch.
+
+### 4.2 Primary handshake latency
+
+Table 2 reports client-side `SSL_connect()` duration in the primary Ubuntu
+loopback campaign. S0 had a median of 0.834 ms. The corresponding medians for
+S2, S3, and S4 were 0.989, 1.436, and 1.312 ms. Relative to S0, the
+batch-aware median contrasts were +0.156 ms for S2, +0.603 ms for S3, and
++0.478 ms for S4. All three contrast intervals excluded zero.
+
+| Case | n | Median (ms) | 95% bootstrap interval | IQR (ms) | Contrast versus S0 (ms) | Contrast 95% interval |
+| --- | ---: | ---: | --- | ---: | ---: | --- |
+| S0 | 150 | 0.834 | [0.812, 0.864] | 0.114 | 0.000 | [0.000, 0.000] |
+| S2 | 150 | 0.989 | [0.955, 1.026] | 0.137 | +0.156 | [+0.115, +0.203] |
+| S3 | 150 | 1.436 | [1.337, 1.538] | 0.642 | +0.603 | [+0.501, +0.700] |
+| S4 | 150 | 1.312 | [1.219, 1.460] | 0.663 | +0.478 | [+0.383, +0.621] |
+
+**Table 2.** Primary Ubuntu latency results. Intervals are 20,000-resample,
+batch-aware percentile-bootstrap intervals.
+
+The direction of every non-classical contrast was positive in all five
+retained batches. The observed batch-level contrast ranges were +0.116 to
++0.226 ms for S2, +0.496 to +0.653 ms for S3, and +0.380 to +0.546 ms for S4.
+No measured observation or completed batch was removed from this analysis.
+
+![Figure 1. Primary Ubuntu TLS handshake latency.](figures/figure-1-latency.svg)
+
+### 4.3 Communication and resource descriptors
+
+Table 3 gives the secondary descriptors measured at the defined handshake
+boundary. Median TCP-connect time was 0.045 ms for every case. S2 transmitted
+and received more median handshake payload bytes than S0 while retaining eight
+median TCP segments. S3 and S4 had higher median payload-byte and segment
+counts. CPU-time and RSS fields are reported as per-process descriptors rather
+than system-wide resource estimates.
+
+| Case | Handshake bytes, median | TCP segments, median | Client CPU, median (ms) | Server CPU, median (ms) | Peak RSS per process (KiB) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| S0 | 967 | 8 | 0.696 | 0.409 | 21,916 |
+| S2 | 3,231 | 8 | 0.655 | 0.475 | 21,916 |
+| S3 | 11,595 | 12 | 0.910 | 0.996 | 21,916 |
+| S4 | 11,531 | 12 | 0.819 | 0.891 | 21,916 |
+
+**Table 3.** Primary Ubuntu communication and resource descriptors.
+
+![Figure 2. Primary Ubuntu handshake communication descriptors.](figures/figure-2-communication.svg)
+
+### 4.4 Migration-path compatibility
+
+Within the parameterized harness, the staged transition from S0 to S2 changes
+the group only; S2 to S3 changes authentication and its associated
+credential/trust material and hostname; and S3 to S4 changes the group only.
+The direct S0-to-S4 transition combines the group and authentication/credential
+changes. No source-code or build modification was required between those
+states in the pinned environment.
+
+The compatibility gate verified that one server context selected an ECDSA
+P-256 credential for an L client and an ML-DSA-65 credential for a D client;
+both gate handshakes completed TLS 1.3 chain and hostname verification. The
+subsequent 4-by-4 matrix retained 48 fresh attempts, three per ordered
+client/server pair. Thirty-six attempts succeeded and twelve failed. All
+failures were recorded as `NO_COMMON_GROUP` before certificate verification.
+
+| Client \ Server | L | H | D | Q |
+| --- | ---: | ---: | ---: | ---: |
+| L | 3/3 | 3/3 | 3/3 | 0/3 |
+| H | 3/3 | 3/3 | 3/3 | 0/3 |
+| D | 3/3 | 3/3 | 3/3 | 3/3 |
+| Q | 0/3 | 0/3 | 3/3 | 3/3 |
+
+**Table 4.** Successful attempts per ordered client/server migration-profile
+pair. Each cell contains three retained fresh attempts.
+
+In this local implementation, D completed with every evaluated profile,
+retaining the ECDSA path with L and H and the ML-DSA-65/MLKEM768 path with Q.
+
+![Supplementary Figure S2. Migration-profile compatibility matrix.](figures/figure-s2-compatibility-matrix.svg)
+
+### 4.5 Windows direction-validation follow-up
+
+The separate Windows campaign completed its five planned batches and retained
+600 measured handshakes, again 150 observations per case. All 800 recorded
+rows, including 200 warm-ups, passed process-return, TLS, cipher, group,
+authentication, certificate-chain, hostname, and affinity validation. Table 5
+reports within-Windows results only. Each non-classical configuration had a
+positive median contrast relative to S0 in each of the five Windows batches.
+
+| Case | n | Median (ms) | 95% bootstrap interval | Contrast versus S0 (ms) | Contrast 95% interval |
+| --- | ---: | ---: | --- | ---: | --- |
+| S0 | 150 | 1.439 | [1.411, 1.470] | 0.000 | [0.000, 0.000] |
+| S2 | 150 | 1.783 | [1.735, 1.851] | +0.344 | [+0.294, +0.406] |
+| S3 | 150 | 2.088 | [1.955, 2.227] | +0.649 | [+0.507, +0.788] |
+| S4 | 150 | 1.912 | [1.819, 2.055] | +0.473 | [+0.369, +0.631] |
+
+**Table 5.** Within-Windows latency results. These timings are not pooled with
+the Ubuntu observations.
+
+The three contrasts were also positive in all five Ubuntu batches. Thus, the
+two campaigns agree in the direction of the within-platform S0 contrasts. The
+datasets use distinct timing environments and are reported separately; this
+result does not estimate an absolute Windows-minus-Ubuntu latency difference.
+
+### 4.6 Controlled network-sensitivity follow-up
+
+The separate namespace/veth/netem campaign completed all 25 planned batches:
+five batches at each added-RTT condition. It retained 1,000 warm-ups and
+analyzed 3,000 measured fresh handshakes, or 150 observations per case and
+condition. All 4,000 handshakes succeeded, and the OpenSSL, TLS, credential,
+environment, affinity, and qdisc guards passed before and after every batch.
+
+Table 6 reports condition-specific medians and median contrasts relative to
+S0. Every S2, S3, and S4 contrast was positive in each of the five
+condition-specific batches. At 10, 50, and 100 ms added RTT, the S2 contrast
+remained below 0.2 ms, whereas the S3 and S4 contrasts were close to the stated
+added RTT.
+
+| Added RTT | S0 median (ms) | S2 median; contrast (ms) | S3 median; contrast (ms) | S4 median; contrast (ms) |
+| ---: | ---: | ---: | ---: | ---: |
+| 0 ms | 0.830 | 0.996; +0.166 | 1.446; +0.615 | 1.391; +0.560 |
+| 1 ms | 1.897 | 2.019; +0.123 | 2.812; +0.916 | 2.707; +0.811 |
+| 10 ms | 11.021 | 11.162; +0.141 | 21.116; +10.095 | 21.035; +10.014 |
+| 50 ms | 51.118 | 51.313; +0.195 | 101.260; +50.141 | 101.179; +50.061 |
+| 100 ms | 101.224 | 101.351; +0.127 | 201.305; +100.081 | 201.214; +99.990 |
+
+**Table 6.** Condition-specific network-sensitivity results. Each cell
+summarizes 150 measured observations; conditions are analyzed separately.
+
+![Figure 3. Controlled network-sensitivity follow-up.](figures/figure-3-network-sensitivity.svg)
+
+Across the five conditions, median client-side handshake bytes remained near
+996 (S0), 3,260 (S2), 11,623 (S3), and 11,559 (S4). At 10--100 ms added RTT,
+the corresponding median TCP-segment counts were 8, 9, 19, and 19. These are
+recorded descriptors of the controlled harness, not a causal decomposition of
+the observed latency differences.
+
+## 5 Discussion
+
+### 5.1 Configuration-level interpretation
+
+The primary result is a within-environment ordering, not a general ranking of
+TLS implementations. In the Ubuntu loopback study, every non-classical case
+had a positive median `SSL_connect()` contrast relative to S0 in every retained
+batch. The incremental configuration S2 changed key establishment while
+retaining ECDSA P-256 authentication. The larger measured contrasts occurred
+in S3 and S4, the two configurations using ML-DSA-65 authentication. This
+design does not identify which cryptographic operation, representation, or
+implementation detail produced the differences. It supports only the
+configuration-level contrasts at the defined handshake boundary.
+
+The secondary descriptors give context without providing a causal
+decomposition. Relative to S0, S2 had a higher median handshake byte count but
+the same median TCP-segment count in the loopback campaign. S3 and S4 had both
+higher median byte counts and additional median segments. These observations
+show that the evaluated cases differ in more than one measured field; they do
+not attribute latency to packetization, certificate material, or computation.
+
+### 5.2 Migration-path implications
+
+The staged S0-to-S2-to-S3-to-S4 record separates configuration behavior from
+the work of changing a deployment. The first and final staged transitions
+change the group, whereas the middle transition changes authentication together
+with credential, trust, and hostname material. The direct S0-to-S4 transition
+combines those changes. This record makes the selected transition path
+auditable, but it is not a measure of organizational effort, PKI operations,
+rollback capability, or deployment risk.
+
+The compatibility follow-up adds local functional evidence to that record. In
+the pinned native OpenSSL environment, D completed with all evaluated profiles,
+whereas Q had no common group with L or H. The defined D profile therefore
+bridged the profiles evaluated in this local matrix. That result is useful for
+the specific transition design studied here, not evidence that an analogous
+dual-capable profile will bridge browsers, public trust stores, other TLS
+libraries, or production policy constraints. It also does not prescribe the
+security policy that should govern a temporary dual-capable phase.
+
+### 5.3 Network conditions and practical scale
+
+The controlled network follow-up preserved the direction of the contrasts but
+changed their practical scale. Under fixed symmetric delay, S2 remained close
+to S0 at the higher added-RTT conditions, whereas S3 and S4 had contrasts close
+to one added RTT. The latter pattern co-occurred with higher recorded TCP_INFO
+packet counts for S3 and S4. A plausible implementation-level interpretation
+is that the observed handshake exchange interacts differently with imposed
+delay in those cases. The experiment cannot isolate that mechanism. In
+particular, it did not test loss, jitter, bandwidth limits, congestion,
+reordering, middleboxes, or Internet paths.
+
+The 0-ms namespace condition is a topology control, rather than a replication
+of the primary loopback experiment. The loopback and namespace/veth campaigns
+therefore answer different questions and remain unpooled.
+
+### 5.4 Cross-platform interpretation
+
+The Windows follow-up supports the narrower conclusion that the observed
+within-platform directions were not unique to one operating-system execution
+of this harness on the tested hardware. S2, S3, and S4 again had positive
+contrasts relative to S0 in every Windows batch, with the same ordering of case
+medians as in Ubuntu. Directional agreement is deliberately weaker than an
+operating-system comparison: the timing implementations, transport
+instrumentation, and surrounding runtime environments differed. No absolute
+Windows-minus-Ubuntu latency effect was estimated, and Linux-only TCP_INFO and
+resource descriptors were not replicated on Windows.
+
+### 5.5 Practical reading of the evidence
+
+For this case study, the evidence supports an incremental interpretation of S2
+rather than a claim that all post-quantum configurations have comparable local
+cost. It also shows that, in the selected configurations, the authentication
+change coincides with larger measured contrasts and that those contrasts become
+more consequential under the fixed-delay topology. A deployment decision still
+requires evidence outside this study: the capabilities of real peers,
+certificate and trust-store policy, target network conditions, application
+traffic, security requirements, and a rollback plan. The contribution of this
+study is the auditable separation of configuration behavior, transition
+compatibility, and network sensitivity, not a universal migration prescription.
+
+## 6 Threats to Validity and Scope
+
+### 6.1 Construct validity
+
+The primary latency endpoint is the client-side monotonic interval around
+`SSL_connect()`. It measures the selected fresh TLS-handshake boundary; it does
+not measure DNS resolution, application-data transfer, session resumption,
+connection teardown, user-visible page load, or end-to-end service latency.
+TCP_INFO bytes and segments likewise describe that handshake boundary. They are
+neither wire-header accounting nor a measure of application traffic.
+Per-process CPU time and peak resident-set size are run-level descriptors, not
+total-system or production-server resource estimates.
+
+The compatibility matrix measures TLS completion together with local
+certificate-chain and hostname verification for four defined native-OpenSSL
+profiles. It does not measure browser behavior, public-PKI validation, external
+trust stores, profile negotiation beyond the matrix, or deployment policy. S4
+is an implementation-supported MLKEM768/ML-DSA-65 configuration in the pinned
+build; it is not represented as an RFC 10024 hybrid group.
+
+### 6.2 Internal validity
+
+The performance campaigns used fresh client and server processes, a fixed TLS
+version and cipher suite, recorded randomized execution orders, explicit CPU
+affinity, and before/after guards for AC power and performance policy. These
+controls reduce, but cannot eliminate, run-to-run variation. Temperature and
+frequency snapshots are not continuous telemetry, and ordinary operating-system
+activity was not eliminated.
+
+All protocol-defined measured observations and completed batches were retained,
+including statistically unusual values. The bootstrap intervals resample the
+five observed batches and describe uncertainty in these campaigns; they are not
+null-hypothesis tests and cannot compensate for unmeasured confounders. The
+final campaigns were not independently repeated in their entirety.
+
+### 6.3 External validity
+
+The primary evidence comes from one native OpenSSL 3.5.9 source build on one
+Intel Core i5-12450H system running Ubuntu 26.04.1. It cannot establish
+behavior for other processors, operating systems, OpenSSL versions, TLS
+libraries, cryptographic providers, algorithm parameter sets, or deployment
+sizes. The separate Windows campaign is a directional validation on the same
+physical hardware, not a second population from which to estimate a platform
+effect.
+
+The network campaign uses two local namespaces connected by one veth pair and
+fixed symmetric `tc netem` delay. It contains no induced loss, jitter,
+bandwidth cap, congestion, reordering, competing traffic, NAT, proxy,
+middlebox, public-Internet route, or browser stack. Its results are therefore
+not a general network model. The locally generated credentials and controlled
+hostnames also do not model public-CA issuance, certificate-transparency
+workflows, certificate-management systems, or real trust-store diversity.
+
+### 6.4 Reproducibility and evidence integrity
+
+Version pinning, raw CSVs, per-batch metadata, environment snapshots,
+checksums, retained warm-ups, recorded execution orders, and analysis scripts
+make the case study auditable and support reproduction. They do not, however,
+guarantee bitwise-identical artifacts or timing-identical results on another
+machine or at another time. The analysis and manuscript audits are designed to
+detect discrepancies between raw artifacts and reported values; they are not a
+substitute for independent replication.
+
+## 7 Conclusion
+
+This work presents a reproducible, controlled TLS 1.3/OpenSSL migration case
+study, not a universal benchmark. In the primary Ubuntu campaign, each selected
+non-classical configuration had a positive fresh-handshake latency contrast
+relative to the X25519/ECDSA P-256 baseline in every retained batch. The
+hybrid-key-establishment/ECDSA configuration had the smallest contrast, whereas
+the ML-DSA-65 configurations had larger contrasts and higher measured
+handshake byte and packet descriptors.
+
+The follow-ups show why a migration decision cannot rest on one local latency
+value. In the local compatibility matrix, the defined dual-capable profile
+bridged the other evaluated profiles, while some strict-profile pairings failed
+before certificate verification because they had no common group. The Windows
+campaign reproduced the direction of the within-platform contrasts without
+estimating an operating-system effect. In the fixed-delay network topology, S3
+and S4 had contrasts close to one added RTT at 10, 50, and 100 ms, whereas S2
+remained close to the baseline.
+
+These findings are bounded to the pinned OpenSSL implementation, four selected
+configurations, local credentials, tested hardware, and controlled transport
+conditions. They neither predict Internet-scale interoperability nor prescribe
+a production migration sequence. The contribution is a traceable method and
+evidence set that separates configuration behavior, transition compatibility,
+and network sensitivity. Future work should independently replicate the
+campaign across TLS stacks and hardware, extend the network model to loss and
+congestion, and evaluate real-peer and public-PKI constraints. Such studies
+would broaden the external validity of this controlled case study and inform
+deployment-specific migration decisions.
+
+## 8 Data and Code Availability
+
+The analysis code, harnesses, versioned configurations, non-sensitive raw
+campaign CSVs, batch metadata, integrity records, generated figures, and
+manuscript source are maintained in the project repository:
+<https://github.com/LeDerouxe/Classical-to-Post-Quantum-Empirical-Study-of-Migration-Paths>.
+At the time of submission, the repository is private. A read-only snapshot of
+the revision used for submission, including the artifacts needed to reproduce
+the reported analyses, can be provided to an editor or reviewer on request.
+Any public release will be decided by the author in accordance with the target
+venue's data-availability policy.
+
+Private keys, locally generated certificates, machine-local build products,
+and other sensitive or machine-specific artifacts are intentionally excluded.
+The retained raw data and metadata identify the exact campaign, source commit,
+analysis scripts, and SHA-256 integrity values used for the reported results.
+
+## CRediT authorship contribution statement
+
+Author confirmation required before submission. The author team must replace
+this notice with an accurate CRediT contribution statement approved by both
+authors.
+
+## Funding
+
+Author confirmation required before submission. State all financial support
+for this work, including grant number(s), or state explicitly that the research
+received no specific grant.
+
+## Declaration of competing interest
+
+Author confirmation required before submission. State either the applicable
+competing interests or the authors' confirmation that they have no known
+competing financial interests or personal relationships that could have
+appeared to influence the work reported in this paper.
+
+## Declaration of generative AI and AI-assisted technologies in the manuscript preparation process
+
+Author confirmation required before submission. Elsevier requires a transparent
+declaration when generative AI or AI-assisted technology has been used in
+manuscript preparation beyond basic spelling, grammar, or punctuation checks.
+The author team must insert an accurate statement naming the tool, describing
+the purpose of use, confirming human review and editing, and accepting full
+responsibility for the submitted content.
+
+## References
+
+[1] E. Rescorla, The Transport Layer Security (TLS) Protocol Version 1.3, RFC 9846, Internet Engineering Task Force, July 2026. https://doi.org/10.17487/RFC9846.
+
+[2] National Institute of Standards and Technology, Module-Lattice-Based Key-Encapsulation Mechanism Standard, FIPS 203, August 2024. https://doi.org/10.6028/NIST.FIPS.203.
+
+[3] National Institute of Standards and Technology, Module-Lattice-Based Digital Signature Standard, FIPS 204, August 2024. https://doi.org/10.6028/NIST.FIPS.204.
+
+[4] K. Kwiatkowski, P. Kampanakis, B. E. Westerbaan, and D. Stebila, Post-Quantum Traditional (PQ/T) Hybrid Key Agreement Mechanisms for TLS 1.3, RFC 10024, Internet Engineering Task Force, August 2026. https://doi.org/10.17487/RFC10024.
+
+[5] D. Sikeridis, P. Kampanakis, and M. Devetsikiotis, Post-Quantum Authentication in TLS 1.3: A Performance Study, in: Network and Distributed System Security Symposium, 2020. https://doi.org/10.14722/ndss.2020.24203.
+
+[6] M. Sosnowski, F. Wiedner, E. Hauser, L. Steger, D. Schoinianakis, S. Gallenmüller, and G. Carle, The Performance of Post-Quantum TLS 1.3, in: Companion of the 19th International Conference on Emerging Networking EXperiments and Technologies, 2023, pp. 19-27. https://doi.org/10.1145/3624354.3630585.
+
+[7] J. A. Montenegro, R. Rios, and J. López-Cerezo, A Performance Evaluation Framework for Post-Quantum TLS, Future Generation Computer Systems 175 (2026) 108062. https://doi.org/10.1016/j.future.2025.108062.
